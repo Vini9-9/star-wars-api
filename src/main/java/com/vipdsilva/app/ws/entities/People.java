@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
+
 @Entity
 @Table(name = "people")
 public class People {
@@ -24,7 +26,7 @@ public class People {
 	private String name;
 	private Integer height;
 	private Integer mass;
-	private Integer birth_year;
+	private String birth_year;
 	private Instant created;
 	private Instant edited;
 	
@@ -44,6 +46,23 @@ public class People {
 	@JoinColumn(name = "gender_ID")
 	private Gender gender;
 	
+	public People() {
+		
+	}
+	
+	public People(Integer id, String name, Integer height, Integer mass, String birth_year) {
+		this.id = id;
+		this.name = name;
+		this.height = height;
+		this.mass = mass;
+		this.birth_year = birth_year;
+		
+		if(this.getCreated() == null) {
+			this.created = Instant.now();
+		} else {
+			this.edited = Instant.now();
+		}
+	}
 	
 	public Integer getId() {
 		return id;
@@ -69,10 +88,10 @@ public class People {
 	public void setMass(Integer mass) {
 		this.mass = mass;
 	}
-	public Integer getBirth_year() {
+	public String getBirth_year() {
 		return birth_year;
 	}
-	public void setBirth_year(Integer birth_year) {
+	public void setBirth_year(String birth_year) {
 		this.birth_year = birth_year;
 	}
 	public Instant getCreated() {
@@ -86,6 +105,17 @@ public class People {
 	}
 	public void setEdited(Instant edited) {
 		this.edited = edited;
+	}
+
+	public PeopleDtoResponseModel toResponseDto() {
+		
+		return new PeopleDtoResponseModel(
+				this.id,
+				this.name,
+				this.height,
+				this.mass,
+				this.birth_year
+				);
 	}
 
 	
