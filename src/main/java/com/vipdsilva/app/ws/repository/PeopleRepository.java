@@ -1,11 +1,10 @@
 package com.vipdsilva.app.ws.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.vipdsilva.app.ws.entities.People;
 
-@Repository
-public interface PeopleRepository extends CrudRepository<People, Integer> {
+
+public interface PeopleRepository extends JpaRepository <People, Integer> {
 
 }
