@@ -2,6 +2,8 @@ package com.vipdsilva.app.ws.model.response;
 
 import java.time.Instant;
 
+import com.vipdsilva.app.ws.entities.People;
+
 public class PeopleDtoResponseModel {
 
 	private Integer id;
@@ -66,6 +68,20 @@ public class PeopleDtoResponseModel {
 		if(this.getCreated() == null) {
 			this.created = Instant.now();
 		} else {
+			this.edited = Instant.now();
+		}
+	}
+	public PeopleDtoResponseModel(People people) {
+		this.id = people.getId();
+		this.name = people.getName() ;
+		this.height = people.getHeight();
+		this.mass = people.getMass();
+		this.birth_year = people.getBirth_year();
+		
+		if(people.getCreated() == null) {
+			this.created = Instant.now();
+		} else {
+			this.created = people.getCreated();
 			this.edited = Instant.now();
 		}
 	}

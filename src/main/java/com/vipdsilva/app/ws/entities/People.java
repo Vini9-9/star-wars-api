@@ -108,14 +108,7 @@ public class People {
 	}
 
 	public PeopleDtoResponseModel toResponseDto() {
-		
-		return new PeopleDtoResponseModel(
-				this.id,
-				this.name,
-				this.height,
-				this.mass,
-				this.birth_year
-				);
+		return new PeopleDtoResponseModel(this);
 	}
 
 	

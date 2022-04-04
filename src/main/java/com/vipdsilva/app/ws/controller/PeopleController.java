@@ -2,6 +2,8 @@ package com.vipdsilva.app.ws.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +55,15 @@ public class PeopleController {
 		PeopleDtoResponseModel returnValue = peopleService.createPeople(peopleDetails, peopleRepository);
 		
 		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.CREATED);
+	}
+	
+	@PutMapping(path = "/{peopleId}")
+	@Transactional
+	public ResponseEntity<PeopleDtoResponseModel> updateUser(@PathVariable Integer peopleId, @RequestBody UpdatePeopleRequestModel body) {
+		
+		PeopleDtoResponseModel returnValue = peopleService.updatePeople(peopleId, body, peopleRepository);
+
+		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.OK);
 	}
 	
 	
