@@ -6,6 +6,7 @@ public class UpdatePeopleRequestModel {
 	private Integer height;
 	private Integer mass;
 	private String birth_year;
+	private String gender;
 	
 	public String getName() {
 		return name;
@@ -30,5 +31,11 @@ public class UpdatePeopleRequestModel {
 	}
 	public void setBirth_year(String birth_year) {
 		this.birth_year = birth_year;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 }

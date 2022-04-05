@@ -4,10 +4,12 @@ import java.time.Instant;
 
 import org.springframework.stereotype.Service;
 
+import com.vipdsilva.app.ws.entities.Gender;
 import com.vipdsilva.app.ws.entities.People;
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdatePeopleRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
+import com.vipdsilva.app.ws.repository.GenderRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
 import com.vipdsilva.app.ws.service.PeopleService;
 
@@ -15,21 +17,22 @@ import com.vipdsilva.app.ws.service.PeopleService;
 public class PeopleServiceImpl implements PeopleService {
 
 	@Override
-	public People createPeople(PeopleDtoRequestModel peopleReq, PeopleRepository repository) {
+	public PeopleDtoResponseModel createPeople(PeopleDtoRequestModel peopleReq, PeopleRepository repository,
+			GenderRepository genderRepository) {
 		
-		People people = new People(peopleReq);
+		People people = new People(peopleReq, genderRepository);
 	
 		repository.save(people);
-		//PeopleDtoResponseModel response = people.toResponseDto();
+		PeopleDtoResponseModel response = people.toResponseDto();
 		
-		return people;
+		return response;
 	}
 
 	@Override
-	public People updatePeople(Integer peopleId, UpdatePeopleRequestModel userReq,
-			PeopleRepository repository) {
+	public PeopleDtoResponseModel updatePeople(Integer peopleId, UpdatePeopleRequestModel userReq,
+			PeopleRepository peopleRepository, GenderRepository genderRepository) {
 
-		People peopleUpdated = repository.findById(peopleId).get();
+		People peopleUpdated = peopleRepository.findById(peopleId).get();
 		
 		peopleUpdated.setEdited(Instant.now());
 		
@@ -37,13 +40,24 @@ public class PeopleServiceImpl implements PeopleService {
 		String birth_yearReq = userReq.getBirth_year();
 		Integer heightReq = userReq.getHeight();
 		Integer massReq = userReq.getMass();
+		String genderReq = userReq.getGender();
 		
 		if (nameReq != null && !nameReq.isBlank()) peopleUpdated.setName(nameReq);
 		if (birth_yearReq != null && !birth_yearReq.isBlank()) peopleUpdated.setBirth_year(birth_yearReq);
 		if (heightReq != null && !heightReq.toString().isBlank()) peopleUpdated.setHeight(heightReq);
 		if (massReq != null && !massReq.toString().isBlank()) peopleUpdated.setMass(massReq);
 		
-		return peopleUpdated;
+		if (genderReq != null && !genderReq.isBlank()) { 
+			Gender gender = genderRepository.findByName(genderReq);
+			
+			System.out.println(gender);
+			
+			peopleUpdated.setGender(gender);
+		}
+		
+		PeopleDtoResponseModel response = peopleUpdated.toResponseDto();
+		
+		return response;
 		
 	}
 

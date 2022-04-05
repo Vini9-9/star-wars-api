@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
+import com.vipdsilva.app.ws.repository.GenderRepository;
 
 @Entity
 @Table(name = "people")
@@ -47,36 +48,28 @@ public class People {
 	@JoinColumn(name = "gender_ID")
 	private Gender gender;
 	
+
 	public People() {
 		
 	}
 	
-	public People(Integer id, String name, Integer height, Integer mass, String birth_year) {
-		this.id = id;
-		this.name = name;
-		this.height = height;
-		this.mass = mass;
-		this.birth_year = birth_year;
-		
-		if(this.getCreated() == null) {
-			this.created = Instant.now();
-		} else {
-			this.edited = Instant.now();
-		}
-	}
-	
-	public People(PeopleDtoRequestModel peopleReq) {
+	public People(PeopleDtoRequestModel peopleReq, GenderRepository genderRepository) {
 		this.id = peopleReq.getId();
 		this.name = peopleReq.getName();
 		this.height = peopleReq.getHeight();
 		this.mass = peopleReq.getMass();
 		this.birth_year = peopleReq.getBirth_year();
+		this.gender = genderRepository.findByName(peopleReq.getGender());
 		
 		if(this.getCreated() == null) {
 			this.created = Instant.now();
 		} else {
 			this.edited = Instant.now();
 		}
+	}
+	
+	public PeopleDtoResponseModel toResponseDto() {
+		return new PeopleDtoResponseModel(this);
 	}
 	
 	public Integer getId() {
@@ -121,11 +114,38 @@ public class People {
 	public void setEdited(Instant edited) {
 		this.edited = edited;
 	}
-
-	public PeopleDtoResponseModel toResponseDto() {
-		return new PeopleDtoResponseModel(this);
+	
+	public List<HairColor> getHairColor() {
+		return hairColor;
 	}
 
+	public void setHairColor(List<HairColor> hairColor) {
+		this.hairColor = hairColor;
+	}
+
+	public List<SkinColor> getSkinColor() {
+		return skinColor;
+	}
+
+	public void setSkinColor(List<SkinColor> skinColor) {
+		this.skinColor = skinColor;
+	}
+
+	public List<EyeColor> getEyeColor() {
+		return eyeColor;
+	}
+
+	public void setEyeColor(List<EyeColor> eyeColor) {
+		this.eyeColor = eyeColor;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
 	
 	
 }

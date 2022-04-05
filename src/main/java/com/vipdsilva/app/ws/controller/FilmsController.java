@@ -57,11 +57,11 @@ public class FilmsController {
 	@GetMapping("/{filmsId}")
 	public ResponseEntity<Films> showPerson(@PathVariable Integer filmsId) {
 
-		Optional<Films> person = filmsRepository.findById(filmsId);
+		Optional<Films> film = filmsRepository.findById(filmsId);
 
-		if (person.isPresent()) {
+		if (film.isPresent()) {
 
-			Films response = person.get();
+			Films response = film.get();
 
 			return new ResponseEntity<Films>(response, HttpStatus.OK);
 
@@ -95,9 +95,9 @@ public class FilmsController {
 	public ResponseEntity<DeleteDtoResponseModel> deleta(@PathVariable Integer filmId) {
 
 
-		Optional<Films> person = filmsRepository.findById(filmId);
+		Optional<Films> film = filmsRepository.findById(filmId);
 
-		if (person.isPresent()) {
+		if (film.isPresent()) {
 
 			filmService.deleteFilm(filmId, filmsRepository);
 			

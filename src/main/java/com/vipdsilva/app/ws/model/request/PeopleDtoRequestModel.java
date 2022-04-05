@@ -7,6 +7,7 @@ public class PeopleDtoRequestModel {
 	private Integer height;
 	private Integer mass;
 	private String birth_year;
+	private String gender;
 	
 	
 	public Integer getId() {
@@ -38,6 +39,12 @@ public class PeopleDtoRequestModel {
 	}
 	public void setBirth_year(String birth_year) {
 		this.birth_year = birth_year;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	
 }

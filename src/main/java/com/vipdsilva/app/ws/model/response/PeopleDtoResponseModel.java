@@ -9,7 +9,10 @@ public class PeopleDtoResponseModel {
 	private Integer height;
 	private Integer mass;
 	private String birth_year;
-
+//	private String hair_color;
+//	private String skin_color;
+//	private String eye_color;
+	private String gender;
 	
 	public Integer getId() {
 		return id;
@@ -41,8 +44,13 @@ public class PeopleDtoResponseModel {
 	public void setBirth_year(String birth_year) {
 		this.birth_year = birth_year;
 	}
-
 	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	public PeopleDtoResponseModel(People people) {
 		this.id = people.getId();
@@ -50,6 +58,7 @@ public class PeopleDtoResponseModel {
 		this.height = people.getHeight();
 		this.mass = people.getMass();
 		this.birth_year = people.getBirth_year();
+		this.gender = people.getGender().getName();
 	}
 	
 }

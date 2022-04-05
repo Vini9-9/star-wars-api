@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vipdsilva.app.ws.repository.GenderRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
 import com.vipdsilva.app.ws.service.PeopleService;
 
@@ -34,6 +35,9 @@ public class PeopleController {
 	// Injeção do Repository
 	@Autowired
 	private PeopleRepository peopleRepository;
+	
+	@Autowired
+	private GenderRepository genderRepository;
 
 	@Autowired
 	PeopleService peopleService;
@@ -55,15 +59,15 @@ public class PeopleController {
 	}
 
 	@GetMapping("/{peopleId}")
-	public ResponseEntity<People> showPerson(@PathVariable Integer peopleId) {
+	public ResponseEntity<PeopleDtoResponseModel> showPerson(@PathVariable Integer peopleId) {
 
 		Optional<People> person = peopleRepository.findById(peopleId);
 
 		if (person.isPresent()) {
 
-			People response = person.get();
+			PeopleDtoResponseModel response = person.get().toResponseDto();
 
-			return new ResponseEntity<People>(response, HttpStatus.OK);
+			return new ResponseEntity<PeopleDtoResponseModel>(response, HttpStatus.OK);
 
 		} else {
 			
@@ -73,21 +77,21 @@ public class PeopleController {
 	}
 
 	@PostMapping
-	public ResponseEntity<People> adicionar(@RequestBody PeopleDtoRequestModel peopleDetails) {
+	public ResponseEntity<PeopleDtoResponseModel> adicionar(@RequestBody PeopleDtoRequestModel peopleDetails) {
 
-		People returnValue = peopleService.createPeople(peopleDetails, peopleRepository);
+		PeopleDtoResponseModel returnValue = peopleService.createPeople(peopleDetails, peopleRepository, genderRepository);
 
-		return new ResponseEntity<People>(returnValue, HttpStatus.CREATED);
+		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.CREATED);
 	}
 
 	@PutMapping(path = "/{peopleId}")
 	@Transactional
-	public ResponseEntity<People> atualiza(@PathVariable Integer peopleId,
+	public ResponseEntity<PeopleDtoResponseModel> atualiza(@PathVariable Integer peopleId,
 			@RequestBody UpdatePeopleRequestModel body) {
 
-		People returnValue = peopleService.updatePeople(peopleId, body, peopleRepository);
+		PeopleDtoResponseModel returnValue = peopleService.updatePeople(peopleId, body, peopleRepository, genderRepository);
 
-		return new ResponseEntity<People>(returnValue, HttpStatus.OK);
+		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.OK);
 	}
 
 	@DeleteMapping(path = "/{peopleId}")
