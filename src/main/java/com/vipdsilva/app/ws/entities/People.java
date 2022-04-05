@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
 
 @Entity
@@ -56,6 +57,20 @@ public class People {
 		this.height = height;
 		this.mass = mass;
 		this.birth_year = birth_year;
+		
+		if(this.getCreated() == null) {
+			this.created = Instant.now();
+		} else {
+			this.edited = Instant.now();
+		}
+	}
+	
+	public People(PeopleDtoRequestModel peopleReq) {
+		this.id = peopleReq.getId();
+		this.name = peopleReq.getName();
+		this.height = peopleReq.getHeight();
+		this.mass = peopleReq.getMass();
+		this.birth_year = peopleReq.getBirth_year();
 		
 		if(this.getCreated() == null) {
 			this.created = Instant.now();

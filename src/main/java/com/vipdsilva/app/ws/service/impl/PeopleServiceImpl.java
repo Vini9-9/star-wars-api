@@ -15,27 +15,21 @@ import com.vipdsilva.app.ws.service.PeopleService;
 public class PeopleServiceImpl implements PeopleService {
 
 	@Override
-	public PeopleDtoResponseModel createPeople(PeopleDtoRequestModel peopleReq, PeopleRepository repository) {
+	public People createPeople(PeopleDtoRequestModel peopleReq, PeopleRepository repository) {
 		
-		People people = new People(
-				peopleReq.getId(),
-				peopleReq.getName(),
-				peopleReq.getHeight(),
-				peopleReq.getMass(),
-				peopleReq.getBirth_year()
-				);
+		People people = new People(peopleReq);
 	
 		repository.save(people);
-		PeopleDtoResponseModel response = people.toResponseDto();
+		//PeopleDtoResponseModel response = people.toResponseDto();
 		
-		return response;
+		return people;
 	}
 
 	@Override
-	public PeopleDtoResponseModel updatePeople(Integer peopleId, UpdatePeopleRequestModel userReq,
+	public People updatePeople(Integer peopleId, UpdatePeopleRequestModel userReq,
 			PeopleRepository repository) {
 
-		People peopleUpdated = repository.getById(peopleId);
+		People peopleUpdated = repository.findById(peopleId).get();
 		
 		peopleUpdated.setEdited(Instant.now());
 		
@@ -44,15 +38,12 @@ public class PeopleServiceImpl implements PeopleService {
 		Integer heightReq = userReq.getHeight();
 		Integer massReq = userReq.getMass();
 		
-		if (!nameReq.isBlank()) peopleUpdated.setName(nameReq);
-		if(!birth_yearReq.isBlank()) peopleUpdated.setBirth_year(birth_yearReq);
-		if (!heightReq.toString().isBlank()) peopleUpdated.setHeight(heightReq);
-		if (!massReq.toString().isBlank()) peopleUpdated.setMass(massReq);
+		if (nameReq != null && !nameReq.isBlank()) peopleUpdated.setName(nameReq);
+		if (birth_yearReq != null && !birth_yearReq.isBlank()) peopleUpdated.setBirth_year(birth_yearReq);
+		if (heightReq != null && !heightReq.toString().isBlank()) peopleUpdated.setHeight(heightReq);
+		if (massReq != null && !massReq.toString().isBlank()) peopleUpdated.setMass(massReq);
 		
-		
-		PeopleDtoResponseModel response = peopleUpdated.toResponseDto();
-		
-		return response;
+		return peopleUpdated;
 		
 	}
 

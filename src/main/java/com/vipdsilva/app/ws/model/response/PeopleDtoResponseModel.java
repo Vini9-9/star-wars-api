@@ -1,7 +1,5 @@
 package com.vipdsilva.app.ws.model.response;
 
-import java.time.Instant;
-
 import com.vipdsilva.app.ws.entities.People;
 
 public class PeopleDtoResponseModel {
@@ -12,7 +10,6 @@ public class PeopleDtoResponseModel {
 	private Integer mass;
 	private String birth_year;
 
-	
 	
 	public Integer getId() {
 		return id;

@@ -55,15 +55,15 @@ public class PeopleController {
 	}
 
 	@GetMapping("/{peopleId}")
-	public ResponseEntity<PeopleDtoResponseModel> showPerson(@PathVariable Integer peopleId) {
+	public ResponseEntity<People> showPerson(@PathVariable Integer peopleId) {
 
 		Optional<People> person = peopleRepository.findById(peopleId);
 
 		if (person.isPresent()) {
 
-			PeopleDtoResponseModel response = person.get().toResponseDto();
+			People response = person.get();
 
-			return new ResponseEntity<PeopleDtoResponseModel>(response, HttpStatus.OK);
+			return new ResponseEntity<People>(response, HttpStatus.OK);
 
 		} else {
 			
@@ -73,21 +73,21 @@ public class PeopleController {
 	}
 
 	@PostMapping
-	public ResponseEntity<PeopleDtoResponseModel> adicionar(@RequestBody PeopleDtoRequestModel peopleDetails) {
+	public ResponseEntity<People> adicionar(@RequestBody PeopleDtoRequestModel peopleDetails) {
 
-		PeopleDtoResponseModel returnValue = peopleService.createPeople(peopleDetails, peopleRepository);
+		People returnValue = peopleService.createPeople(peopleDetails, peopleRepository);
 
-		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.CREATED);
+		return new ResponseEntity<People>(returnValue, HttpStatus.CREATED);
 	}
 
 	@PutMapping(path = "/{peopleId}")
 	@Transactional
-	public ResponseEntity<PeopleDtoResponseModel> atualiza(@PathVariable Integer peopleId,
+	public ResponseEntity<People> atualiza(@PathVariable Integer peopleId,
 			@RequestBody UpdatePeopleRequestModel body) {
 
-		PeopleDtoResponseModel returnValue = peopleService.updatePeople(peopleId, body, peopleRepository);
+		People returnValue = peopleService.updatePeople(peopleId, body, peopleRepository);
 
-		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.OK);
+		return new ResponseEntity<People>(returnValue, HttpStatus.OK);
 	}
 
 	@DeleteMapping(path = "/{peopleId}")
