@@ -9,4 +9,5 @@ public interface PeopleService {
 
 	PeopleDtoResponseModel createPeople(PeopleDtoRequestModel peopleDetails,  PeopleRepository repository);
 	PeopleDtoResponseModel updatePeople(Integer peopleId, UpdatePeopleRequestModel userDetails, PeopleRepository repository);
+	void deletePeople(Integer peopleId, PeopleRepository repository);
 }

@@ -55,6 +55,13 @@ public class PeopleServiceImpl implements PeopleService {
 		return response;
 		
 	}
+
+	@Override
+	public void deletePeople(Integer peopleId, PeopleRepository repository) {
+		
+		repository.deleteById(peopleId);
+		
+	}
 	
 	
 
