@@ -39,6 +39,30 @@ public class Colors {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public List<EyeColor> getEyeColor() {
+		return eyeColor;
+	}
+	public void setEyeColor(List<EyeColor> eyeColor) {
+		this.eyeColor = eyeColor;
+	}
+	public List<SkinColor> getSkinColor() {
+		return skinColor;
+	}
+	public void setSkinColor(List<SkinColor> skinColor) {
+		this.skinColor = skinColor;
+	}
+	public List<HairColor> getHairColor() {
+		return hairColor;
+	}
+	public void setHairColor(List<HairColor> hairColor) {
+		this.hairColor = hairColor;
+	}
 	
 	
 

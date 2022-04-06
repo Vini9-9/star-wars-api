@@ -1,5 +1,10 @@
 package com.vipdsilva.app.ws.model.response;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.vipdsilva.app.ws.entities.EyeColor;
 import com.vipdsilva.app.ws.entities.People;
 
 public class PeopleDtoResponseModel {
@@ -11,8 +16,19 @@ public class PeopleDtoResponseModel {
 	private String birth_year;
 //	private String hair_color;
 //	private String skin_color;
-//	private String eye_color;
+	private List<String> eye_color = new ArrayList<String>();
 	private String gender;
+	
+	public PeopleDtoResponseModel(People people) {
+		this.id = people.getId();
+		this.name = people.getName() ;
+		this.height = people.getHeight();
+		this.mass = people.getMass();
+		this.birth_year = people.getBirth_year();
+		this.gender = people.getGender().getName();
+		this.eye_color = people.getEyeColorsName();
+	}
+	
 	
 	public Integer getId() {
 		return id;
@@ -52,13 +68,21 @@ public class PeopleDtoResponseModel {
 		this.gender = gender;
 	}
 
-	public PeopleDtoResponseModel(People people) {
-		this.id = people.getId();
-		this.name = people.getName() ;
-		this.height = people.getHeight();
-		this.mass = people.getMass();
-		this.birth_year = people.getBirth_year();
-		this.gender = people.getGender().getName();
+	public List<String> getEye_colors() {
+		return eye_color;
+	}
+	
+	public void setEye_colors(List<String> eye_color) {
+		this.eye_color = eye_color;
+	}
+	
+	public void setEye_color(EyeColor eye_color) {
+		//System.out.println("eye_color_people_name: " + eye_color.getPeople().getName());
+		if(this.eye_color != null) {
+			//System.out.println("eye_color_name: " + eye_color.getColors().getName());
+			this.eye_color.add(eye_color.getColors().getName());
+		} 
+		//System.out.println("this.eye_color: " + this.eye_color);
 	}
 	
 }

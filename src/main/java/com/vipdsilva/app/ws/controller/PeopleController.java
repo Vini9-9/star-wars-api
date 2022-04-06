@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vipdsilva.app.ws.repository.ColorsRepository;
 import com.vipdsilva.app.ws.repository.GenderRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
 import com.vipdsilva.app.ws.service.PeopleService;
@@ -38,12 +39,15 @@ public class PeopleController {
 	
 	@Autowired
 	private GenderRepository genderRepository;
+	
+	@Autowired
+	private ColorsRepository colorsRepository;
 
 	@Autowired
 	PeopleService peopleService;
 
 	@GetMapping("/all")
-	public ResponseEntity<List<People>> lista() {
+	public ResponseEntity<List<People>> listPessoas() {
 
 		List<People> pessoas = peopleRepository.findAll();
 
@@ -59,7 +63,7 @@ public class PeopleController {
 	}
 
 	@GetMapping("/{peopleId}")
-	public ResponseEntity<PeopleDtoResponseModel> showPerson(@PathVariable Integer peopleId) {
+	public ResponseEntity<PeopleDtoResponseModel> getPessoa(@PathVariable Integer peopleId) {
 
 		Optional<People> person = peopleRepository.findById(peopleId);
 
@@ -79,7 +83,8 @@ public class PeopleController {
 	@PostMapping
 	public ResponseEntity<PeopleDtoResponseModel> adicionar(@RequestBody PeopleDtoRequestModel peopleDetails) {
 
-		PeopleDtoResponseModel returnValue = peopleService.createPeople(peopleDetails, peopleRepository, genderRepository);
+		PeopleDtoResponseModel returnValue = peopleService.createPeople(peopleDetails,
+				peopleRepository, genderRepository, colorsRepository);
 
 		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.CREATED);
 	}
@@ -89,7 +94,8 @@ public class PeopleController {
 	public ResponseEntity<PeopleDtoResponseModel> atualiza(@PathVariable Integer peopleId,
 			@RequestBody UpdatePeopleRequestModel body) {
 
-		PeopleDtoResponseModel returnValue = peopleService.updatePeople(peopleId, body, peopleRepository, genderRepository);
+		PeopleDtoResponseModel returnValue = peopleService.updatePeople(peopleId, body,
+				peopleRepository, genderRepository, colorsRepository);
 
 		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.OK);
 	}

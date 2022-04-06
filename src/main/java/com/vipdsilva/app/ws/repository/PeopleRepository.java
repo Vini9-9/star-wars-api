@@ -7,4 +7,6 @@ import com.vipdsilva.app.ws.entities.People;
 
 public interface PeopleRepository extends JpaRepository <People, Integer> {
 
+	//findBy
+	
 }

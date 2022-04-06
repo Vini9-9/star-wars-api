@@ -1,6 +1,7 @@
 package com.vipdsilva.app.ws.entities;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
+import com.vipdsilva.app.ws.repository.ColorsRepository;
 import com.vipdsilva.app.ws.repository.GenderRepository;
 
 @Entity
@@ -40,7 +42,7 @@ public class People {
 	@JoinColumn(name = "people_id")
 	private List<SkinColor> skinColor;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "people_id")
 	private List<EyeColor> eyeColor;
 	
@@ -53,7 +55,9 @@ public class People {
 		
 	}
 	
-	public People(PeopleDtoRequestModel peopleReq, GenderRepository genderRepository) {
+	public People(PeopleDtoRequestModel peopleReq, 
+			GenderRepository genderRepository, ColorsRepository colorsRepository) {
+		
 		this.id = peopleReq.getId();
 		this.name = peopleReq.getName();
 		this.height = peopleReq.getHeight();
@@ -66,6 +70,22 @@ public class People {
 		} else {
 			this.edited = Instant.now();
 		}
+		
+		List<String> eye_colorReq = peopleReq.getEye_color();
+		
+		
+		for (int i = 0; i < eye_colorReq.size(); i++) {
+			
+			EyeColor corOlho = new EyeColor();
+			
+			Colors color = colorsRepository.findByName(eye_colorReq.get(i));
+			corOlho.setColor(color);
+			
+			this.setEyeColor(corOlho);
+			System.out.println("for  - lastEyeColor: " + this.eyeColor.get(i).getColors().getName());
+			
+		}
+		
 	}
 	
 	public PeopleDtoResponseModel toResponseDto() {
@@ -130,14 +150,38 @@ public class People {
 	public void setSkinColor(List<SkinColor> skinColor) {
 		this.skinColor = skinColor;
 	}
-
-	public List<EyeColor> getEyeColor() {
+	
+	public List<EyeColor> getEyeColors() {
 		return eyeColor;
 	}
 
-	public void setEyeColor(List<EyeColor> eyeColor) {
+	public EyeColor getEyeColor(Integer index) {
+		//System.out.println("this.eyeColor.get(" + index + "): " + this.eyeColor.get(index).getColors().getName());
+		return this.eyeColor.get(index);
+	}
+	
+	public List<String> getEyeColorsName() {
+		List<String> cores = new ArrayList<String>();
+		for (int i = 0; i < this.getEyeColors().size(); i++) {
+			cores.add(getEyeColor(i).getColors().getName());
+		}
+		
+		return cores;
+	}
+
+	public void setEyeColors(List<EyeColor> eyeColor) {
 		this.eyeColor = eyeColor;
 	}
+	
+	public void setEyeColor(EyeColor eyeColor) {
+		if (this.eyeColor == null) {this.eyeColor = new ArrayList<EyeColor>();}
+		if(eyeColor != null) {
+
+			this.eyeColor.add(eyeColor);
+			
+		}
+	}
+	
 
 	public Gender getGender() {
 		return gender;
