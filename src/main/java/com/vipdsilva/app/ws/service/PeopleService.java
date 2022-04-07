@@ -5,8 +5,11 @@ import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdatePeopleRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
 import com.vipdsilva.app.ws.repository.ColorsRepository;
+import com.vipdsilva.app.ws.repository.EyeColorsRepository;
 import com.vipdsilva.app.ws.repository.GenderRepository;
+import com.vipdsilva.app.ws.repository.HairColorsRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
+import com.vipdsilva.app.ws.repository.SkinColorsRepository;
 
 public interface PeopleService {
 
@@ -16,5 +19,6 @@ public interface PeopleService {
 	PeopleDtoResponseModel updatePeople(Integer peopleId, UpdatePeopleRequestModel userDetails,
 			PeopleRepository peopleRepository, GenderRepository genderRepository, ColorsRepository colorsRepository);
 	
-	void deletePeople(Integer peopleId, PeopleRepository repository);
+	void deletePeople(Integer peopleId, PeopleRepository repository, EyeColorsRepository eyeColorsRepository,
+			 HairColorsRepository hairColorsRepository,SkinColorsRepository skinColorsRepository);
 }

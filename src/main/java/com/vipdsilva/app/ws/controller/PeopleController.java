@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vipdsilva.app.ws.repository.ColorsRepository;
+import com.vipdsilva.app.ws.repository.EyeColorsRepository;
 import com.vipdsilva.app.ws.repository.GenderRepository;
+import com.vipdsilva.app.ws.repository.HairColorsRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
+import com.vipdsilva.app.ws.repository.SkinColorsRepository;
 import com.vipdsilva.app.ws.service.PeopleService;
 
 import com.vipdsilva.app.ws.entities.People;
@@ -43,6 +46,15 @@ public class PeopleController {
 	
 	@Autowired
 	private ColorsRepository colorsRepository;
+	
+	@Autowired
+	private EyeColorsRepository eyeColorsRepository;
+	
+	@Autowired
+	private HairColorsRepository hairColorsRepository;
+	
+	@Autowired
+	private SkinColorsRepository skinColorsRepository;
 
 	@Autowired
 	PeopleService peopleService;
@@ -116,7 +128,8 @@ public class PeopleController {
 
 		if (person.isPresent()) {
 
-			peopleService.deletePeople(peopleId, peopleRepository);
+			peopleService.deletePeople(peopleId, peopleRepository,
+					eyeColorsRepository, hairColorsRepository, skinColorsRepository);
 			
 			DeleteDtoResponseModel responseMsg = new DeleteDtoResponseModel("peopleID: " + peopleId + " deletado com sucesso");
 

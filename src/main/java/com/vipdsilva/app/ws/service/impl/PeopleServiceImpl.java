@@ -15,8 +15,11 @@ import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdatePeopleRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
 import com.vipdsilva.app.ws.repository.ColorsRepository;
+import com.vipdsilva.app.ws.repository.EyeColorsRepository;
 import com.vipdsilva.app.ws.repository.GenderRepository;
+import com.vipdsilva.app.ws.repository.HairColorsRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
+import com.vipdsilva.app.ws.repository.SkinColorsRepository;
 import com.vipdsilva.app.ws.service.PeopleService;
 
 @Service
@@ -125,9 +128,16 @@ public class PeopleServiceImpl implements PeopleService {
 	}
 
 	@Override
-	public void deletePeople(Integer peopleId, PeopleRepository repository) {
+	public void deletePeople(Integer peopleId, PeopleRepository peopleRepository, EyeColorsRepository eyeColorsRepository,
+			 HairColorsRepository hairColorsRepository,SkinColorsRepository skinColorsRepository) {
 
-		repository.deleteById(peopleId);
+		People personDeleted = peopleRepository.findById(peopleId).get();
+		
+		eyeColorsRepository.deleteByPeople(personDeleted);
+		hairColorsRepository.deleteByPeople(personDeleted);
+		skinColorsRepository.deleteByPeople(personDeleted);
+		
+		peopleRepository.deleteById(peopleId);
 
 	}
 

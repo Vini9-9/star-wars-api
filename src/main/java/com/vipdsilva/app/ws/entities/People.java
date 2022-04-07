@@ -45,7 +45,7 @@ public class People {
 	@JoinColumn(name = "people_id")
 	private List<EyeColor> eyeColor;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "gender_ID")
 	private Gender gender;
 
@@ -226,7 +226,7 @@ public class People {
 	public List<String> getEyeColorsName() {
 		List<String> cores = new ArrayList<String>();
 		for (int i = 0; i < this.getEyeColors().size(); i++) {
-			System.out.println("ec: " + getEyeColor(i).getColors().getName());
+//			System.out.println("ec: " + getEyeColor(i).getColors().getName());
 			cores.add(getEyeColor(i).getColors().getName());
 		}
 
@@ -251,7 +251,7 @@ public class People {
 	public List<String> getSkinColorsName() {
 		List<String> cores = new ArrayList<String>();
 		for (int i = 0; i < this.getSkinColors().size(); i++) {
-			System.out.println("sc: " + getSkinColor(i).getColors().getName());
+//			System.out.println("sc: " + getSkinColor(i).getColors().getName());
 			cores.add(getSkinColor(i).getColors().getName());
 		}
 
@@ -261,7 +261,7 @@ public class People {
 	public List<String> getHairColorsName() {
 		List<String> cores = new ArrayList<String>();
 		for (int i = 0; i < this.getHairColors().size(); i++) {
-			System.out.println("hc: " + getSkinColor(i).getColors().getName());
+//			System.out.println("hc: " + getSkinColor(i).getColors().getName());
 			cores.add(getHairColor(i).getColors().getName());
 		}
 
