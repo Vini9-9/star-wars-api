@@ -1,5 +1,6 @@
 # Star wars api
 Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Personagens e Filmes) 
+- Inspiração: https://swapi.dev/
 
 
 ### Tecnologias utilizadas:
