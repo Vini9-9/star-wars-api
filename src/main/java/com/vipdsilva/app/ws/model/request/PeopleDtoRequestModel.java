@@ -10,24 +10,24 @@ public class PeopleDtoRequestModel {
 	private Integer mass;
 	private String birth_year;
 	private String gender;
-	//private List<String> hair_color;
-	//private List<String> skin_color;
+	private List<String> hair_color;
+	private List<String> skin_color;
 	private List<String> eye_color;
 	
 	
 	
-//	public List<String> getHair_color() {
-//		return hair_color;
-//	}
-//	public void setHair_color(List<String> hair_color) {
-//		this.hair_color = hair_color;
-//	}
-//	public List<String> getSkin_color() {
-//		return skin_color;
-//	}
-//	public void setSkin_color(List<String> skin_color) {
-//		this.skin_color = skin_color;
-//	}
+	public List<String> getHair_color() {
+		return hair_color;
+	}
+	public void setHair_color(List<String> hair_color) {
+		this.hair_color = hair_color;
+	}
+	public List<String> getSkin_color() {
+		return skin_color;
+	}
+	public void setSkin_color(List<String> skin_color) {
+		this.skin_color = skin_color;
+	}
 	public List<String> getEye_color() {
 		System.out.println("eye_color: " + eye_color);
 		return eye_color;

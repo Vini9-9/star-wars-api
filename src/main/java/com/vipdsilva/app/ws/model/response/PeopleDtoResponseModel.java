@@ -1,11 +1,12 @@
 package com.vipdsilva.app.ws.model.response;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.vipdsilva.app.ws.entities.EyeColor;
+import com.vipdsilva.app.ws.entities.HairColor;
 import com.vipdsilva.app.ws.entities.People;
+import com.vipdsilva.app.ws.entities.SkinColor;
 
 public class PeopleDtoResponseModel {
 
@@ -14,8 +15,8 @@ public class PeopleDtoResponseModel {
 	private Integer height;
 	private Integer mass;
 	private String birth_year;
-//	private String hair_color;
-//	private String skin_color;
+	private List<String> hair_color = new ArrayList<String>();
+	private List<String> skin_color = new ArrayList<String>();
 	private List<String> eye_color = new ArrayList<String>();
 	private String gender;
 	
@@ -27,6 +28,8 @@ public class PeopleDtoResponseModel {
 		this.birth_year = people.getBirth_year();
 		this.gender = people.getGender().getName();
 		this.eye_color = people.getEyeColorsName();
+		this.skin_color = people.getSkinColorsName();
+		this.hair_color = people.getHairColorsName();
 	}
 	
 	
@@ -72,17 +75,47 @@ public class PeopleDtoResponseModel {
 		return eye_color;
 	}
 	
+	public List<String> getHair_colors() {
+		return hair_color;
+	}
+
+
+	public void setHair_color(List<String> hair_color) {
+		this.hair_color = hair_color;
+	}
+
+
+	public List<String> getSkin_colors() {
+		return skin_color;
+	}
+
+
+	public void setSkin_color(List<String> skin_color) {
+		this.skin_color = skin_color;
+	}
+
+
 	public void setEye_colors(List<String> eye_color) {
 		this.eye_color = eye_color;
 	}
 	
 	public void setEye_color(EyeColor eye_color) {
-		//System.out.println("eye_color_people_name: " + eye_color.getPeople().getName());
 		if(this.eye_color != null) {
-			//System.out.println("eye_color_name: " + eye_color.getColors().getName());
 			this.eye_color.add(eye_color.getColors().getName());
 		} 
-		//System.out.println("this.eye_color: " + this.eye_color);
+	}
+
+	public void setSkin_color(SkinColor skin_color) {
+		if(this.skin_color != null) {
+			this.skin_color.add(skin_color.getColors().getName()) ;
+		}	
+	}
+	
+	public void setHair_color(HairColor hair_color) {
+		if(this.hair_color != null) {
+			this.hair_color.add(hair_color.getColors().getName()) ;
+		}
+		
 	}
 	
 }

@@ -37,8 +37,17 @@ public class SkinColor {
 		return colors;
 	}
 
-	public void setColors(Colors colors) {
+	public void setColor(Colors colors) {
 		this.colors = colors;
 	}
+	
+	public People getPeople() {
+		return people;
+	}
+
+	public void setPeople(People people) {
+		this.people = people;
+	}
+
 
 }

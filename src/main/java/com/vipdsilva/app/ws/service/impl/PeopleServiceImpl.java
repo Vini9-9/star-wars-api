@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import com.vipdsilva.app.ws.entities.Colors;
 import com.vipdsilva.app.ws.entities.EyeColor;
 import com.vipdsilva.app.ws.entities.Gender;
+import com.vipdsilva.app.ws.entities.HairColor;
 import com.vipdsilva.app.ws.entities.People;
+import com.vipdsilva.app.ws.entities.SkinColor;
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdatePeopleRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
@@ -25,7 +27,6 @@ public class PeopleServiceImpl implements PeopleService {
 			GenderRepository genderRepository, ColorsRepository colorsRepository) {
 
 		People people = new People(peopleReq, genderRepository, colorsRepository);
-		
 
 		repository.save(people);
 		PeopleDtoResponseModel response = people.toResponseDto();
@@ -35,8 +36,9 @@ public class PeopleServiceImpl implements PeopleService {
 
 	@Override
 	public PeopleDtoResponseModel updatePeople(Integer peopleId, UpdatePeopleRequestModel userReq,
-			PeopleRepository peopleRepository, GenderRepository genderRepository,
-			ColorsRepository colorsRepository) {
+			PeopleRepository peopleRepository, GenderRepository genderRepository, ColorsRepository colorsRepository) {
+
+		// Integer peopleId = userReq.getId();
 
 		People peopleUpdated = peopleRepository.findById(peopleId).get();
 
@@ -48,8 +50,8 @@ public class PeopleServiceImpl implements PeopleService {
 		Integer massReq = userReq.getMass();
 		String genderReq = userReq.getGender();
 		List<String> eye_colorReq = userReq.getEye_color();
-//		List<String> skin_colorReq = userReq.getSkin_color();
-//		List<String> hair_colorReq = userReq.getHair_color();
+		List<String> skin_colorReq = userReq.getSkin_color();
+		List<String> hair_colorReq = userReq.getHair_color();
 
 		if (nameReq != null && !nameReq.isBlank())
 			peopleUpdated.setName(nameReq);
@@ -67,29 +69,57 @@ public class PeopleServiceImpl implements PeopleService {
 
 			peopleUpdated.setGender(gender);
 		}
-		
+
 		PeopleDtoResponseModel responseDto = peopleUpdated.toResponseDto();
 
 		if (eye_colorReq != null && !eye_colorReq.isEmpty()) {
-			
+
 			EyeColor corOlho = new EyeColor();
-			
+
 			for (int i = 0; i < eye_colorReq.size(); i++) {
-				
-				//System.out.println(eye_colorReq.get(i));
-				
+
 				Colors color = colorsRepository.findByName(eye_colorReq.get(i));
 				corOlho.setColor(color);
-				
+
 				corOlho.setPeople(peopleUpdated);
 				responseDto.setEye_color(corOlho);
-				
+
 			}
-			
+
+		}
+
+		if (skin_colorReq != null && !skin_colorReq.isEmpty()) {
+
+			SkinColor corPele = new SkinColor();
+
+			for (int i = 0; i < skin_colorReq.size(); i++) {
+
+				Colors color = colorsRepository.findByName(skin_colorReq.get(i));
+				corPele.setColor(color);
+
+				corPele.setPeople(peopleUpdated);
+				responseDto.setSkin_color(corPele);
+
+			}
+
 		}
 		
-		//System.out.println("responseDto: " + responseDto.getEye_colors());
-		
+		if (hair_colorReq != null && !hair_colorReq.isEmpty()) {
+
+			HairColor corCabelo = new HairColor();
+
+			for (int i = 0; i < hair_colorReq.size(); i++) {
+
+				Colors color = colorsRepository.findByName(hair_colorReq.get(i));
+				corCabelo.setColor(color);
+
+				corCabelo.setPeople(peopleUpdated);
+				responseDto.setHair_color(corCabelo);
+
+			}
+
+		}
+
 		return responseDto;
 
 	}

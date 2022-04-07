@@ -1,6 +1,5 @@
 package com.vipdsilva.app.ws.entities;
 
-import java.time.Instant;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -40,8 +38,16 @@ public class HairColor {
 		return colors;
 	}
 
-	public void setColors(Colors colors) {
+	public void setColor(Colors colors) {
 		this.colors = colors;
+	}
+
+	public People getPeople() {
+		return people;
+	}
+
+	public void setPeople(People people) {
+		this.people = people;
 	}
 	
 	

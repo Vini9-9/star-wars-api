@@ -4,6 +4,7 @@ import java.util.List;
 
 public class UpdatePeopleRequestModel {
 
+	private Integer id;
 	private String name;
 	private Integer height;
 	private Integer mass;
@@ -14,7 +15,12 @@ public class UpdatePeopleRequestModel {
 	private List<String> eye_color;
 	
 	
-	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public List<String> getHair_color() {
 		return hair_color;
 	}
