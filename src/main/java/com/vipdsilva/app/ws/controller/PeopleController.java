@@ -1,5 +1,6 @@
 package com.vipdsilva.app.ws.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,10 +47,16 @@ public class PeopleController {
 	@Autowired
 	PeopleService peopleService;
 
-	@GetMapping("/all")
-	public ResponseEntity<List<People>> listPessoas() {
+	@GetMapping
+	public ResponseEntity<List<PeopleDtoResponseModel>> listPessoas() {
 
 		List<People> pessoas = peopleRepository.findAll();
+		
+		List<PeopleDtoResponseModel> listaPessoasDto = new ArrayList<PeopleDtoResponseModel>();
+		
+		for (int i = 0; i < pessoas.size(); i++) {
+			listaPessoasDto.add(pessoas.get(i).toResponseDto()); 
+		}
 
 		if (pessoas.isEmpty()) {
 			
@@ -57,7 +64,7 @@ public class PeopleController {
 
 		} else {
 			
-			return new ResponseEntity<List<People>>(pessoas, HttpStatus.OK);
+			return new ResponseEntity<List<PeopleDtoResponseModel>>(listaPessoasDto, HttpStatus.OK);
 		}
 
 	}
