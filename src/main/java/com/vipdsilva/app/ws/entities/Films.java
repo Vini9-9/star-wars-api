@@ -1,12 +1,18 @@
 package com.vipdsilva.app.ws.entities;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
@@ -27,6 +33,15 @@ public class Films {
 	private String release_date;
 	private Instant created;
 	private Instant edited;
+	
+	@ManyToMany
+	@JoinTable(
+			name = "FilmsPeople",
+			uniqueConstraints = @UniqueConstraint(columnNames = {"people_ID", "films_ID"}),
+			joinColumns = @JoinColumn(name = "films_ID"),
+			inverseJoinColumns = @JoinColumn(name = "people_ID")
+			)
+	private Set<People> characters;
 	
 	
 	public Films() {

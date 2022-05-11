@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,12 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vipdsilva.app.ws.repository.ColorsRepository;
 import com.vipdsilva.app.ws.repository.EyeColorsRepository;
+import com.vipdsilva.app.ws.repository.FilmsRepository;
 import com.vipdsilva.app.ws.repository.GenderRepository;
 import com.vipdsilva.app.ws.repository.HairColorsRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
 import com.vipdsilva.app.ws.repository.SkinColorsRepository;
 import com.vipdsilva.app.ws.service.PeopleService;
-
+import com.vipdsilva.app.ws.entities.Films;
 import com.vipdsilva.app.ws.entities.People;
 import com.vipdsilva.app.ws.exceptions.NotFoundException;
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
@@ -40,6 +42,9 @@ public class PeopleController {
 	// Injeção do Repository
 	@Autowired
 	private PeopleRepository peopleRepository;
+	
+	@Autowired
+	private FilmsRepository filmsRepository;
 	
 	@Autowired
 	private GenderRepository genderRepository;
@@ -100,10 +105,11 @@ public class PeopleController {
 	}
 
 	@PostMapping
-	public ResponseEntity<PeopleDtoResponseModel> adicionar(@RequestBody PeopleDtoRequestModel peopleDetails) {
+	public ResponseEntity<PeopleDtoResponseModel> adicionar(@ModelAttribute People people ,@RequestBody PeopleDtoRequestModel peopleDetails) {
 
+		
 		PeopleDtoResponseModel returnValue = peopleService.createPeople(peopleDetails,
-				peopleRepository, genderRepository, colorsRepository);
+				peopleRepository, genderRepository, colorsRepository, filmsRepository);
 
 		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.CREATED);
 	}
@@ -112,9 +118,10 @@ public class PeopleController {
 	@Transactional
 	public ResponseEntity<PeopleDtoResponseModel> atualiza(@PathVariable Integer peopleId,
 			@RequestBody UpdatePeopleRequestModel body) {
+				
 
 		PeopleDtoResponseModel returnValue = peopleService.updatePeople(peopleId, body,
-				peopleRepository, genderRepository, colorsRepository);
+				peopleRepository, genderRepository, colorsRepository, filmsRepository);
 
 		return new ResponseEntity<PeopleDtoResponseModel>(returnValue, HttpStatus.OK);
 	}

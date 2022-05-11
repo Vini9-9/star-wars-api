@@ -1,6 +1,7 @@
 package com.vipdsilva.app.ws.model.request;
 
 import java.util.List;
+import java.util.Set;
 
 public class UpdatePeopleRequestModel {
 
@@ -10,9 +11,10 @@ public class UpdatePeopleRequestModel {
 	private Integer mass;
 	private String birth_year;
 	private String gender;
-	private List<String> hair_color;
-	private List<String> skin_color;
-	private List<String> eye_color;
+	private Set<String> hair_color;
+	private Set<String> skin_color;
+	private Set<String> eye_color;
+	private Set<String> films;
 	
 	
 	public Integer getId() {
@@ -21,22 +23,22 @@ public class UpdatePeopleRequestModel {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public List<String> getHair_color() {
+	public Set<String> getHair_color() {
 		return hair_color;
 	}
-	public void setHair_color(List<String> hair_color) {
+	public void setHair_color(Set<String> hair_color) {
 		this.hair_color = hair_color;
 	}
-	public List<String> getSkin_color() {
+	public Set<String> getSkin_color() {
 		return skin_color;
 	}
-	public void setSkin_color(List<String> skin_color) {
+	public void setSkin_color(Set<String> skin_color) {
 		this.skin_color = skin_color;
 	}
-	public List<String> getEye_color() {
+	public Set<String> getEye_color() {
 		return eye_color;
 	}
-	public void setEye_color(List<String> eye_color) {
+	public void setEye_color(Set<String> eye_color) {
 		this.eye_color = eye_color;
 	}
 	public String getName() {
@@ -68,5 +70,11 @@ public class UpdatePeopleRequestModel {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	public Set<String> getFilms() {
+		return films;
+	}
+	public void setFilms(Set<String> films) {
+		this.films = films;
 	}
 }

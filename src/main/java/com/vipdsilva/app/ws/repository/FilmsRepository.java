@@ -6,5 +6,7 @@ import com.vipdsilva.app.ws.entities.Films;
 
 
 public interface FilmsRepository extends JpaRepository <Films, Integer> {
+	
+	Films findByTitle(String title);
 
 }

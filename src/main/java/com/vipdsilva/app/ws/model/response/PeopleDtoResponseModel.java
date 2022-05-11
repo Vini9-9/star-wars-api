@@ -2,8 +2,10 @@ package com.vipdsilva.app.ws.model.response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vipdsilva.app.ws.entities.EyeColor;
+import com.vipdsilva.app.ws.entities.Films;
 import com.vipdsilva.app.ws.entities.HairColor;
 import com.vipdsilva.app.ws.entities.People;
 import com.vipdsilva.app.ws.entities.SkinColor;
@@ -15,9 +17,10 @@ public class PeopleDtoResponseModel {
 	private Integer height;
 	private Integer mass;
 	private String birth_year;
-	private List<String> hair_color = new ArrayList<String>();
-	private List<String> skin_color = new ArrayList<String>();
-	private List<String> eye_color = new ArrayList<String>();
+	private Set<String> hair_color;
+	private Set<String> skin_color;
+	private Set<String> eye_color;
+	private Set<String> films;
 	private String gender;
 	
 	public PeopleDtoResponseModel(People people) {
@@ -30,6 +33,7 @@ public class PeopleDtoResponseModel {
 		this.eye_color = people.getEyeColorsName();
 		this.skin_color = people.getSkinColorsName();
 		this.hair_color = people.getHairColorsName();
+		this.films = people.getFilmsTitle();
 	}
 	
 	
@@ -71,33 +75,6 @@ public class PeopleDtoResponseModel {
 		this.gender = gender;
 	}
 
-	public List<String> getEye_colors() {
-		return eye_color;
-	}
-	
-	public List<String> getHair_colors() {
-		return hair_color;
-	}
-
-
-	public void setHair_color(List<String> hair_color) {
-		this.hair_color = hair_color;
-	}
-
-
-	public List<String> getSkin_colors() {
-		return skin_color;
-	}
-
-
-	public void setSkin_color(List<String> skin_color) {
-		this.skin_color = skin_color;
-	}
-
-
-	public void setEye_colors(List<String> eye_color) {
-		this.eye_color = eye_color;
-	}
 	
 	public void setEye_color(EyeColor eye_color) {
 		if(this.eye_color != null) {
@@ -117,5 +94,54 @@ public class PeopleDtoResponseModel {
 		}
 		
 	}
+
+	
+	public void setFilm(Films film) {
+		if(this.films != null) {
+			this.films.add(film.getTitle()) ;
+		}
+		
+	}
+
+
+	public Set<String> getHair_color() {
+		return hair_color;
+	}
+
+
+	public void setHair_color(Set<String> hair_color) {
+		this.hair_color = hair_color;
+	}
+
+
+	public Set<String> getSkin_color() {
+		return skin_color;
+	}
+
+
+	public void setSkin_color(Set<String> skin_color) {
+		this.skin_color = skin_color;
+	}
+
+
+	public Set<String> getEye_color() {
+		return eye_color;
+	}
+
+
+	public void setEye_color(Set<String> eye_color) {
+		this.eye_color = eye_color;
+	}
+
+
+	public Set<String> getFilms() {
+		return films;
+	}
+
+
+	public void setFilms(Set<String> films) {
+		this.films = films;
+	}
+	
 	
 }

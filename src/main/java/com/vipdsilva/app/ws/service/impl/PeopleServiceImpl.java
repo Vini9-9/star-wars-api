@@ -1,12 +1,15 @@
 package com.vipdsilva.app.ws.service.impl;
 
 import java.time.Instant;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.vipdsilva.app.ws.entities.Colors;
 import com.vipdsilva.app.ws.entities.EyeColor;
+import com.vipdsilva.app.ws.entities.Films;
 import com.vipdsilva.app.ws.entities.Gender;
 import com.vipdsilva.app.ws.entities.HairColor;
 import com.vipdsilva.app.ws.entities.People;
@@ -16,6 +19,7 @@ import com.vipdsilva.app.ws.model.request.UpdatePeopleRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
 import com.vipdsilva.app.ws.repository.ColorsRepository;
 import com.vipdsilva.app.ws.repository.EyeColorsRepository;
+import com.vipdsilva.app.ws.repository.FilmsRepository;
 import com.vipdsilva.app.ws.repository.GenderRepository;
 import com.vipdsilva.app.ws.repository.HairColorsRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
@@ -26,12 +30,13 @@ import com.vipdsilva.app.ws.service.PeopleService;
 public class PeopleServiceImpl implements PeopleService {
 
 	@Override
-	public PeopleDtoResponseModel createPeople(PeopleDtoRequestModel peopleReq, PeopleRepository repository,
-			GenderRepository genderRepository, ColorsRepository colorsRepository) {
+	public PeopleDtoResponseModel createPeople(PeopleDtoRequestModel peopleReq, PeopleRepository peopleRepository,
+			GenderRepository genderRepository, ColorsRepository colorsRepository,
+			FilmsRepository filmsRepository) {
 
-		People people = new People(peopleReq, genderRepository, colorsRepository);
+		People people = new People(peopleReq, genderRepository, colorsRepository, filmsRepository);
 
-		repository.save(people);
+		peopleRepository.save(people);
 		PeopleDtoResponseModel response = people.toResponseDto();
 
 		return response;
@@ -39,7 +44,8 @@ public class PeopleServiceImpl implements PeopleService {
 
 	@Override
 	public PeopleDtoResponseModel updatePeople(Integer peopleId, UpdatePeopleRequestModel userReq,
-			PeopleRepository peopleRepository, GenderRepository genderRepository, ColorsRepository colorsRepository) {
+			PeopleRepository peopleRepository, GenderRepository genderRepository,
+			ColorsRepository colorsRepository, FilmsRepository filmsRepository) {
 
 		// Integer peopleId = userReq.getId();
 
@@ -52,9 +58,10 @@ public class PeopleServiceImpl implements PeopleService {
 		Integer heightReq = userReq.getHeight();
 		Integer massReq = userReq.getMass();
 		String genderReq = userReq.getGender();
-		List<String> eye_colorReq = userReq.getEye_color();
-		List<String> skin_colorReq = userReq.getSkin_color();
-		List<String> hair_colorReq = userReq.getHair_color();
+		Set<String> eye_colorReq = userReq.getEye_color();
+		Set<String> skin_colorReq = userReq.getSkin_color();
+		Set<String> hair_colorReq = userReq.getHair_color();
+		Set<String> filmsReq = userReq.getFilms();
 
 		if (nameReq != null && !nameReq.isBlank())
 			peopleUpdated.setName(nameReq);
@@ -74,55 +81,98 @@ public class PeopleServiceImpl implements PeopleService {
 		}
 
 		PeopleDtoResponseModel responseDto = peopleUpdated.toResponseDto();
+		
+//		if (eye_colorReq != null && !eye_colorReq.isEmpty()) {
+//
+//			EyeColor corOlho = new EyeColor();
+//
+//			for (int i = 0; i < eye_colorReq.size(); i++) {
+//
+//				Colors color = colorsRepository.findByName(eye_colorReq.get(i));
+//				corOlho.setColor(color);
+//
+//				corOlho.setPeople(peopleUpdated);
+//				responseDto.setEye_color(corOlho);
+//
+//			}
+//
+//		}
+		
+		if(eye_colorReq != null) {
+			
+			Iterator<String> eyeAsIterator = eye_colorReq.iterator();
+			
+			if(eyeAsIterator.hasNext()) {			
+				EyeColor corOlho = new EyeColor();
+				
+				while (eyeAsIterator.hasNext()){
+		        	
+		        	Colors color = colorsRepository.findByName(eyeAsIterator.next());
+		        	corOlho.setColor(color);
 
-		if (eye_colorReq != null && !eye_colorReq.isEmpty()) {
+					corOlho.setPeople(peopleUpdated);
+					responseDto.setEye_color(corOlho);
 
-			EyeColor corOlho = new EyeColor();
-
-			for (int i = 0; i < eye_colorReq.size(); i++) {
-
-				Colors color = colorsRepository.findByName(eye_colorReq.get(i));
-				corOlho.setColor(color);
-
-				corOlho.setPeople(peopleUpdated);
-				responseDto.setEye_color(corOlho);
-
+		        }
 			}
-
-		}
-
-		if (skin_colorReq != null && !skin_colorReq.isEmpty()) {
-
-			SkinColor corPele = new SkinColor();
-
-			for (int i = 0; i < skin_colorReq.size(); i++) {
-
-				Colors color = colorsRepository.findByName(skin_colorReq.get(i));
-				corPele.setColor(color);
-
-				corPele.setPeople(peopleUpdated);
-				responseDto.setSkin_color(corPele);
-
-			}
-
+			
 		}
 		
-		if (hair_colorReq != null && !hair_colorReq.isEmpty()) {
-
-			HairColor corCabelo = new HairColor();
-
-			for (int i = 0; i < hair_colorReq.size(); i++) {
-
-				Colors color = colorsRepository.findByName(hair_colorReq.get(i));
-				corCabelo.setColor(color);
-
-				corCabelo.setPeople(peopleUpdated);
-				responseDto.setHair_color(corCabelo);
-
+		if(skin_colorReq != null) {
+		
+			Iterator<String> skinAsIterator = skin_colorReq.iterator();
+					
+			if(skinAsIterator.hasNext()) {			
+				SkinColor corPele = new SkinColor();
+				
+				while (skinAsIterator.hasNext()){
+		        	
+		        	Colors color = colorsRepository.findByName(skinAsIterator.next());
+		        	corPele.setColor(color);
+	
+					corPele.setPeople(peopleUpdated);
+					responseDto.setSkin_color(corPele);
+	
+		        }
 			}
-
 		}
-
+		
+		if(hair_colorReq != null) {
+		
+			Iterator<String> hairAsIterator = hair_colorReq.iterator();
+			
+			if(hairAsIterator.hasNext()) {			
+				HairColor corCabelo = new HairColor();
+				
+				while (hairAsIterator.hasNext()){
+		        	
+		        	Colors color = colorsRepository.findByName(hairAsIterator.next());
+		        	corCabelo.setColor(color);
+	
+					corCabelo.setPeople(peopleUpdated);
+					responseDto.setHair_color(corCabelo);
+	
+		        }
+			}
+		
+		}
+		
+		if(filmsReq != null) {
+		
+			Iterator<String> filmAsIterator = filmsReq.iterator();
+					
+			if(filmAsIterator.hasNext()) {			
+				
+				while (filmAsIterator.hasNext()){
+		        	
+					Films film = filmsRepository.findByTitle(filmAsIterator.next());
+					peopleUpdated.setFilm(film);
+					responseDto.setFilm(film);
+	
+		        }
+			}
+		}
+		
 		return responseDto;
 
 	}
@@ -136,7 +186,8 @@ public class PeopleServiceImpl implements PeopleService {
 		eyeColorsRepository.deleteByPeople(personDeleted);
 		hairColorsRepository.deleteByPeople(personDeleted);
 		skinColorsRepository.deleteByPeople(personDeleted);
-		
+		personDeleted.clearFilms();
+
 		peopleRepository.deleteById(peopleId);
 
 	}

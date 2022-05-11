@@ -1,8 +1,10 @@
 package com.vipdsilva.app.ws.entities;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,13 +12,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
 import com.vipdsilva.app.ws.repository.ColorsRepository;
+import com.vipdsilva.app.ws.repository.FilmsRepository;
 import com.vipdsilva.app.ws.repository.GenderRepository;
 
 @Entity
@@ -35,26 +41,35 @@ public class People {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "people_id")
-	private List<HairColor> hairColor;
+	private Set<HairColor> hairColor;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "people_id")
-	private List<SkinColor> skinColor;
+	private Set<SkinColor> skinColor;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "people_id")
-	private List<EyeColor> eyeColor;
+	private Set<EyeColor> eyeColor;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "gender_ID")
 	private Gender gender;
+	
+	@ManyToMany
+	@JoinTable(
+			name = "FilmsPeople",
+			uniqueConstraints = @UniqueConstraint(columnNames = {"people_ID", "films_ID"}),
+			joinColumns = @JoinColumn(name = "people_ID"),
+			inverseJoinColumns = @JoinColumn(name = "films_ID")
+			)
+	private Set<Films> films;
 
 	public People() {
 
 	}
 
 	public People(PeopleDtoRequestModel peopleReq, GenderRepository genderRepository,
-			ColorsRepository colorsRepository) {
+			ColorsRepository colorsRepository, FilmsRepository filmsRepository) {
 
 		this.id = peopleReq.getId();
 		this.name = peopleReq.getName();
@@ -69,41 +84,64 @@ public class People {
 			this.edited = Instant.now();
 		}
 
-		List<String> eye_colorReq = peopleReq.getEye_color();
-		List<String> skin_colorReq = peopleReq.getSkin_color();
-		List<String> hair_colorReq = peopleReq.getHair_color();
-
-		for (int i = 0; i < eye_colorReq.size(); i++) {
+		Set<String> eye_colorReq = peopleReq.getEye_color();
+		Set<String> skin_colorReq = peopleReq.getSkin_color();
+		Set<String> hair_colorReq = peopleReq.getHair_color();
+		Set<String> filmsReq = peopleReq.getFilms();
+		
+//		for (int i = 0; i < eye_colorReq.size(); i++) {
+//
+//			EyeColor corOlho = new EyeColor();
+//
+//			Colors color = colorsRepository.findByName(eye_colorReq.get(i));
+//			corOlho.setColor(color);
+//
+//			this.setEyeColor(corOlho);
+//
+//		}
+		
+		Iterator<String> eyeAsIterator = eye_colorReq.iterator();
+		Iterator<String> skinAsIterator = skin_colorReq.iterator();
+		Iterator<String> hairAsIterator = hair_colorReq.iterator();
+		Iterator<String> filmsAsIterator = filmsReq.iterator();
+		
+		while (eyeAsIterator.hasNext()) {
 
 			EyeColor corOlho = new EyeColor();
 
-			Colors color = colorsRepository.findByName(eye_colorReq.get(i));
+			Colors color = colorsRepository.findByName(eyeAsIterator.next().toString());
 			corOlho.setColor(color);
 
 			this.setEyeColor(corOlho);
 
 		}
-
-		for (int i = 0; i < skin_colorReq.size(); i++) {
+		
+		while (skinAsIterator.hasNext()) {
 
 			SkinColor corPele = new SkinColor();
 
-			Colors color = colorsRepository.findByName(skin_colorReq.get(i));
+			Colors color = colorsRepository.findByName(skinAsIterator.next().toString());
 			corPele.setColor(color);
 
 			this.setSkinColor(corPele);
-			
 
 		}
-
-		for (int i = 0; i < hair_colorReq.size(); i++) {
+		
+		while (hairAsIterator.hasNext()) {
 
 			HairColor corCabelo = new HairColor();
 
-			Colors color = colorsRepository.findByName(hair_colorReq.get(i));
+			Colors color = colorsRepository.findByName(hairAsIterator.next().toString());
 			corCabelo.setColor(color);
 
 			this.setHairColor(corCabelo);
+
+		}
+		
+		while (filmsAsIterator.hasNext()) {
+			Films film = filmsRepository.findByTitle(filmsAsIterator.next().toString());
+			System.out.println("film: " + film.getTitle());
+			this.setFilm(film);
 
 		}
 
@@ -169,104 +207,80 @@ public class People {
 		this.edited = edited;
 	}
 
-	public List<HairColor> getHairColors() {
+	public Set<HairColor> getHairColors() {
 		return hairColor;
 	}
 
-	public void setHairColors(List<HairColor> hairColor) {
+	public void setHairColors(Set<HairColor> hairColor) {
 		this.hairColor = hairColor;
 	}
 	
 	public void setHairColor(HairColor hairColor) {
 		if (this.hairColor == null) {
-			this.hairColor = new ArrayList<HairColor>();
+			this.hairColor = new HashSet<HairColor>();
 		}
-		if (hairColor != null) {
-
-			this.hairColor.add(hairColor);
-
-		}
+		
+		this.hairColor.add(hairColor);
+		
 	}
 
-	public HairColor getHairColor(Integer index) {
-		return this.hairColor.get(index);
+	
+	public Set<Films> getFilms() {
+		return films;
 	}
 
-	public List<SkinColor> getSkinColors() {
+	public void setFilms(Set<Films> films) {
+		this.films = films;
+	}
+	
+	public void setFilm(Films film) {
+		if (this.films == null) {
+			this.films = new HashSet<Films>();
+		} 
+		this.films.add(film);
+	}
+
+	public void clearFilms() {
+		Set<Films> emptySet = Collections.emptySet();
+		this.setFilms(emptySet);
+	}
+
+	public Set<SkinColor> getSkinColors() {
 		return skinColor;
 	}
 
-	public void setSkinColors(List<SkinColor> skinColor) {
+	public void setSkinColors(Set<SkinColor> skinColor) {
 		this.skinColor = skinColor;
 	}
 	
+	
 	public void setSkinColor(SkinColor skinColor) {
 		if (this.skinColor == null) {
-			this.skinColor = new ArrayList<SkinColor>();
+			this.skinColor = new HashSet<SkinColor>();
 		}
-		if (skinColor != null) {
-
-			this.skinColor.add(skinColor);
-
-		}
+		
+		this.skinColor.add(skinColor);
 	}
 
-	public SkinColor getSkinColor(Integer index) {
-		return this.skinColor.get(index);
-	}
 
-	public List<EyeColor> getEyeColors() {
+	public Set<EyeColor> getEyeColors() {
 		return eyeColor;
 	}
 
-	public EyeColor getEyeColor(Integer index) {
-		return this.eyeColor.get(index);
-	}
 
-	public List<String> getEyeColorsName() {
-		List<String> cores = new ArrayList<String>();
-		for (int i = 0; i < this.getEyeColors().size(); i++) {
-//			System.out.println("ec: " + getEyeColor(i).getColors().getName());
-			cores.add(getEyeColor(i).getColors().getName());
-		}
-
-		return cores;
-	}
-
-	public void setEyeColors(List<EyeColor> eyeColor) {
+	public void setEyeColors(Set<EyeColor> eyeColor) {
 		this.eyeColor = eyeColor;
 	}
 
 	public void setEyeColor(EyeColor eyeColor) {
 		if (this.eyeColor == null) {
-			this.eyeColor = new ArrayList<EyeColor>();
+			this.eyeColor = new HashSet<EyeColor>();
 		}
-		if (eyeColor != null) {
-
-			this.eyeColor.add(eyeColor);
-
-		}
+		
+		this.eyeColor.add(eyeColor);
+		
 	}
 
-	public List<String> getSkinColorsName() {
-		List<String> cores = new ArrayList<String>();
-		for (int i = 0; i < this.getSkinColors().size(); i++) {
-//			System.out.println("sc: " + getSkinColor(i).getColors().getName());
-			cores.add(getSkinColor(i).getColors().getName());
-		}
-
-		return cores;
-	}
-
-	public List<String> getHairColorsName() {
-		List<String> cores = new ArrayList<String>();
-		for (int i = 0; i < this.getHairColors().size(); i++) {
-//			System.out.println("hc: " + getSkinColor(i).getColors().getName());
-			cores.add(getHairColor(i).getColors().getName());
-		}
-
-		return cores;
-	}
 
 	public Gender getGender() {
 		return gender;
@@ -274,6 +288,50 @@ public class People {
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public Set<String> getEyeColorsName() {
+		Set<String> cores = new HashSet<String>();
+		
+		Iterator<EyeColor> eyeAsIterator = this.getEyeColors().iterator();
+		while (eyeAsIterator.hasNext()) {
+			cores.add(eyeAsIterator.next().getColors().getName());
+		}
+
+		return cores;
+	}
+
+	public Set<String> getSkinColorsName() {
+		Set<String> cores = new HashSet<String>();
+		
+		Iterator<SkinColor> skinAsIterator = this.getSkinColors().iterator();
+		while (skinAsIterator.hasNext()) {
+			cores.add(skinAsIterator.next().getColors().getName());
+		}
+
+		return cores;
+	}
+
+	public Set<String> getHairColorsName() {
+		Set<String> cores = new HashSet<String>();
+		
+		Iterator<HairColor> hairAsIterator = this.getHairColors().iterator();
+		while (hairAsIterator.hasNext()) {
+			cores.add(hairAsIterator.next().getColors().getName());
+		}
+
+		return cores;
+	}
+
+	public Set<String> getFilmsTitle() {
+		Set<String> titulos = new HashSet<String>();
+		
+		Iterator<Films> filmsAsIterator = this.getFilms().iterator();
+		while (filmsAsIterator.hasNext()) {
+			titulos.add(filmsAsIterator.next().getTitle());
+		}
+
+		return titulos;
 	}
 
 }
