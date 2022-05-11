@@ -241,8 +241,19 @@ public class People {
 	}
 
 	public void clearFilms() {
-		Set<Films> emptySet = Collections.emptySet();
-		this.setFilms(emptySet);
+		this.films = new HashSet<Films>();
+	}
+
+	public void clearEyeColor() {
+		this.eyeColor = new HashSet<EyeColor>();
+	}
+
+	public void clearSkinColor() {
+		this.skinColor = new HashSet<SkinColor>();
+	}
+
+	public void clearHairColor() {
+		this.hairColor = new HashSet<HairColor>();
 	}
 
 	public Set<SkinColor> getSkinColors() {

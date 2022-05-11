@@ -79,8 +79,6 @@ public class PeopleServiceImpl implements PeopleService {
 
 			peopleUpdated.setGender(gender);
 		}
-
-		PeopleDtoResponseModel responseDto = peopleUpdated.toResponseDto();
 		
 //		if (eye_colorReq != null && !eye_colorReq.isEmpty()) {
 //
@@ -97,12 +95,28 @@ public class PeopleServiceImpl implements PeopleService {
 //			}
 //
 //		}
+
+		if(filmsReq != null) {
+				
+			Iterator<String> filmAsIterator = filmsReq.iterator();
+					
+			if(filmAsIterator.hasNext()) {			
+				peopleUpdated.clearFilms();
+				while (filmAsIterator.hasNext()){
+					
+					Films film = filmsRepository.findByTitle(filmAsIterator.next());
+					peopleUpdated.setFilm(film);
+
+				}
+			}
+		}
 		
 		if(eye_colorReq != null) {
 			
 			Iterator<String> eyeAsIterator = eye_colorReq.iterator();
 			
-			if(eyeAsIterator.hasNext()) {			
+			if(eyeAsIterator.hasNext()) {
+				peopleUpdated.clearEyeColor();			
 				EyeColor corOlho = new EyeColor();
 				
 				while (eyeAsIterator.hasNext()){
@@ -110,8 +124,7 @@ public class PeopleServiceImpl implements PeopleService {
 		        	Colors color = colorsRepository.findByName(eyeAsIterator.next());
 		        	corOlho.setColor(color);
 
-					corOlho.setPeople(peopleUpdated);
-					responseDto.setEye_color(corOlho);
+					peopleUpdated.setEyeColor(corOlho);
 
 		        }
 			}
@@ -122,7 +135,8 @@ public class PeopleServiceImpl implements PeopleService {
 		
 			Iterator<String> skinAsIterator = skin_colorReq.iterator();
 					
-			if(skinAsIterator.hasNext()) {			
+			if(skinAsIterator.hasNext()) {
+				peopleUpdated.clearSkinColor();			
 				SkinColor corPele = new SkinColor();
 				
 				while (skinAsIterator.hasNext()){
@@ -130,8 +144,7 @@ public class PeopleServiceImpl implements PeopleService {
 		        	Colors color = colorsRepository.findByName(skinAsIterator.next());
 		        	corPele.setColor(color);
 	
-					corPele.setPeople(peopleUpdated);
-					responseDto.setSkin_color(corPele);
+					peopleUpdated.setSkinColor(corPele);
 	
 		        }
 			}
@@ -141,7 +154,8 @@ public class PeopleServiceImpl implements PeopleService {
 		
 			Iterator<String> hairAsIterator = hair_colorReq.iterator();
 			
-			if(hairAsIterator.hasNext()) {			
+			if(hairAsIterator.hasNext()) {		
+				peopleUpdated.clearHairColor();	
 				HairColor corCabelo = new HairColor();
 				
 				while (hairAsIterator.hasNext()){
@@ -149,29 +163,14 @@ public class PeopleServiceImpl implements PeopleService {
 		        	Colors color = colorsRepository.findByName(hairAsIterator.next());
 		        	corCabelo.setColor(color);
 	
-					corCabelo.setPeople(peopleUpdated);
-					responseDto.setHair_color(corCabelo);
+					peopleUpdated.setHairColor(corCabelo);
 	
 		        }
 			}
 		
 		}
 		
-		if(filmsReq != null) {
-		
-			Iterator<String> filmAsIterator = filmsReq.iterator();
-					
-			if(filmAsIterator.hasNext()) {			
-				
-				while (filmAsIterator.hasNext()){
-		        	
-					Films film = filmsRepository.findByTitle(filmAsIterator.next());
-					peopleUpdated.setFilm(film);
-					responseDto.setFilm(film);
-	
-		        }
-			}
-		}
+		PeopleDtoResponseModel responseDto = peopleUpdated.toResponseDto();
 		
 		return responseDto;
 
