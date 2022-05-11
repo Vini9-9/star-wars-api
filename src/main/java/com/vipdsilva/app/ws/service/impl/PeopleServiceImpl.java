@@ -2,7 +2,6 @@ package com.vipdsilva.app.ws.service.impl;
 
 import java.time.Instant;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;

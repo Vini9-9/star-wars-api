@@ -1,6 +1,5 @@
 package com.vipdsilva.app.ws.model.request;
 
-import java.util.List;
 import java.util.Set;
 
 public class PeopleDtoRequestModel {

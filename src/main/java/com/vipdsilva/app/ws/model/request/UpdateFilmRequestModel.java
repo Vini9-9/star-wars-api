@@ -1,5 +1,7 @@
 package com.vipdsilva.app.ws.model.request;
 
+import java.util.Set;
+
 public class UpdateFilmRequestModel {
 
 	private Integer episode_id;
@@ -8,10 +10,17 @@ public class UpdateFilmRequestModel {
 	private String director;
 	private String producer;
 	private String release_date;
+	private Set<String> characters;
 	
 
 	public String getTitle() {
 		return title;
+	}
+	public Set<String> getCharacters() {
+		return characters;
+	}
+	public void setCharacters(Set<String> characters) {
+		this.characters = characters;
 	}
 	public void setTitle(String title) {
 		this.title = title;

@@ -1,6 +1,9 @@
 package com.vipdsilva.app.ws.model.response;
 
 import java.time.Instant;
+import java.util.Set;
+
+import com.vipdsilva.app.ws.entities.Films;
 
 
 public class FilmDtoResponseModel {
@@ -13,10 +16,29 @@ public class FilmDtoResponseModel {
 	private String release_date;
 	private Instant created;
 	private Instant edited;
+	private Set<String> characters;
 	
 	
-	public Integer getId() {
+	public FilmDtoResponseModel(Films film) {
+		this.id = film.getId();
+		this.title = film.getTitle() ;
+		this.opening_crawl = film.getOpening_crawl();
+		this.director = film.getDirector();
+		this.producer = film.getProducer();
+		this.release_date = film.getRelease_date();
+		this.created = film.getCreated();
+		this.edited = film.getEdited();
+		this.characters = film.getCharactersName();
+    }
+
+    public Integer getId() {
 		return id;
+	}
+	public Set<String> getCharacters() {
+		return characters;
+	}
+	public void setCharacters(Set<String> characters) {
+		this.characters = characters;
 	}
 	public void setId(Integer id) {
 		this.id = id;

@@ -1,5 +1,7 @@
 package com.vipdsilva.app.ws.model.request;
 
+import java.util.Set;
+
 public class FilmDtoRequestModel {
 
 	private Integer id;
@@ -9,10 +11,17 @@ public class FilmDtoRequestModel {
 	private String director;
 	private String producer;
 	private String release_date;
+	private Set<String> characters;
 	
 	
 	public Integer getId() {
 		return id;
+	}
+	public Set<String> getCharacters() {
+		return characters;
+	}
+	public void setCharacters(Set<String> characters) {
+		this.characters = characters;
 	}
 	public void setId(Integer id) {
 		this.id = id;

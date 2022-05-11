@@ -1,7 +1,8 @@
 package com.vipdsilva.app.ws.entities;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -15,7 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
-import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
+import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
+import com.vipdsilva.app.ws.repository.PeopleRepository;
 
 
 @Entity
@@ -43,12 +45,12 @@ public class Films {
 			)
 	private Set<People> characters;
 	
-	
+
 	public Films() {
 		
 	}
 	
-	public Films (FilmDtoRequestModel filmReq) {
+	public Films (FilmDtoRequestModel filmReq, PeopleRepository peopleRepository) {
 		this.id = filmReq.getId();
 		this.episode_id = filmReq.getEpisode_id();
 		this.title = filmReq.getTitle();
@@ -56,6 +58,16 @@ public class Films {
 		this.director = filmReq.getDirector();
 		this.producer = filmReq.getProducer();
 		this.release_date = filmReq.getRelease_date();
+		Set<String> characterReq = filmReq.getCharacters();
+
+		Iterator<String> characterAsIterator = characterReq.iterator();
+
+		while (characterAsIterator.hasNext()) {
+			People character = peopleRepository.findByName(characterAsIterator.next().toString());
+			System.out.println("character: " + character.getName());
+			this.setCharacter(character);
+
+		}
 		
 		if(this.getCreated() == null) {
 			this.created = Instant.now();
@@ -63,7 +75,19 @@ public class Films {
 			this.edited = Instant.now();
 		}
 	}
+
+	public FilmDtoResponseModel toResponseDto() {
+		return new FilmDtoResponseModel(this);
+	}
 	
+	public void setCharacter(People character) {
+		if (this.characters == null) {
+			this.characters = new HashSet<People>();
+		} 
+		this.characters.add(character);
+	
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -121,7 +145,30 @@ public class Films {
 		this.episode_id = episode_id;
 	}
 	
-	
+	public Set<People> getCharacters() {
+		return characters;
+	}
+
+	public Set<String> getCharactersName() {
+
+		Set<String> nomes = new HashSet<String>();
+		
+		Iterator<People> peopleAsIterator = this.getCharacters().iterator();
+		while (peopleAsIterator.hasNext()) {
+			nomes.add(peopleAsIterator.next().getName());
+		}
+
+		return nomes;
+		
+	}
+
+	public void setCharacters(Set<People> characters) {
+		this.characters = characters;
+	}
+
+    public void clearCharacters() {
+		this.characters = new HashSet<People>();
+    }
 	
 }
 

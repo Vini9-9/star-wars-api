@@ -1,5 +1,6 @@
 package com.vipdsilva.app.ws.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vipdsilva.app.ws.repository.FilmsRepository;
+import com.vipdsilva.app.ws.repository.PeopleRepository;
 import com.vipdsilva.app.ws.service.FilmService;
 
 
@@ -26,6 +28,7 @@ import com.vipdsilva.app.ws.exceptions.NotFoundException;
 import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdateFilmRequestModel;
 import com.vipdsilva.app.ws.model.response.DeleteDtoResponseModel;
+import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
 
 @RestController
 @RequestMapping("/api/films")
@@ -36,34 +39,43 @@ public class FilmsController {
 	private FilmsRepository filmsRepository;
 
 	@Autowired
+	private PeopleRepository peopleRepository;
+
+	@Autowired
 	FilmService filmService;
 
 	@GetMapping("/all")
-	public ResponseEntity<List<Films>> lista() {
+	public ResponseEntity<List<FilmDtoResponseModel>> lista() {
 
-		List<Films> pessoas = filmsRepository.findAll();
+		List<Films> filmes = filmsRepository.findAll();
+		
+		List<FilmDtoResponseModel> listaFilmesDto = new ArrayList<FilmDtoResponseModel>();
+		
+		for (int i = 0; i < filmes.size(); i++) {
+			listaFilmesDto.add(filmes.get(i).toResponseDto()); 
+		}
 
-		if (pessoas.isEmpty()) {
+		if (filmes.isEmpty()) {
 			
 			throw new NotFoundException("Nenhum filme cadastrado");
 
 		} else {
 			
-			return new ResponseEntity<List<Films>>(pessoas, HttpStatus.OK);
+			return new ResponseEntity<List<FilmDtoResponseModel>>(listaFilmesDto, HttpStatus.OK);
 		}
 
 	}
 
 	@GetMapping("/{filmsId}")
-	public ResponseEntity<Films> showPerson(@PathVariable Integer filmsId) {
+	public ResponseEntity<FilmDtoResponseModel> showPerson(@PathVariable Integer filmsId) {
 
 		Optional<Films> film = filmsRepository.findById(filmsId);
 
 		if (film.isPresent()) {
 
-			Films response = film.get();
+			FilmDtoResponseModel response = film.get().toResponseDto();
 
-			return new ResponseEntity<Films>(response, HttpStatus.OK);
+			return new ResponseEntity<FilmDtoResponseModel>(response, HttpStatus.OK);
 
 		} else {
 			
@@ -73,21 +85,23 @@ public class FilmsController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Films> adicionar(@RequestBody FilmDtoRequestModel filmsDetails) {
+	public ResponseEntity<FilmDtoResponseModel> adicionar(@RequestBody FilmDtoRequestModel filmsDetails) {
 
-		Films returnValue = filmService.createFilm(filmsDetails, filmsRepository);
+		FilmDtoResponseModel returnValue = filmService.createFilm(filmsDetails, filmsRepository,
+		peopleRepository);
 
-		return new ResponseEntity<Films>(returnValue, HttpStatus.CREATED);
+		return new ResponseEntity<FilmDtoResponseModel>(returnValue, HttpStatus.CREATED);
 	}
 
 	@PutMapping(path = "/{filmsId}")
 	@Transactional
-	public ResponseEntity<Films> atualiza(@PathVariable Integer filmsId,
+	public ResponseEntity<FilmDtoResponseModel> atualiza(@PathVariable Integer filmsId,
 			@RequestBody UpdateFilmRequestModel body) {
 
-		Films returnValue = filmService.updateFilm(filmsId, body, filmsRepository);
+		FilmDtoResponseModel returnValue = filmService.updateFilm(filmsId, body, 
+		filmsRepository, peopleRepository);
 
-		return new ResponseEntity<Films>(returnValue, HttpStatus.OK);
+		return new ResponseEntity<FilmDtoResponseModel>(returnValue, HttpStatus.OK);
 	}
 
 	@DeleteMapping(path = "/{filmId}")

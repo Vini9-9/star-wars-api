@@ -2,7 +2,6 @@ package com.vipdsilva.app.ws.exceptions;
 
 import java.util.Date;
 
-import javax.persistence.EntityNotFoundException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

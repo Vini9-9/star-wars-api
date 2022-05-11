@@ -1,7 +1,5 @@
 package com.vipdsilva.app.ws.model.response;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import com.vipdsilva.app.ws.entities.EyeColor;

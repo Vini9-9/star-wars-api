@@ -27,7 +27,6 @@ import com.vipdsilva.app.ws.repository.HairColorsRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
 import com.vipdsilva.app.ws.repository.SkinColorsRepository;
 import com.vipdsilva.app.ws.service.PeopleService;
-import com.vipdsilva.app.ws.entities.Films;
 import com.vipdsilva.app.ws.entities.People;
 import com.vipdsilva.app.ws.exceptions.NotFoundException;
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
