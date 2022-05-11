@@ -16,7 +16,7 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
 
 ### MER
 
- - [People](https://raw.githubusercontent.com/Vini9-9/star-wars-api/master/MER/People.png)
+ - [People](https://raw.githubusercontent.com/Vini9-9/star-wars-api/master/MER/Films_People.png)
 
 # Cadastro de Personagens
 
