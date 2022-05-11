@@ -34,6 +34,7 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
 |eye_color | Array of String| ["blue"]|
 |hair_color  | Array of String|["blond"] |
 |skin_color | Array of String|["fair"] |
+|films | Array of String|["A Ameaça Fantasma", "A Vingança dos Sith"] |
 
 
 # Cadastro de Filmes
@@ -49,6 +50,7 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
 |director   | String | George Lucas |
 |producer| String | Gary Kurtz, Rick McCallum |
 |release_date| String |1977-05-25 |
+|characters| Array of String |["Luke Skywalker","C-3PO"] |
 
 
 
