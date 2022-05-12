@@ -5,6 +5,8 @@ import java.util.Set;
 
 import com.vipdsilva.app.ws.entities.Films;
 
+import org.springframework.data.domain.Page;
+
 
 public class FilmDtoResponseModel {
 
@@ -85,6 +87,10 @@ public class FilmDtoResponseModel {
 	public void setEdited(Instant edited) {
 		this.edited = edited;
 	}
+
+    public static Page<FilmDtoResponseModel> converter(Page<Films> filmes) {
+        return filmes.map(FilmDtoResponseModel::new);
+    }
 
 	
 }

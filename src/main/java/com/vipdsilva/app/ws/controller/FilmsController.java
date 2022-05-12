@@ -7,6 +7,9 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vipdsilva.app.ws.repository.FilmsRepository;
@@ -45,23 +49,24 @@ public class FilmsController {
 	FilmService filmService;
 
 	@GetMapping("/all")
-	public ResponseEntity<List<FilmDtoResponseModel>> lista() {
+	public ResponseEntity<Page<FilmDtoResponseModel>> lista(
+		@RequestParam(required = false, defaultValue = "0") int pagina,
+		@RequestParam(required = false, defaultValue = "5") int qtd
+	) {
 
-		List<Films> filmes = filmsRepository.findAll();
-		
-		List<FilmDtoResponseModel> listaFilmesDto = new ArrayList<FilmDtoResponseModel>();
-		
-		for (int i = 0; i < filmes.size(); i++) {
-			listaFilmesDto.add(filmes.get(i).toResponseDto()); 
-		}
+		Pageable paginacao = PageRequest.of(pagina, qtd);
+
+		Page<Films> filmes = filmsRepository.findAll(paginacao);
 
 		if (filmes.isEmpty()) {
 			
 			throw new NotFoundException("Nenhum filme cadastrado");
 
 		} else {
+
+			Page<FilmDtoResponseModel> listaFilmesDto = FilmDtoResponseModel.converter(filmes);
 			
-			return new ResponseEntity<List<FilmDtoResponseModel>>(listaFilmesDto, HttpStatus.OK);
+			return new ResponseEntity<Page<FilmDtoResponseModel>>(listaFilmesDto, HttpStatus.OK);
 		}
 
 	}
