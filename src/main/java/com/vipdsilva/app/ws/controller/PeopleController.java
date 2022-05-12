@@ -1,12 +1,13 @@
 package com.vipdsilva.app.ws.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vipdsilva.app.ws.repository.ColorsRepository;
@@ -64,23 +66,23 @@ public class PeopleController {
 	PeopleService peopleService;
 
 	@GetMapping
-	public ResponseEntity<List<PeopleDtoResponseModel>> listPessoas() {
+	public ResponseEntity<Page<PeopleDtoResponseModel>> listPessoas(
+		@RequestParam(required = false, defaultValue = "0") int pagina,
+		@RequestParam(required = false, defaultValue = "5") int qtd) {
 
-		List<People> pessoas = peopleRepository.findAll();
-		
-		List<PeopleDtoResponseModel> listaPessoasDto = new ArrayList<PeopleDtoResponseModel>();
-		
-		for (int i = 0; i < pessoas.size(); i++) {
-			listaPessoasDto.add(pessoas.get(i).toResponseDto()); 
-		}
+		Pageable paginacao = PageRequest.of(pagina, qtd);
 
+		Page<People> pessoas = peopleRepository.findAll(paginacao);
+		
 		if (pessoas.isEmpty()) {
 			
 			throw new NotFoundException("Nenhuma pessoa cadastrada");
-
-		} else {
 			
-			return new ResponseEntity<List<PeopleDtoResponseModel>>(listaPessoasDto, HttpStatus.OK);
+		} else {
+
+			Page<PeopleDtoResponseModel> listaPessoasDto = PeopleDtoResponseModel.converter(pessoas);
+			
+			return new ResponseEntity<Page<PeopleDtoResponseModel>>(listaPessoasDto, HttpStatus.OK);
 		}
 
 	}
@@ -104,7 +106,8 @@ public class PeopleController {
 	}
 
 	@PostMapping
-	public ResponseEntity<PeopleDtoResponseModel> adicionar(@ModelAttribute People people ,@RequestBody PeopleDtoRequestModel peopleDetails) {
+	public ResponseEntity<PeopleDtoResponseModel> adicionar(@ModelAttribute People people,
+	@RequestBody PeopleDtoRequestModel peopleDetails) {
 
 		
 		PeopleDtoResponseModel returnValue = peopleService.createPeople(peopleDetails,

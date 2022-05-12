@@ -139,7 +139,6 @@ public class People {
 		
 		while (filmsAsIterator.hasNext()) {
 			Films film = filmsRepository.findByTitle(filmsAsIterator.next().toString());
-			System.out.println("film: " + film.getTitle());
 			this.setFilm(film);
 
 		}

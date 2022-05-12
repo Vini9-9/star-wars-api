@@ -64,7 +64,6 @@ public class Films {
 
 		while (characterAsIterator.hasNext()) {
 			People character = peopleRepository.findByName(characterAsIterator.next().toString());
-			System.out.println("character: " + character.getName());
 			this.setCharacter(character);
 
 		}

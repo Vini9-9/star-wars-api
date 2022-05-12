@@ -8,6 +8,8 @@ import com.vipdsilva.app.ws.entities.HairColor;
 import com.vipdsilva.app.ws.entities.People;
 import com.vipdsilva.app.ws.entities.SkinColor;
 
+import org.springframework.data.domain.Page;
+
 public class PeopleDtoResponseModel {
 
 	private Integer id;
@@ -139,6 +141,10 @@ public class PeopleDtoResponseModel {
 
 	public void setFilms(Set<String> films) {
 		this.films = films;
+	}
+
+	public static Page<PeopleDtoResponseModel> converter(Page<People> pessoas) {
+		return pessoas.map(PeopleDtoResponseModel::new);
 	}
 	
 	

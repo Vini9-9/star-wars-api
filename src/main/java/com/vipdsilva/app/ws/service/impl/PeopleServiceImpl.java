@@ -73,9 +73,6 @@ public class PeopleServiceImpl implements PeopleService {
 
 		if (genderReq != null && !genderReq.isBlank()) {
 			Gender gender = genderRepository.findByName(genderReq);
-
-			System.out.println(gender);
-
 			peopleUpdated.setGender(gender);
 		}
 		
