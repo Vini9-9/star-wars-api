@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -46,6 +47,7 @@ public class FilmsController {
 	FilmService filmService;
 
 	@GetMapping("/all")
+	@Cacheable(value = "listaDeFilmes")
 	public ResponseEntity<Page<FilmDtoResponseModel>> lista(
 		@PageableDefault(sort = "title", page = 0, size = 5) Pageable paginacao
 		) {

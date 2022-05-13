@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -65,6 +66,7 @@ public class PeopleController {
 	PeopleService peopleService;
 
 	@GetMapping
+	@Cacheable(value = "listaDePersonagens")
 	public ResponseEntity<Page<PeopleDtoResponseModel>> listPessoas(
 		@PageableDefault(sort = "name", page = 0, size = 5) Pageable paginacao
 		) {
