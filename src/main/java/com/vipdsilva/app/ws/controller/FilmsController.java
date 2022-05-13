@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -86,6 +87,7 @@ public class FilmsController {
 	}
 
 	@PostMapping
+	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
 	public ResponseEntity<FilmDtoResponseModel> adicionar(@RequestBody FilmDtoRequestModel filmsDetails) {
 
 		FilmDtoResponseModel returnValue = filmService.createFilm(filmsDetails, filmsRepository,
@@ -96,6 +98,7 @@ public class FilmsController {
 
 	@PutMapping(path = "/{filmsId}")
 	@Transactional
+	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
 	public ResponseEntity<FilmDtoResponseModel> atualiza(@PathVariable Integer filmsId,
 			@RequestBody UpdateFilmRequestModel body) {
 
@@ -107,6 +110,7 @@ public class FilmsController {
 
 	@DeleteMapping(path = "/{filmId}")
 	@Transactional
+	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
 	public ResponseEntity<DeleteDtoResponseModel> deleta(@PathVariable Integer filmId) {
 
 

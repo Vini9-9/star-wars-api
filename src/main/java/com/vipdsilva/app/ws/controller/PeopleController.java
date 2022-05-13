@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,7 +66,7 @@ public class PeopleController {
 	@Autowired
 	PeopleService peopleService;
 
-	@GetMapping
+	@GetMapping("/all")
 	@Cacheable(value = "listaDePersonagens")
 	public ResponseEntity<Page<PeopleDtoResponseModel>> listPessoas(
 		@PageableDefault(sort = "name", page = 0, size = 5) Pageable paginacao
@@ -87,7 +88,9 @@ public class PeopleController {
 	}
 
 	@GetMapping("/{peopleId}")
-	public ResponseEntity<PeopleDtoResponseModel> getPessoa(@PathVariable Integer peopleId) {
+	public ResponseEntity<PeopleDtoResponseModel> getPessoa(
+		@PathVariable Integer peopleId
+		) {
 
 		Optional<People> person = peopleRepository.findById(peopleId);
 
@@ -105,6 +108,7 @@ public class PeopleController {
 	}
 
 	@PostMapping
+	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
 	public ResponseEntity<PeopleDtoResponseModel> adicionar(@ModelAttribute People people,
 	@RequestBody PeopleDtoRequestModel peopleDetails) {
 
@@ -117,6 +121,7 @@ public class PeopleController {
 
 	@PutMapping(path = "/{peopleId}")
 	@Transactional
+	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
 	public ResponseEntity<PeopleDtoResponseModel> atualiza(@PathVariable Integer peopleId,
 			@RequestBody UpdatePeopleRequestModel body) {
 				
@@ -129,6 +134,7 @@ public class PeopleController {
 
 	@DeleteMapping(path = "/{peopleId}")
 	@Transactional
+	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
 	public ResponseEntity<DeleteDtoResponseModel> deleta(@PathVariable Integer peopleId) {
 
 
