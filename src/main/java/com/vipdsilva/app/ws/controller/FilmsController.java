@@ -1,15 +1,13 @@
 package com.vipdsilva.app.ws.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vipdsilva.app.ws.repository.FilmsRepository;
@@ -50,14 +47,11 @@ public class FilmsController {
 
 	@GetMapping("/all")
 	public ResponseEntity<Page<FilmDtoResponseModel>> lista(
-		@RequestParam(required = false, defaultValue = "0") int pagina,
-		@RequestParam(required = false, defaultValue = "5") int qtd
-	) {
-
-		Pageable paginacao = PageRequest.of(pagina, qtd);
+		@PageableDefault(sort = "title", page = 0, size = 5) Pageable paginacao
+		) {
 
 		Page<Films> filmes = filmsRepository.findAll(paginacao);
-
+		
 		if (filmes.isEmpty()) {
 			
 			throw new NotFoundException("Nenhum filme cadastrado");

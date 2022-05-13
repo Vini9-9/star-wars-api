@@ -12,10 +12,11 @@ public class FilmDtoResponseModel {
 
 	private Integer id;
 	private String title;
-	private String opening_crawl;
+	private Integer episodeId;
+	private String openingCrawl;
 	private String director;
 	private String producer;
-	private String release_date;
+	private String releaseDate;
 	private Instant created;
 	private Instant edited;
 	private Set<String> characters;
@@ -24,16 +25,25 @@ public class FilmDtoResponseModel {
 	public FilmDtoResponseModel(Films film) {
 		this.id = film.getId();
 		this.title = film.getTitle() ;
-		this.opening_crawl = film.getOpening_crawl();
+		this.episodeId = film.getEpisode_id();
+		this.openingCrawl = film.getOpening_crawl();
 		this.director = film.getDirector();
 		this.producer = film.getProducer();
-		this.release_date = film.getRelease_date();
+		this.releaseDate = film.getRelease_date();
 		this.created = film.getCreated();
 		this.edited = film.getEdited();
 		this.characters = film.getCharactersName();
     }
 
-    public Integer getId() {
+    public Integer getEpisode_id() {
+		return episodeId;
+	}
+
+	public void setEpisode_id(Integer episode_id) {
+		this.episodeId = episode_id;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 	public Set<String> getCharacters() {
@@ -52,10 +62,10 @@ public class FilmDtoResponseModel {
 		this.title = title;
 	}
 	public String getOpening_crawl() {
-		return opening_crawl;
+		return openingCrawl;
 	}
 	public void setOpening_crawl(String opening_crawl) {
-		this.opening_crawl = opening_crawl;
+		this.openingCrawl = opening_crawl;
 	}
 	public String getDirector() {
 		return director;
@@ -70,10 +80,10 @@ public class FilmDtoResponseModel {
 		this.producer = producer;
 	}
 	public String getRelease_date() {
-		return release_date;
+		return releaseDate;
 	}
 	public void setRelease_date(String release_date) {
-		this.release_date = release_date;
+		this.releaseDate = release_date;
 	}
 	public Instant getCreated() {
 		return created;
