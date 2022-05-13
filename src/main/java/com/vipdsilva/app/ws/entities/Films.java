@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,12 +28,12 @@ public class Films {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer episode_id;
+	private Integer episodeId;
 	private String title;
-	private String opening_crawl;
+	private String openingCrawl;
 	private String director;
 	private String producer;
-	private String release_date;
+	private String releaseDate;
 	private Instant created;
 	private Instant edited;
 	
@@ -51,12 +53,12 @@ public class Films {
 	
 	public Films (FilmDtoRequestModel filmReq, PeopleRepository peopleRepository) {
 		this.id = filmReq.getId();
-		this.episode_id = filmReq.getEpisode_id();
+		this.episodeId = filmReq.getEpisode_id();
 		this.title = filmReq.getTitle();
-		this.opening_crawl = filmReq.getOpening_crawl();
+		this.openingCrawl = filmReq.getOpening_crawl();
 		this.director = filmReq.getDirector();
 		this.producer = filmReq.getProducer();
-		this.release_date = filmReq.getRelease_date();
+		this.releaseDate = filmReq.getRelease_date();
 		Set<String> characterReq = filmReq.getCharacters();
 
 		Iterator<String> characterAsIterator = characterReq.iterator();
@@ -99,10 +101,10 @@ public class Films {
 		this.title = title;
 	}
 	public String getOpening_crawl() {
-		return opening_crawl;
+		return openingCrawl;
 	}
 	public void setOpening_crawl(String opening_crawl) {
-		this.opening_crawl = opening_crawl;
+		this.openingCrawl = opening_crawl;
 	}
 	public String getDirector() {
 		return director;
@@ -117,10 +119,10 @@ public class Films {
 		this.producer = producer;
 	}
 	public String getRelease_date() {
-		return release_date;
+		return releaseDate;
 	}
 	public void setRelease_date(String release_date) {
-		this.release_date = release_date;
+		this.releaseDate = release_date;
 	}
 	public Instant getCreated() {
 		return created;
@@ -136,11 +138,11 @@ public class Films {
 	}
 
 	public Integer getEpisode_id() {
-		return episode_id;
+		return episodeId;
 	}
 
 	public void setEpisode_id(Integer episode_id) {
-		this.episode_id = episode_id;
+		this.episodeId = episode_id;
 	}
 	
 	public Set<People> getCharacters() {

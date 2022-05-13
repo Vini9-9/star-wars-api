@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,7 +35,7 @@ public class People {
 	private String name;
 	private Integer height;
 	private Integer mass;
-	private String birth_year;
+	private String birthYear;
 	private Instant created;
 	private Instant edited;
 
@@ -74,7 +75,7 @@ public class People {
 		this.name = peopleReq.getName();
 		this.height = peopleReq.getHeight();
 		this.mass = peopleReq.getMass();
-		this.birth_year = peopleReq.getBirth_year();
+		this.birthYear = peopleReq.getBirth_year();
 		this.gender = genderRepository.findByName(peopleReq.getGender());
 
 		if (this.getCreated() == null) {
@@ -87,17 +88,6 @@ public class People {
 		Set<String> skin_colorReq = peopleReq.getSkin_color();
 		Set<String> hair_colorReq = peopleReq.getHair_color();
 		Set<String> filmsReq = peopleReq.getFilms();
-		
-//		for (int i = 0; i < eye_colorReq.size(); i++) {
-//
-//			EyeColor corOlho = new EyeColor();
-//
-//			Colors color = colorsRepository.findByName(eye_colorReq.get(i));
-//			corOlho.setColor(color);
-//
-//			this.setEyeColor(corOlho);
-//
-//		}
 		
 		Iterator<String> eyeAsIterator = eye_colorReq.iterator();
 		Iterator<String> skinAsIterator = skin_colorReq.iterator();
@@ -182,11 +172,11 @@ public class People {
 	}
 
 	public String getBirth_year() {
-		return birth_year;
+		return birthYear;
 	}
 
 	public void setBirth_year(String birth_year) {
-		this.birth_year = birth_year;
+		this.birthYear = birth_year;
 	}
 
 	public Instant getCreated() {
