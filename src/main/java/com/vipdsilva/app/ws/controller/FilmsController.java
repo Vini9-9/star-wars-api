@@ -50,7 +50,7 @@ public class FilmsController {
 	@GetMapping("/all")
 	@Cacheable(value = "listaDeFilmes")
 	public ResponseEntity<Page<FilmDtoResponseModel>> lista(
-		@PageableDefault(sort = "episodeId", page = 0, size = 5) Pageable paginacao
+		@PageableDefault(sort = "releaseDate", page = 0, size = 5) Pageable paginacao
 		) {
 
 		Page<Films> filmes = filmsRepository.findAll(paginacao);

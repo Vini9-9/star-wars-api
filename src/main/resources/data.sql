@@ -49,6 +49,4 @@ CURRENT_TIMESTAMP),
 'Rick McCallum',
 '2005-05-19',
 CURRENT_TIMESTAMP);
-
-INSERT INTO user (username, email, password) VALUES 
-('suiciniv99', 'vini@email.com', '$2a$10$jgvXb/iREbzekzCKgZivduaPkFweHqp9KVowqUlRc9xHJKDNSGhZe') */
+ */
