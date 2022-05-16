@@ -12,7 +12,8 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
 
  - [X] CRUD Films
  - [X] CRUD People
- - [ ] Relacionamento People e Films 
+ - [X] Relacionamento People e Films 
+ - [X] Autenticação via JWT 
 
 ### MER
 
@@ -51,6 +52,3 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
 |producer| String | Gary Kurtz, Rick McCallum |
 |release_date| String |1977-05-25 |
 |characters| Array of String |["Luke Skywalker","C-3PO"] |
-
-
-

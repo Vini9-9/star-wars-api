@@ -1,5 +1,7 @@
 package com.vipdsilva.app.ws.config.security;
 
+import com.vipdsilva.app.ws.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
@@ -18,6 +21,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
     
     @Autowired
     private AuthenticationService authenticationService;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     //Injeção de dependência no controller
     @Override
@@ -41,7 +50,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
         .antMatchers(HttpMethod.GET, "/api/people/*").permitAll()
         .anyRequest().authenticated()
         .and().csrf().disable()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and().addFilterBefore(new AuthByTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);
     }
 
 }
