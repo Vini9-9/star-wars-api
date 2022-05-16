@@ -30,7 +30,8 @@ public class AuthByTokenFilter extends OncePerRequestFilter {
         
                 String token = getToken(request); 
                 boolean valid = tokenService.isTokenValid(token);
-                System.out.println(valid);
+                System.out.println("Token: " + token);
+                System.out.println("Valido: " + valid);
                 if(valid){
                     authClient(token);
                 }

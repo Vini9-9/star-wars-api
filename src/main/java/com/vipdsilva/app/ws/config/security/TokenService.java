@@ -51,8 +51,8 @@ public class TokenService {
 
 
     public Long getUserId(String token) {
-        Claims claims = (Claims) Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token); 
-        return Long.parseLong(claims.getSubject());
+        Jws<Claims> claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+        return Long.parseLong(claims.getBody().getSubject());
     }
 
 }
