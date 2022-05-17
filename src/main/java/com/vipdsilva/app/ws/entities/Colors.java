@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.vipdsilva.app.ws.model.response.ColorsDtoResponseModel;
+
 @Entity
 @Table(name = "colors")
 public class Colors {
@@ -30,7 +32,13 @@ public class Colors {
 	@OneToMany
 	@JoinColumn(name = "colors_id")
 	private List<HairColor> hairColor;
-	
+
+	public Colors() {
+	}
+
+	public Colors(String name) {
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;
@@ -62,7 +70,9 @@ public class Colors {
 	public void setHairColor(List<HairColor> hairColor) {
 		this.hairColor = hairColor;
 	}
-	
-	
 
+    public ColorsDtoResponseModel toResponseDto() {
+        return new ColorsDtoResponseModel(this);
+    }
+	
 }
