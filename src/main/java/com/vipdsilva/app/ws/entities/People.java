@@ -1,9 +1,7 @@
 package com.vipdsilva.app.ws.entities;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -84,53 +82,43 @@ public class People {
 			this.edited = Instant.now();
 		}
 
-		Set<String> eye_colorReq = peopleReq.getEye_color();
-		Set<String> skin_colorReq = peopleReq.getSkin_color();
-		Set<String> hair_colorReq = peopleReq.getHair_color();
+		String[] arrEye_colorReq = peopleReq.getEye_color().split(",");
+		String[] arrSkin_colorReq = peopleReq.getSkin_color().split(",");
+		String[] arrHair_colorReq = peopleReq.getHair_color().split(",");
+
 		Set<String> filmsReq = peopleReq.getFilms();
-		
-		Iterator<String> eyeAsIterator = eye_colorReq.iterator();
-		Iterator<String> skinAsIterator = skin_colorReq.iterator();
-		Iterator<String> hairAsIterator = hair_colorReq.iterator();
 		Iterator<String> filmsAsIterator = filmsReq.iterator();
-		
-		while (eyeAsIterator.hasNext()) {
+
+		for (String eyeColor : arrEye_colorReq) {
 
 			EyeColor corOlho = new EyeColor();
-
-			Colors color = colorsRepository.findByName(eyeAsIterator.next().toString());
+			Colors color = colorsRepository.findByName(eyeColor.trim());
 			corOlho.setColor(color);
 
 			this.setEyeColor(corOlho);
-
 		}
-		
-		while (skinAsIterator.hasNext()) {
+
+		for (String skinColor : arrSkin_colorReq) {
 
 			SkinColor corPele = new SkinColor();
-
-			Colors color = colorsRepository.findByName(skinAsIterator.next().toString());
+			Colors color = colorsRepository.findByName(skinColor.trim());
 			corPele.setColor(color);
 
 			this.setSkinColor(corPele);
-
 		}
-		
-		while (hairAsIterator.hasNext()) {
+
+		for (String hairColor : arrHair_colorReq) {
 
 			HairColor corCabelo = new HairColor();
-
-			Colors color = colorsRepository.findByName(hairAsIterator.next().toString());
+			Colors color = colorsRepository.findByName(hairColor.trim());
 			corCabelo.setColor(color);
 
 			this.setHairColor(corCabelo);
-
 		}
 		
 		while (filmsAsIterator.hasNext()) {
-			Films film = filmsRepository.findByTitle(filmsAsIterator.next().toString());
+			Films film = filmsRepository.findByTitle(filmsAsIterator.next().toString().trim());
 			this.setFilm(film);
-
 		}
 
 	}

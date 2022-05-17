@@ -46,8 +46,6 @@ public class PeopleServiceImpl implements PeopleService {
 			PeopleRepository peopleRepository, GenderRepository genderRepository,
 			ColorsRepository colorsRepository, FilmsRepository filmsRepository) {
 
-		// Integer peopleId = userReq.getId();
-
 		People peopleUpdated = peopleRepository.findById(peopleId).get();
 
 		peopleUpdated.setEdited(Instant.now());
@@ -57,9 +55,9 @@ public class PeopleServiceImpl implements PeopleService {
 		Integer heightReq = userReq.getHeight();
 		Integer massReq = userReq.getMass();
 		String genderReq = userReq.getGender();
-		Set<String> eye_colorReq = userReq.getEye_color();
-		Set<String> skin_colorReq = userReq.getSkin_color();
-		Set<String> hair_colorReq = userReq.getHair_color();
+		String[] arrEye_colorReq = userReq.getEye_color().split(",");
+		String[] arrSkin_colorReq = userReq.getSkin_color().split(",");
+		String[] arrHair_colorReq = userReq.getHair_color().split(",");
 		Set<String> filmsReq = userReq.getFilms();
 
 		if (nameReq != null && !nameReq.isBlank())
@@ -75,22 +73,6 @@ public class PeopleServiceImpl implements PeopleService {
 			Gender gender = genderRepository.findByName(genderReq);
 			peopleUpdated.setGender(gender);
 		}
-		
-//		if (eye_colorReq != null && !eye_colorReq.isEmpty()) {
-//
-//			EyeColor corOlho = new EyeColor();
-//
-//			for (int i = 0; i < eye_colorReq.size(); i++) {
-//
-//				Colors color = colorsRepository.findByName(eye_colorReq.get(i));
-//				corOlho.setColor(color);
-//
-//				corOlho.setPeople(peopleUpdated);
-//				responseDto.setEye_color(corOlho);
-//
-//			}
-//
-//		}
 
 		if(filmsReq != null) {
 				
@@ -107,61 +89,47 @@ public class PeopleServiceImpl implements PeopleService {
 			}
 		}
 		
-		if(eye_colorReq != null) {
+		if(arrEye_colorReq != null) {
 			
-			Iterator<String> eyeAsIterator = eye_colorReq.iterator();
-			
-			if(eyeAsIterator.hasNext()) {
-				peopleUpdated.clearEyeColor();			
-				EyeColor corOlho = new EyeColor();
-				
-				while (eyeAsIterator.hasNext()){
-		        	
-		        	Colors color = colorsRepository.findByName(eyeAsIterator.next());
-		        	corOlho.setColor(color);
+			peopleUpdated.clearEyeColor();			
+			EyeColor corOlho = new EyeColor();
 
-					peopleUpdated.setEyeColor(corOlho);
+			for (String eyeColor : arrEye_colorReq) {
 
-		        }
+				Colors color = colorsRepository.findByName(eyeColor.trim());
+				corOlho.setColor(color);
+	
+				peopleUpdated.setEyeColor(corOlho);
 			}
 			
 		}
 		
-		if(skin_colorReq != null) {
-		
-			Iterator<String> skinAsIterator = skin_colorReq.iterator();
-					
-			if(skinAsIterator.hasNext()) {
-				peopleUpdated.clearSkinColor();			
-				SkinColor corPele = new SkinColor();
-				
-				while (skinAsIterator.hasNext()){
-		        	
-		        	Colors color = colorsRepository.findByName(skinAsIterator.next());
-		        	corPele.setColor(color);
+		if(arrSkin_colorReq != null) {
+
+			peopleUpdated.clearSkinColor();			
+			SkinColor corPele = new SkinColor();
+
+			for (String skinColor : arrSkin_colorReq) {
+
+				Colors color = colorsRepository.findByName(skinColor.trim());
+				corPele.setColor(color);
 	
-					peopleUpdated.setSkinColor(corPele);
-	
-		        }
+				peopleUpdated.setSkinColor(corPele);
 			}
+		
 		}
 		
-		if(hair_colorReq != null) {
-		
-			Iterator<String> hairAsIterator = hair_colorReq.iterator();
-			
-			if(hairAsIterator.hasNext()) {		
-				peopleUpdated.clearHairColor();	
-				HairColor corCabelo = new HairColor();
-				
-				while (hairAsIterator.hasNext()){
-		        	
-		        	Colors color = colorsRepository.findByName(hairAsIterator.next());
-		        	corCabelo.setColor(color);
+		if(arrHair_colorReq != null) {
+
+			peopleUpdated.clearHairColor();	
+			HairColor corCabelo = new HairColor();
+
+			for (String hairColor : arrHair_colorReq) {
+
+				Colors color = colorsRepository.findByName(hairColor.trim());
+				corCabelo.setColor(color);
 	
-					peopleUpdated.setHairColor(corCabelo);
-	
-		        }
+				peopleUpdated.setHairColor(corCabelo);
 			}
 		
 		}

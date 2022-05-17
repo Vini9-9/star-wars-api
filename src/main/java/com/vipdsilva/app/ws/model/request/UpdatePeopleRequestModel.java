@@ -10,9 +10,9 @@ public class UpdatePeopleRequestModel {
 	private Integer mass;
 	private String birth_year;
 	private String gender;
-	private Set<String> hair_color;
-	private Set<String> skin_color;
-	private Set<String> eye_color;
+	private String hair_color;
+	private String skin_color;
+	private String eye_color;
 	private Set<String> films;
 	
 	
@@ -22,22 +22,22 @@ public class UpdatePeopleRequestModel {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Set<String> getHair_color() {
+	public String getHair_color() {
 		return hair_color;
 	}
-	public void setHair_color(Set<String> hair_color) {
+	public void setHair_color(String hair_color) {
 		this.hair_color = hair_color;
 	}
-	public Set<String> getSkin_color() {
+	public String getSkin_color() {
 		return skin_color;
 	}
-	public void setSkin_color(Set<String> skin_color) {
+	public void setSkin_color(String skin_color) {
 		this.skin_color = skin_color;
 	}
-	public Set<String> getEye_color() {
+	public String getEye_color() {
 		return eye_color;
 	}
-	public void setEye_color(Set<String> eye_color) {
+	public void setEye_color(String eye_color) {
 		this.eye_color = eye_color;
 	}
 	public String getName() {

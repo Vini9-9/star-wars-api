@@ -35,7 +35,6 @@ public class AuthenticationController {
 
             Authentication authentication = authManager.authenticate(dataLogin);
             String token = tokenService.generateToken(authentication);
-            System.out.println("token: " + token);
             return new ResponseEntity<TokenDto>(new TokenDto(token, "Bearer"), HttpStatus.OK);
 
         } catch (AuthenticationException e) {
