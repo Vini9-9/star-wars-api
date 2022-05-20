@@ -32,10 +32,11 @@ public class User implements UserDetails{
     public User() {
     }
 
-    public User(UserRequestModel userInfo) {
+    public User(UserRequestModel userInfo, Profile profileDefault) {
         this.name = userInfo.getName();
         this.email = userInfo.getEmail();
         this.password = userInfo.getPassword();
+        setProfile(profileDefault);
     }
 
     public List<Profile> getProfiles() {

@@ -9,8 +9,11 @@ import com.vipdsilva.app.ws.repository.UserRepository;
 
 public interface UserService {
 
-	UserDtoResponseModel createUser(UserRequestModel userInfo,  UserRepository userRepository);
+	UserDtoResponseModel createUser(UserRequestModel userInfo, 
+	 UserRepository userRepository, ProfileRepository profileRepository);
+
 	void deleteUser(Long userId, UserRepository userRepository);
+	
     UserDtoResponseModel updateProfile(Long userId, List<String> profiles,
 	 UserRepository userRepository, ProfileRepository profileRepository);
 }

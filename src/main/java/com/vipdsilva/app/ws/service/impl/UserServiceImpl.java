@@ -20,11 +20,16 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Override
-    public UserDtoResponseModel createUser(UserRequestModel userInfo, UserRepository userRepository) {
+    public UserDtoResponseModel createUser(UserRequestModel userInfo, 
+    UserRepository userRepository, ProfileRepository profileRepository) {
         String userEmail = userInfo.getEmail();
 
         if(!hasEmail(userEmail, userRepository)){
-            User user = new User(userInfo);
+            
+            Profile profileDefault = profileRepository
+            .findByName("ROLE_USUARIO").get();
+            
+            User user = new User(userInfo, profileDefault);
             userRepository.save(user);
             UserDtoResponseModel response = user.toResponseDto();
             return response;

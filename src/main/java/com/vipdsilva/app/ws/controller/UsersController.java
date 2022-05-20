@@ -45,7 +45,8 @@ public class UsersController {
 	@PostMapping
 	public ResponseEntity<UserDtoResponseModel> addUser(@RequestBody UserRequestModel userInfo) {
 
-		UserDtoResponseModel returnValue = userService.createUser(userInfo, userRepository);
+		UserDtoResponseModel returnValue = userService
+		.createUser(userInfo, userRepository, profileRepository);
 
 		return new ResponseEntity<UserDtoResponseModel>(returnValue, HttpStatus.CREATED);
 	}
