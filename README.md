@@ -16,7 +16,9 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
  - [X] Relacionamento People e Films 
  - [X] Autenticação via JWT
  - [X] Documentação com Swagger 
- - [X] Controle de Cores
+ - [X] CRUD Colors
+ - [X] Controle de usuários
+ - [X] Controle de acesso por perfis
 
 ### MER
 
