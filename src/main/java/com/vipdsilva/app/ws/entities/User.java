@@ -1,7 +1,10 @@
 package com.vipdsilva.app.ws.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -19,18 +22,34 @@ public class User implements UserDetails{
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String username;
+	private String name;
 	private String email;
 	private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Profile> profiles = new HashSet<Profile>();
+    private List<Profile> profiles = new ArrayList<>();
+
+    public List<Profile> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
+    }
 
     public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -42,17 +61,6 @@ public class User implements UserDetails{
 		this.email = email;
 	}
 
-	public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Set<Profile> getProfiles() {
-        return profiles;
-    }
-
-    public void setProfiles(Set<Profile> profiles) {
-        this.profiles = profiles;
-    }
 
     @Override
 	public int hashCode() {
@@ -81,7 +89,8 @@ public class User implements UserDetails{
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        System.out.println("Profile: " + this.profiles.get(0).getAuthority());
+        return this.profiles;
     }
 
     @Override
@@ -91,7 +100,7 @@ public class User implements UserDetails{
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 
     @Override

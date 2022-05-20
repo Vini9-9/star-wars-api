@@ -17,7 +17,7 @@ public class Profile implements GrantedAuthority{
 
     @Override
     public String getAuthority() {
-        return null;
+        return name;
     }
 
     public Long getId() {
