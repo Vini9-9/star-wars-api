@@ -30,7 +30,7 @@ import com.vipdsilva.app.ws.entities.Films;
 import com.vipdsilva.app.ws.exceptions.NotFoundException;
 import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdateFilmRequestModel;
-import com.vipdsilva.app.ws.model.response.DeleteDtoResponseModel;
+import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
 import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
 
 @RestController
@@ -111,7 +111,7 @@ public class FilmsController {
 	@DeleteMapping(path = "/{filmId}")
 	@Transactional
 	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
-	public ResponseEntity<DeleteDtoResponseModel> deleta(@PathVariable Integer filmId) {
+	public ResponseEntity<WarningDtoResponseModel> deleta(@PathVariable Integer filmId) {
 
 
 		Optional<Films> film = filmsRepository.findById(filmId);
@@ -120,9 +120,9 @@ public class FilmsController {
 
 			filmService.deleteFilm(filmId, filmsRepository);
 			
-			DeleteDtoResponseModel responseMsg = new DeleteDtoResponseModel("film com id " + filmId + " deletado com sucesso");
+			WarningDtoResponseModel responseMsg = new WarningDtoResponseModel("film com id " + filmId + " deletado com sucesso");
 
-			return new ResponseEntity<DeleteDtoResponseModel>(responseMsg, HttpStatus.OK);
+			return new ResponseEntity<WarningDtoResponseModel>(responseMsg, HttpStatus.OK);
 
 		} else {
 

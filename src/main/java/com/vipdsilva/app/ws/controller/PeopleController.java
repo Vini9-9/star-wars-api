@@ -32,7 +32,7 @@ import com.vipdsilva.app.ws.entities.People;
 import com.vipdsilva.app.ws.exceptions.NotFoundException;
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdatePeopleRequestModel;
-import com.vipdsilva.app.ws.model.response.DeleteDtoResponseModel;
+import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
 
 @RestController
@@ -129,7 +129,7 @@ public class PeopleController {
 
 	@DeleteMapping(path = "/{peopleId}")
 	@Transactional
-	public ResponseEntity<DeleteDtoResponseModel> deleta(@PathVariable Integer peopleId) {
+	public ResponseEntity<WarningDtoResponseModel> deleta(@PathVariable Integer peopleId) {
 
 
 		Optional<People> person = peopleRepository.findById(peopleId);
@@ -139,9 +139,9 @@ public class PeopleController {
 			peopleService.deletePeople(peopleId, peopleRepository,
 					eyeColorsRepository, hairColorsRepository, skinColorsRepository);
 			
-			DeleteDtoResponseModel responseMsg = new DeleteDtoResponseModel("peopleID: " + peopleId + " deletado com sucesso");
+			WarningDtoResponseModel responseMsg = new WarningDtoResponseModel("peopleID: " + peopleId + " deletado com sucesso");
 
-			return new ResponseEntity<DeleteDtoResponseModel>(responseMsg, HttpStatus.OK);
+			return new ResponseEntity<WarningDtoResponseModel>(responseMsg, HttpStatus.OK);
 
 		} else {
 

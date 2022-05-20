@@ -30,7 +30,7 @@ import com.vipdsilva.app.ws.exceptions.NotFoundException;
 import com.vipdsilva.app.ws.model.request.ColorRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdateColorRequestModel;
 import com.vipdsilva.app.ws.model.response.ColorsDtoResponseModel;
-import com.vipdsilva.app.ws.model.response.DeleteDtoResponseModel;
+import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
 
 @RestController
 @RequestMapping("/api/colors")
@@ -110,14 +110,14 @@ public class ColorsController {
 	@DeleteMapping(path = "/{colorId}")
 	@Transactional
 	@CacheEvict(value = "ColorsList", allEntries = true)
-	public ResponseEntity<DeleteDtoResponseModel> delete(@PathVariable Integer colorId) {
+	public ResponseEntity<WarningDtoResponseModel> delete(@PathVariable Integer colorId) {
 
 		colorService.deleteColor(colorId, colorsRepository);
 
-		DeleteDtoResponseModel responseMsg = 
-		new DeleteDtoResponseModel("colorId " + colorId + " deletado com sucesso");
+		WarningDtoResponseModel responseMsg = 
+		new WarningDtoResponseModel("colorId " + colorId + " deletado com sucesso");
 
-		return new ResponseEntity<DeleteDtoResponseModel>(responseMsg, HttpStatus.OK);
+		return new ResponseEntity<WarningDtoResponseModel>(responseMsg, HttpStatus.OK);
 
 	}
 

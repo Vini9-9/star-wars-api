@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class DeleteDtoResponseModel{
+public class WarningDtoResponseModel{
 	
 	private Map<String, String> warning;
 	
 	
-	public DeleteDtoResponseModel(String msg) {
+	public WarningDtoResponseModel(String msg) {
 		this.warning = new HashMap<>();
 		this.warning.put("message", msg);
 	}
