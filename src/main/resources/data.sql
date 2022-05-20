@@ -2,9 +2,9 @@
 -- as senhas dos usuários são iguais ao username 
 INSERT INTO profile (id, name) VALUES (1 , 'ROLE_ADMIN');
 INSERT INTO profile (id, name) VALUES (2 , 'ROLE_MODERADOR');
-INSERT INTO user (id, email, password, username) VALUES 
+INSERT INTO user (id, email, password, name) VALUES 
 (1 , 'admin@email.com', '$2a$10$b3SAsvh31R4qEzqVGTQVTe0NO9KRrUizlk6hDEV97TSeniCm6Gdkq', 'admin');
-INSERT INTO user (id, email, password, username) VALUES 
+INSERT INTO user (id, email, password, name) VALUES 
 (2 , 'moderador@email.com', '$2a$10$q8WNPPn.6drMLuhWJZ07LeJ11eM2Zmtt6pvR5BtPGybNnw7QR7jZy', 'moderador');
 INSERT INTO user_profiles (user_id, profiles_id) VALUES (1 , 1);
 INSERT INTO user_profiles (user_id, profiles_id) VALUES (2 , 2);
@@ -25,9 +25,9 @@ INSERT INTO people (id, name, height, mass, birth_year, gender_id, created) VALU
 (5, 'Leia Organa', '150','49', '19BBY', '2', CURRENT_TIMESTAMP),
 (6, 'C-3PO', '167', '75', '112BBY', '3', CURRENT_TIMESTAMP);
 
-INSERT INTO eye_color (colors_id, people_id) VALUES (3,6),(3,4),(12,5),(6,1),(4,2);
-INSERT INTO hair_color (colors_id, people_id) VALUES (9,6),(9,4),(12,5),(7,1),(9,2);
-INSERT INTO skin_color (colors_id, people_id) VALUES (10,6),(2,6),(1,4),(14,5),(8,1),(6,2);
+INSERT INTO eye_color (colors_id, people_id) VALUES (3,6),(3,4),(6,1),(4,2);
+INSERT INTO hair_color (colors_id, people_id) VALUES (9,6),(9,4),(7,1),(9,2);
+INSERT INTO skin_color (colors_id, people_id) VALUES (10,6),(2,6),(1,4),(8,1),(6,2);
 
 INSERT INTO films (episode_id, title, opening_crawl, director, producer, release_date, created) VALUES 
 ('4', 'Uma Nova Esperança', 
