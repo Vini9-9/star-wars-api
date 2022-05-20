@@ -109,9 +109,9 @@ public class PeopleDtoResponseModel {
 	}
 
 
-	public void setHair_color(Set<String> hair_color) {
+/* 	public void setHair_color(Set<String> hair_color) {
 		this.hair_color = hair_color;
-	}
+	} */
 
 
 	public Set<String> getSkin_color() {
@@ -119,9 +119,9 @@ public class PeopleDtoResponseModel {
 	}
 
 
-	public void setSkin_color(Set<String> skin_color) {
+/* 	public void setSkin_color(Set<String> skin_color) {
 		this.skin_color = skin_color;
-	}
+	} */
 
 
 	public Set<String> getEye_color() {
@@ -129,9 +129,9 @@ public class PeopleDtoResponseModel {
 	}
 
 
-	public void setEye_color(Set<String> eye_color) {
+/* 	public void setEye_color(Set<String> eye_color) {
 		this.eye_color = eye_color;
-	}
+	} */
 
 
 	public Set<String> getFilms() {
