@@ -38,6 +38,8 @@ public class AuthenticationController {
             return new ResponseEntity<TokenDto>(new TokenDto(token, "Bearer"), HttpStatus.OK);
 
         } catch (AuthenticationException e) {
+            System.out.println("*** ERROR ***");
+            System.out.println(e);
             return ResponseEntity.badRequest().build();
         }
 

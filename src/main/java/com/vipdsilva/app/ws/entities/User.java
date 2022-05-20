@@ -2,10 +2,7 @@ package com.vipdsilva.app.ws.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.vipdsilva.app.ws.model.request.UserRequestModel;
+import com.vipdsilva.app.ws.model.response.UserDtoResponseModel;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +28,15 @@ public class User implements UserDetails{
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles = new ArrayList<>();
+
+    public User() {
+    }
+
+    public User(UserRequestModel userInfo) {
+        this.name = userInfo.getName();
+        this.email = userInfo.getEmail();
+        this.password = userInfo.getPassword();
+    }
 
     public List<Profile> getProfiles() {
         return profiles;
@@ -89,7 +98,6 @@ public class User implements UserDetails{
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println("Profile: " + this.profiles.get(0).getAuthority());
         return this.profiles;
     }
 
@@ -122,6 +130,10 @@ public class User implements UserDetails{
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public UserDtoResponseModel toResponseDto() {
+        return new UserDtoResponseModel(this);
     }
 
 }

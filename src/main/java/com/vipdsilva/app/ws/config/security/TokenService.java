@@ -2,6 +2,8 @@ package com.vipdsilva.app.ws.config.security;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.vipdsilva.app.ws.entities.User;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,7 @@ public class TokenService {
 
         Date today = new Date();
         Date expDate = new Date(today.getTime() + Long.parseLong(expirationTime));
+        System.out.println("generateToken");
         
         return Jwts.builder()
             .setIssuer("API de Star Wars")
@@ -53,6 +56,18 @@ public class TokenService {
     public Long getUserId(String token) {
         Jws<Claims> claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
         return Long.parseLong(claims.getBody().getSubject());
+    }
+
+    public String getToken(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        
+        if(token == null || token.isEmpty() || !token.startsWith("Bearer ")){
+            return null;
+        }
+
+        String justToken = token.replace("Bearer ", "").trim();
+        return justToken;
+
     }
 
 }

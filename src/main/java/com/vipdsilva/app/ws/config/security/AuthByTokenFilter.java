@@ -27,11 +27,9 @@ public class AuthByTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        
-                String token = getToken(request); 
+
+                String token = tokenService.getToken(request); 
                 boolean valid = tokenService.isTokenValid(token);
-                System.out.println("Token: " + token);
-                System.out.println("Valido: " + valid);
                 if(valid){
                     authClient(token);
                 }
@@ -47,15 +45,4 @@ public class AuthByTokenFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    private String getToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        
-        if(token == null || token.isEmpty() || !token.startsWith("Bearer ")){
-            return null;
-        }
-
-        String justToken = token.replace("Bearer ", "").trim();
-        return justToken;
-
-    }
 }
