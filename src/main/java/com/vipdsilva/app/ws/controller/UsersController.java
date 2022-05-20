@@ -1,12 +1,16 @@
 package com.vipdsilva.app.ws.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import com.vipdsilva.app.ws.config.security.TokenService;
+import com.vipdsilva.app.ws.model.request.UpdateUserRequestModel;
 import com.vipdsilva.app.ws.model.request.UserRequestModel;
 import com.vipdsilva.app.ws.model.response.UserDtoResponseModel;
 import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
+import com.vipdsilva.app.ws.repository.ProfileRepository;
 import com.vipdsilva.app.ws.repository.UserRepository;
 import com.vipdsilva.app.ws.service.UserService;
 
@@ -14,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +34,9 @@ public class UsersController {
 	private UserRepository userRepository;
 
 	@Autowired
+	private ProfileRepository profileRepository;
+
+	@Autowired
 	UserService userService;
 
 	@Autowired
@@ -39,6 +48,22 @@ public class UsersController {
 		UserDtoResponseModel returnValue = userService.createUser(userInfo, userRepository);
 
 		return new ResponseEntity<UserDtoResponseModel>(returnValue, HttpStatus.CREATED);
+	}
+
+	@PutMapping(path = "/{userId}")
+	@Transactional
+	public ResponseEntity<UserDtoResponseModel> updateByAdmin(@PathVariable Long userId,
+	HttpServletRequest request, @RequestBody UpdateUserRequestModel body) {
+
+		List<String> profiles = body.getProfiles();
+
+		UserDtoResponseModel returnValue = userService
+		.updateProfile(userId, profiles, userRepository, profileRepository);
+
+		
+
+		return new ResponseEntity<UserDtoResponseModel>(returnValue, HttpStatus.OK);
+
 	}
 
 	@DeleteMapping

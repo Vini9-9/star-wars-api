@@ -136,5 +136,30 @@ public class User implements UserDetails{
         return new UserDtoResponseModel(this);
     }
 
+    public void clearProfiles() {
+        this.profiles = new ArrayList<>();
+    }
+
+    public void setProfile(Profile profile) {
+        this.profiles.add(profile);
+    }
+
+    public List<String> getProfilesName(List<Profile> profiles) {
+        
+        List<String> profilesName = new ArrayList<>();
+        
+        if(!profiles.isEmpty()) {
+
+            for (Profile profile : profiles) {
+
+                profilesName.add(profile.getName());
+
+            }
+
+        }
+        
+        return profilesName;
+    }
+
 }
 
