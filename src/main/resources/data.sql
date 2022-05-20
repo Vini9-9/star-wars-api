@@ -1,16 +1,33 @@
-/* INSERT INTO colors (name) VALUES 
+-- SEGURANÇA
+-- as senhas dos usuários são iguais ao username 
+INSERT INTO profile (id, name) VALUES (1 , 'ROLE_ADMIN');
+INSERT INTO profile (id, name) VALUES (2 , 'ROLE_MODERADOR');
+INSERT INTO user (id, email, password, username) VALUES 
+(1 , 'admin@email.com', '$2a$10$b3SAsvh31R4qEzqVGTQVTe0NO9KRrUizlk6hDEV97TSeniCm6Gdkq', 'admin');
+INSERT INTO user (id, email, password, username) VALUES 
+(2 , 'moderador@email.com', '$2a$10$q8WNPPn.6drMLuhWJZ07LeJ11eM2Zmtt6pvR5BtPGybNnw7QR7jZy', 'moderador');
+INSERT INTO user_profiles (user_id, profiles_id) VALUES (1 , 1);
+INSERT INTO user_profiles (user_id, profiles_id) VALUES (2 , 2);
+
+
+-- DADOS PRINCIPAIS
+INSERT INTO colors (name) VALUES 
 ('branco'),('preto'),('amarelo'),('vermelho'),('verde'),('azul'),('loiro'),('bege claro'),('n/a'),
 ('dourado'),('roxo');
 
 INSERT INTO gender (name) VALUES 
 ('masculino'), ('feminino'), ('n/a');
 
-INSERT INTO people (name, height, mass, birth_year, gender_id, created) VALUES 
-('Luke Skywalker', '172', '77' ,'19BBY', '1', CURRENT_TIMESTAMP),
-('R2-D2', '96', '32', '41.9BBY', '3', CURRENT_TIMESTAMP),
-('C-3PO', '167', '75', '112BBY', '3', CURRENT_TIMESTAMP),
-('Darth Vader', '202','136','41.9BBY', '1', CURRENT_TIMESTAMP),
-('Leia Organa', '150','49', '19BBY', '2', CURRENT_TIMESTAMP);
+INSERT INTO people (id, name, height, mass, birth_year, gender_id, created) VALUES 
+(1, 'Luke Skywalker', '172', '77' ,'19BBY', '1', CURRENT_TIMESTAMP),
+(2, 'R2-D2', '96', '32', '41.9BBY', '3', CURRENT_TIMESTAMP),
+(4, 'Darth Vader', '202','136','41.9BBY', '1', CURRENT_TIMESTAMP),
+(5, 'Leia Organa', '150','49', '19BBY', '2', CURRENT_TIMESTAMP),
+(6, 'C-3PO', '167', '75', '112BBY', '3', CURRENT_TIMESTAMP);
+
+INSERT INTO eye_color (colors_id, people_id) VALUES (3,6),(3,4),(12,5),(6,1),(4,2);
+INSERT INTO hair_color (colors_id, people_id) VALUES (9,6),(9,4),(12,5),(7,1),(9,2);
+INSERT INTO skin_color (colors_id, people_id) VALUES (10,6),(2,6),(1,4),(14,5),(8,1),(6,2);
 
 INSERT INTO films (episode_id, title, opening_crawl, director, producer, release_date, created) VALUES 
 ('4', 'Uma Nova Esperança', 
@@ -49,4 +66,11 @@ CURRENT_TIMESTAMP),
 'Rick McCallum',
 '2005-05-19',
 CURRENT_TIMESTAMP);
- */
+
+-- RELAÇÃO PERSONAGENS E FILMES
+INSERT INTO films_people (people_id, films_id) VALUES 
+(1,1),(1,2),(1,3),(1,6),
+(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),
+(4,1),(4,2),(4,3),(4,6),
+(5,1),(5,2),(5,3),(5,6),
+(6,1),(6,2),(6,3),(6,4),(6,5),(6,6);
