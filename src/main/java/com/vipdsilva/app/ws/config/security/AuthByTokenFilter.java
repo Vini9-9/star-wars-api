@@ -1,6 +1,7 @@
 package com.vipdsilva.app.ws.config.security;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -33,6 +34,7 @@ public class AuthByTokenFilter extends OncePerRequestFilter {
                 if(valid){
                     authClient(token);
                 }
+                response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
                 filterChain.doFilter(request, response);
                 
     }

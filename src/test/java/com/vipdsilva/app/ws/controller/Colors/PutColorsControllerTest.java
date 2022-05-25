@@ -3,13 +3,11 @@ package com.vipdsilva.app.ws.controller.Colors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 
 import com.vipdsilva.app.ws.repository.ColorsRepository;
 import com.vipdsilva.app.ws.service.AuthService;
 import com.vipdsilva.app.ws.service.DataService;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -126,13 +124,9 @@ public class PutColorsControllerTest {
 					.andReturn();
 
 		String jsonMessage =  this.dataService.resultToJson(result).getString("message");
-
 		String messageError = "colorID: " + idInexistingColor + " não localizado";
 
-		byte[] bytes = StringUtils.getBytes(jsonMessage, StandardCharsets.ISO_8859_1);
-		String utf8String = StringUtils.toEncodedString(bytes, StandardCharsets.UTF_8);
-
-		assertEquals(messageError, utf8String);
+		assertEquals(messageError, jsonMessage);
     }
 
 }
