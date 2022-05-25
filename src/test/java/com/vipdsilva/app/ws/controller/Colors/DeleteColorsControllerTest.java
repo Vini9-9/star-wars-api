@@ -44,7 +44,7 @@ public class DeleteColorsControllerTest {
 	@BeforeEach
 	private void initEach() {
 		this.authService = new AuthService(mockMvc);
-		this.dataService = new DataService(mockMvc);
+		this.dataService = new DataService();
    }
 
 	/**
