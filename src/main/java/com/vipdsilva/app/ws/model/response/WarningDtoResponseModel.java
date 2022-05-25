@@ -9,9 +9,11 @@ public class WarningDtoResponseModel{
 	private Map<String, String> warning;
 	
 	
-	public WarningDtoResponseModel(String msg) {
+	public WarningDtoResponseModel(String nameEntity, Integer id) {
 		this.warning = new HashMap<>();
-		this.warning.put("message", msg);
+		this.warning.put(
+			"message", 
+			nameEntity + " com id " + id + " deletado com sucesso");
 	}
 	
 

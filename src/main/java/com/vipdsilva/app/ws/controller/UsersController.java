@@ -77,7 +77,7 @@ public class UsersController {
 		userService.deleteUser(userId, userRepository);
 
 		WarningDtoResponseModel responseMsg = 
-		new WarningDtoResponseModel("userId " + userId + " deletado com sucesso");
+		new WarningDtoResponseModel("Usuário", userId.intValue());
 
 		return new ResponseEntity<WarningDtoResponseModel>(responseMsg, HttpStatus.OK);
 

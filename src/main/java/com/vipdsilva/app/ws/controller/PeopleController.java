@@ -139,7 +139,8 @@ public class PeopleController {
 			peopleService.deletePeople(peopleId, peopleRepository,
 					eyeColorsRepository, hairColorsRepository, skinColorsRepository);
 			
-			WarningDtoResponseModel responseMsg = new WarningDtoResponseModel("peopleID: " + peopleId + " deletado com sucesso");
+			WarningDtoResponseModel responseMsg = new WarningDtoResponseModel(
+				"Pessoa", peopleId);
 
 			return new ResponseEntity<WarningDtoResponseModel>(responseMsg, HttpStatus.OK);
 

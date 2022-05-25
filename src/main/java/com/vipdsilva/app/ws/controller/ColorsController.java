@@ -115,7 +115,7 @@ public class ColorsController {
 		colorService.deleteColor(colorId, colorsRepository);
 
 		WarningDtoResponseModel responseMsg = 
-		new WarningDtoResponseModel("colorId " + colorId + " deletado com sucesso");
+		new WarningDtoResponseModel("Cor", colorId);
 
 		return new ResponseEntity<WarningDtoResponseModel>(responseMsg, HttpStatus.OK);
 

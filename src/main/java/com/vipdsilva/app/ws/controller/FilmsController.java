@@ -113,8 +113,8 @@ public class FilmsController {
 
 			filmService.deleteFilm(filmId, filmsRepository);
 			
-			WarningDtoResponseModel responseMsg = new WarningDtoResponseModel("Filme com id " + 
-			filmId + " deletado com sucesso");
+			WarningDtoResponseModel responseMsg = new WarningDtoResponseModel(
+				"Filme", filmId);
 
 			return new ResponseEntity<WarningDtoResponseModel>(responseMsg, HttpStatus.OK);
 
