@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
+import com.vipdsilva.app.ws.repository.ColorsRepository;
 import com.vipdsilva.app.ws.service.DataService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +35,9 @@ public class GetColorsControllerTest {
 
 	private DataService dataService;
 
+	@Autowired
+	private ColorsRepository colorsRepository;
+
 	@BeforeEach
 	private void initEach() {
 		this.dataService = new DataService();
@@ -54,10 +58,10 @@ public class GetColorsControllerTest {
 				.andReturn();
 		
 		JSONObject json = this.dataService.resultToJson(result);  
-		Integer totalColors = this.dataService.getTotalColors();
-		Integer numberOfElements = json.getInt("numberOfElements");
+		Integer totalColors = (int) colorsRepository.count();
+		Integer totalElements = json.getInt("totalElements");
 				
-		assertEquals(totalColors, numberOfElements);
+		assertEquals(totalColors, totalElements);
 
     }
 

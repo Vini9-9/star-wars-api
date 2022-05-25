@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 
+import com.vipdsilva.app.ws.repository.ColorsRepository;
 import com.vipdsilva.app.ws.service.AuthService;
 import com.vipdsilva.app.ws.service.DataService;
 
@@ -33,6 +34,9 @@ public class DeleteColorsControllerTest {
 
 	@Autowired
     private MockMvc mockMvc;
+
+	@Autowired
+	private ColorsRepository colorsRepository;
 
 	private AuthService authService;
 	private DataService dataService;
@@ -64,7 +68,7 @@ public class DeleteColorsControllerTest {
 	@Test
     public void shouldDeleteAColor() throws Exception {
 
-		Integer totalColorsBefore = this.dataService.getTotalColors();
+		Integer totalColorsBefore = (int) colorsRepository.count();
         
 		String tokenMod = "Bearer " + this.authService.authAsModerador().getString("token");
 
@@ -84,7 +88,7 @@ public class DeleteColorsControllerTest {
 
 		JSONObject json = this.dataService.resultToJson(result); 
 
-		Integer totalColorsAfter = dataService.getTotalColors(); 
+		Integer totalColorsAfter = (int) colorsRepository.count(); 
 		String messageExpected = "colorId " + idEColor + " deletado com sucesso";
 		String messageDelete = json.getJSONObject("warning").getString("message");
 				

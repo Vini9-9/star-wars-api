@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
+import com.vipdsilva.app.ws.repository.ColorsRepository;
 import com.vipdsilva.app.ws.service.AuthService;
 import com.vipdsilva.app.ws.service.DataService;
 
@@ -32,6 +33,9 @@ public class PutColorsControllerTest {
 
 	@Autowired
     private MockMvc mockMvc;
+
+	@Autowired
+	private ColorsRepository colorsRepository;
 
 	private AuthService authService;
 	private DataService dataService;
@@ -71,7 +75,7 @@ public class PutColorsControllerTest {
 		Integer idColorBege = 8;
 		URI uri = new URI("/api/colors/" + idColorBege);
 
-		Integer totalColorsBefore = this.dataService.getTotalColors();
+		Integer totalColorsBefore = (int) colorsRepository.count();
 
 		JSONObject updatedColor = new JSONObject();
 		updatedColor.put("name", "bege");
@@ -88,7 +92,7 @@ public class PutColorsControllerTest {
 				.andReturn();
 		
 		JSONObject json = this.dataService.resultToJson(result);  
-		Integer totalColorsAfter = this.dataService.getTotalColors(); // valor de acordo com o BD
+		Integer totalColorsAfter = (int) colorsRepository.count(); // valor de acordo com o BD
 		String nameUpdated = json.getString("name");
 		Integer idUpdated = json.getInt("id");
 				
