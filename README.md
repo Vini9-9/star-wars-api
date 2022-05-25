@@ -4,10 +4,11 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
 
 
 ### Tecnologias utilizadas:
-* Spring boot
-* Spring data JPA
-* Banco de dados relacional (Mysql)
-* Autenticação via JWT
+* Spring boot;
+* Spring data JPA;
+* Banco de dados: Mysql e H2;
+* Autenticação via JWT;
+* Testes com JUnit 5;
 
 ## Tasks
 
