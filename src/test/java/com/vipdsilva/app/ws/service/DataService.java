@@ -16,7 +16,14 @@ public class DataService {
     @Autowired
     private MockMvc mockMvc;
 
-    /**
+    public DataService() {
+	}
+	
+    public DataService(MockMvc mockMvc2) {
+		this.mockMvc = mockMvc2;
+	}
+
+	/**
 	* Method: GET
 	* Return: JSONObject with all colors data as pageable
 	*/
