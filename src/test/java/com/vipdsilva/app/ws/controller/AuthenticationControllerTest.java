@@ -1,64 +1,73 @@
 package com.vipdsilva.app.ws.controller;
 
-import java.net.URI;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.vipdsilva.app.ws.service.AuthService;
 
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.MvcResult;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest()
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class AuthenticationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    
+
+    private AuthService authService;
+
+	@BeforeEach
+	private void initEach() {
+		this.authService = new AuthService(mockMvc);
+   }
+
+
     @Test
     public void shouldAuthAnUser() throws Exception {
-        URI uri = new URI("/api/auth");
-        JSONObject my_obj = new JSONObject();
+        
+        JSONObject actualJson = this.authService.authAsUser();
 
-		my_obj.put("email", "admin@email.com");
-		my_obj.put("password", "admin");
-
-        mockMvc
-        .perform(MockMvcRequestBuilders
-                .post(uri)
-                .content(my_obj.toString())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers
-				.status()
-				.is(200));
+        assertTrue(actualJson.has("token"));
 
     }
 
     @Test
-    public void shouldNotAuthAnUser() throws Exception {
-        URI uri = new URI("/api/auth");
-        JSONObject my_obj = new JSONObject();
+    public void shouldAuthAnModerador() throws Exception {
+        
+        JSONObject actualJson = this.authService.authAsModerador();
 
-		my_obj.put("email", "user@email.com");
-		my_obj.put("password", "user");
+        assertTrue(actualJson.has("token"));
 
-        mockMvc
-        .perform(MockMvcRequestBuilders
-                .post(uri)
-                .content(my_obj.toString())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers
-				.status()
-				.is(400));
+    }
 
-    } 
+    @Test
+    public void shouldAuthAnAdmin() throws Exception {
+        
+        JSONObject actualJson = this.authService.authAsAdmin();
+
+        assertTrue(actualJson.has("token"));
+
+    }
+
+    @Test
+    public void shouldNotAuthAnInexistingUser() throws Exception {
+
+        MvcResult mvcResult = this.authService
+         .authAsNewUser("teste@email.com", "teste");
+
+        assertEquals(400, mvcResult.getResponse().getStatus());
+
+    }
 }

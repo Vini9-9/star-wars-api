@@ -1,5 +1,5 @@
 -- SEGURANÇA
--- as senhas dos usuários são iguais ao username 
+-- as senhas dos usuários são iguais aos respectivos 'names'
 INSERT INTO profile (id, name) VALUES 
 (1 , 'ROLE_ADMIN'),
 (2 , 'ROLE_MODERADOR'),
@@ -7,10 +7,12 @@ INSERT INTO profile (id, name) VALUES
 
 INSERT INTO user (id, email, password, name) VALUES 
 (1 , 'admin@email.com', '$2a$10$b3SAsvh31R4qEzqVGTQVTe0NO9KRrUizlk6hDEV97TSeniCm6Gdkq', 'admin'),
-(2 , 'moderador@email.com', '$2a$10$q8WNPPn.6drMLuhWJZ07LeJ11eM2Zmtt6pvR5BtPGybNnw7QR7jZy', 'moderador');
+(2 , 'moderador@email.com', '$2a$10$q8WNPPn.6drMLuhWJZ07LeJ11eM2Zmtt6pvR5BtPGybNnw7QR7jZy', 'moderador'),
+(3 , 'usuario@email.com', '$2a$10$hSqqtl7B5wOLwKuyasELJ.ZAv3tZ/rxsoskjK3jhehCO6H9CF1yfa', 'usuario');
 INSERT INTO user_profiles (user_id, profiles_id) VALUES 
 (1 , 1),
-(2 , 2);
+(2 , 2),
+(3 , 3);
 
 -- DADOS PRINCIPAIS
 INSERT INTO colors (name) VALUES 
