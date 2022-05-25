@@ -1,8 +1,6 @@
 package com.vipdsilva.app.ws.controller.Colors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 
@@ -17,14 +15,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.util.NestedServletException;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -102,27 +98,26 @@ public class DeleteColorsControllerTest {
 		
         String tokenMod = "Bearer " + this.authService.authAsModerador().getString("token");
 		
-		URI uri = new URI("/api/colors/");
+		Integer idNEColor = 99;
+		URI uri = new URI("/api/colors/" + idNEColor);
 
-		JSONObject new_color = new JSONObject();
-		new_color.put("name", "azul");
-
-        
-		Exception exception = assertThrows(NestedServletException.class, 
-		() -> { 
-			mockMvc
+         
+		MvcResult result = mockMvc
 			.perform(MockMvcRequestBuilders
-					.post(uri)
-					.header("Authorization", tokenMod)
-					.content(new_color.toString())
-					.contentType(MediaType.APPLICATION_JSON))
+					.delete(uri)
+					.header("Authorization", tokenMod))
+					.andExpect(MockMvcResultMatchers
+					.status()
+					.is(404))
 					.andReturn();
-			}
-		);
+
 		
-		String messageError = "Cor já cadastrada";
-		
-		assertTrue(exception.getMessage().contains(messageError));
+		JSONObject json = this.dataService.resultToJson(result);
+
+		String jsonMessage = json.getString("message");
+		String messageError = "Cor com id " + idNEColor + " não localizada";
+
+		assertEquals(messageError, jsonMessage);
 
     }
 

@@ -3,8 +3,8 @@ package com.vipdsilva.app.ws.service.impl;
 import java.util.Optional;
 
 import com.vipdsilva.app.ws.entities.Colors;
-import com.vipdsilva.app.ws.exceptions.AlreadyExistsException;
-import com.vipdsilva.app.ws.exceptions.NotFoundException;
+import com.vipdsilva.app.ws.exceptions.AlreadyExistsColorException;
+import com.vipdsilva.app.ws.exceptions.NotFoundColorException;
 import com.vipdsilva.app.ws.model.request.ColorRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdateColorRequestModel;
 import com.vipdsilva.app.ws.model.response.ColorsDtoResponseModel;
@@ -28,7 +28,7 @@ public class ColorServiceImpl implements ColorService{
                 return response;
             };
         
-            throw new AlreadyExistsException("Cor já cadastrada");
+            throw new AlreadyExistsColorException("nome");
     }
 
     @Override
@@ -40,14 +40,14 @@ public class ColorServiceImpl implements ColorService{
         if(colorToUpdate.isPresent()){
 
             if(hasColor(userDetails.getName(), colorsRepository)){
-                throw new NotFoundException("Já possui uma cor com esse nome");
+                throw new AlreadyExistsColorException("nome");
             }
 
             colorToUpdate.get().setName(userDetails.getName().trim());
             return colorsRepository.findById(colorId).get().toResponseDto();
 
         } else {
-            throw new NotFoundException("colorID: " + colorId + " não localizado");
+            throw new NotFoundColorException(colorId);
         }
 
     }
@@ -59,7 +59,7 @@ public class ColorServiceImpl implements ColorService{
         if(existColor.isPresent()){
             colorsRepository.deleteById(colorId);
         } else {
-            throw new NotFoundException("colorID: " + colorId + " não localizado");
+            throw new NotFoundColorException(colorId);
         }
         
     }
