@@ -9,4 +9,9 @@ public class NotFoundColorException extends RuntimeException{
 	{
 		super("Cor com id " + colorId + " não localizada");
 	}
+
+	public NotFoundColorException()
+	{
+		super("Nenhuma cor cadastrada");
+	}
 }

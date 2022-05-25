@@ -4,6 +4,16 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.vipdsilva.app.ws.entities.Colors;
+import com.vipdsilva.app.ws.entities.People;
+import com.vipdsilva.app.ws.exceptions.NotFoundColorException;
+import com.vipdsilva.app.ws.model.request.ColorRequestModel;
+import com.vipdsilva.app.ws.model.request.UpdateColorRequestModel;
+import com.vipdsilva.app.ws.model.response.ColorsDtoResponseModel;
+import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
+import com.vipdsilva.app.ws.repository.ColorsRepository;
+import com.vipdsilva.app.ws.service.ColorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,16 +31,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.vipdsilva.app.ws.repository.ColorsRepository;
-import com.vipdsilva.app.ws.service.ColorService;
-import com.vipdsilva.app.ws.entities.Colors;
-import com.vipdsilva.app.ws.entities.People;
-import com.vipdsilva.app.ws.exceptions.NotFoundException;
-import com.vipdsilva.app.ws.model.request.ColorRequestModel;
-import com.vipdsilva.app.ws.model.request.UpdateColorRequestModel;
-import com.vipdsilva.app.ws.model.response.ColorsDtoResponseModel;
-import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
 
 @RestController
 @RequestMapping("/api/colors")
@@ -53,7 +53,7 @@ public class ColorsController {
 		
 		if (colors.isEmpty()) {
 			
-			throw new NotFoundException("Nenhuma cor cadastrada");
+			throw new NotFoundColorException();
 			
 		} else {
 
@@ -79,7 +79,7 @@ public class ColorsController {
 
 		} else {
 			
-			throw new NotFoundException("Cor com id " + colorId + " não localizada");
+			throw new NotFoundColorException(colorId);
 		}
 
 	}
