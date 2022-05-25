@@ -9,4 +9,9 @@ public class NotFoundFilmException extends RuntimeException{
 	{
 		super("Filme com id " + filmId + " não localizado");
 	}
+
+	public NotFoundFilmException()
+	{
+		super("Nenhum filme cadastrado");
+	}
 }

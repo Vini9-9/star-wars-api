@@ -4,9 +4,17 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.vipdsilva.app.ws.entities.Films;
+import com.vipdsilva.app.ws.exceptions.NotFoundFilmException;
+import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
+import com.vipdsilva.app.ws.model.request.UpdateFilmRequestModel;
+import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
+import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
+import com.vipdsilva.app.ws.repository.FilmsRepository;
+import com.vipdsilva.app.ws.repository.PeopleRepository;
+import com.vipdsilva.app.ws.service.FilmService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -20,18 +28,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.vipdsilva.app.ws.repository.FilmsRepository;
-import com.vipdsilva.app.ws.repository.PeopleRepository;
-import com.vipdsilva.app.ws.service.FilmService;
-
-
-import com.vipdsilva.app.ws.entities.Films;
-import com.vipdsilva.app.ws.exceptions.NotFoundException;
-import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
-import com.vipdsilva.app.ws.model.request.UpdateFilmRequestModel;
-import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
-import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
 
 @RestController
 @RequestMapping("/api/films")
@@ -48,16 +44,15 @@ public class FilmsController {
 	FilmService filmService;
 
 	@GetMapping("/all")
-	@Cacheable(value = "listaDeFilmes")
 	public ResponseEntity<Page<FilmDtoResponseModel>> lista(
-		@PageableDefault(sort = "releaseDate", page = 0, size = 5) Pageable paginacao
+		@PageableDefault(sort = "releaseDate", page = 0, size = 10) Pageable paginacao
 		) {
 
 		Page<Films> filmes = filmsRepository.findAll(paginacao);
 		
 		if (filmes.isEmpty()) {
 			
-			throw new NotFoundException("Nenhum filme cadastrado");
+			throw new NotFoundFilmException();
 
 		} else {
 
@@ -68,10 +63,10 @@ public class FilmsController {
 
 	}
 
-	@GetMapping("/{filmsId}")
-	public ResponseEntity<FilmDtoResponseModel> showPerson(@PathVariable Integer filmsId) {
+	@GetMapping("/{filmId}")
+	public ResponseEntity<FilmDtoResponseModel> showPerson(@PathVariable Integer filmId) {
 
-		Optional<Films> film = filmsRepository.findById(filmsId);
+		Optional<Films> film = filmsRepository.findById(filmId);
 
 		if (film.isPresent()) {
 
@@ -81,14 +76,14 @@ public class FilmsController {
 
 		} else {
 			
-			throw new NotFoundException("Filme com id " + filmsId + " não localizado");
+			throw new NotFoundFilmException(filmId);
 		}
 
 	}
 
 	@PostMapping
-	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
-	public ResponseEntity<FilmDtoResponseModel> adicionar(@RequestBody FilmDtoRequestModel filmsDetails) {
+	public ResponseEntity<FilmDtoResponseModel> adicionar(
+		@RequestBody FilmDtoRequestModel filmsDetails) {
 
 		FilmDtoResponseModel returnValue = filmService.createFilm(filmsDetails, filmsRepository,
 		peopleRepository);
@@ -98,7 +93,6 @@ public class FilmsController {
 
 	@PutMapping(path = "/{filmsId}")
 	@Transactional
-	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
 	public ResponseEntity<FilmDtoResponseModel> atualiza(@PathVariable Integer filmsId,
 			@RequestBody UpdateFilmRequestModel body) {
 
@@ -110,7 +104,6 @@ public class FilmsController {
 
 	@DeleteMapping(path = "/{filmId}")
 	@Transactional
-	@CacheEvict(cacheNames = {"listaDePersonagens", "listaDeFilmes"} , allEntries = true)
 	public ResponseEntity<WarningDtoResponseModel> deleta(@PathVariable Integer filmId) {
 
 
@@ -120,13 +113,14 @@ public class FilmsController {
 
 			filmService.deleteFilm(filmId, filmsRepository);
 			
-			WarningDtoResponseModel responseMsg = new WarningDtoResponseModel("film com id " + filmId + " deletado com sucesso");
+			WarningDtoResponseModel responseMsg = new WarningDtoResponseModel("Filme com id " + 
+			filmId + " deletado com sucesso");
 
 			return new ResponseEntity<WarningDtoResponseModel>(responseMsg, HttpStatus.OK);
 
 		} else {
 
-			throw new NotFoundException("filme com id " + filmId + " não localizado");
+			throw new NotFoundFilmException(filmId);
 
 		}
 
