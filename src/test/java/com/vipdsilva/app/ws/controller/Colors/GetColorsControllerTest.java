@@ -54,7 +54,7 @@ public class GetColorsControllerTest {
 				.andReturn();
 		
 		JSONObject json = this.dataService.resultToJson(result);  
-		Integer totalColors = 11; // valor de acordo com o BD
+		Integer totalColors = this.dataService.getTotalColors();
 		Integer numberOfElements = json.getInt("numberOfElements");
 				
 		assertEquals(totalColors, numberOfElements);
