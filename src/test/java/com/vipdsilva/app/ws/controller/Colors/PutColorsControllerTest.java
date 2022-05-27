@@ -124,7 +124,7 @@ public class PutColorsControllerTest {
 					.andReturn();
 
 		String jsonMessage =  this.dataService.resultToJson(result).getString("message");
-		String messageError = "colorID: " + idInexistingColor + " não localizado";
+		String messageError = "Cor com id " + idInexistingColor + " não localizada";
 
 		assertEquals(messageError, jsonMessage);
     }

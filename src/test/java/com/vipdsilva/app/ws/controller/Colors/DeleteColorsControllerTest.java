@@ -88,7 +88,7 @@ public class DeleteColorsControllerTest {
 		JSONObject json = this.dataService.resultToJson(result); 
 
 		Integer totalColorsAfter = (int) colorsRepository.count(); 
-		String messageExpected = "colorId " + idEColor + " deletado com sucesso";
+		String messageExpected = "Cor com id " + idEColor + " deletado com sucesso";
 		String messageDelete = json.getJSONObject("warning").getString("message");
 				
 		assertEquals(totalColorsBefore-1, totalColorsAfter);
@@ -104,19 +104,18 @@ public class DeleteColorsControllerTest {
 		Integer idNEColor = 99;
 		URI uri = new URI("/api/colors/" + idNEColor);
 
-         
-		Exception exception = assertThrows(NestedServletException.class, 
-		() -> { 
-			mockMvc
-			.perform(MockMvcRequestBuilders
-					.delete(uri)
-					.header("Authorization", tokenMod));
-			}
-		);
+		MvcResult result = mockMvc
+		.perform(MockMvcRequestBuilders
+				.delete(uri)
+				.header("Authorization", tokenMod))
+				.andReturn();
+
 
 		String messageError = "Cor com id " + idNEColor + " não localizada";
+
+		JSONObject json = this.dataService.resultToJson(result);
 		
-		assertTrue(exception.getMessage().contains(messageError));
+		assertEquals(json.getString("message"), messageError);
 
     }
 

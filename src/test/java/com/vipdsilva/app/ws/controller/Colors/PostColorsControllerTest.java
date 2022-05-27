@@ -118,7 +118,9 @@ public class PostColorsControllerTest {
 			}
 		);
 		
-		String messageError = "Cor já cadastrada";
+		String messageError = "Já possui uma cor com esse nome";
+
+		System.out.println("exception: " + exception.getMessage());
 		
 		assertTrue(exception.getMessage().contains(messageError));
 
