@@ -1,7 +1,7 @@
 package com.vipdsilva.app.ws.exceptions;
 
 
-public class NotFoundFilmException extends RuntimeException{
+public class NotFoundFilmException extends NotFoundException{
 	
 	private static final long serialVersionUID = 1L;
 

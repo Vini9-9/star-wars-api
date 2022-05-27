@@ -4,6 +4,21 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.vipdsilva.app.ws.entities.People;
+import com.vipdsilva.app.ws.exceptions.NotFoundPeopleException;
+import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
+import com.vipdsilva.app.ws.model.request.UpdatePeopleRequestModel;
+import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
+import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
+import com.vipdsilva.app.ws.repository.ColorsRepository;
+import com.vipdsilva.app.ws.repository.EyeColorsRepository;
+import com.vipdsilva.app.ws.repository.FilmsRepository;
+import com.vipdsilva.app.ws.repository.GenderRepository;
+import com.vipdsilva.app.ws.repository.HairColorsRepository;
+import com.vipdsilva.app.ws.repository.PeopleRepository;
+import com.vipdsilva.app.ws.repository.SkinColorsRepository;
+import com.vipdsilva.app.ws.service.PeopleService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,21 +34,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.vipdsilva.app.ws.repository.ColorsRepository;
-import com.vipdsilva.app.ws.repository.EyeColorsRepository;
-import com.vipdsilva.app.ws.repository.FilmsRepository;
-import com.vipdsilva.app.ws.repository.GenderRepository;
-import com.vipdsilva.app.ws.repository.HairColorsRepository;
-import com.vipdsilva.app.ws.repository.PeopleRepository;
-import com.vipdsilva.app.ws.repository.SkinColorsRepository;
-import com.vipdsilva.app.ws.service.PeopleService;
-import com.vipdsilva.app.ws.entities.People;
-import com.vipdsilva.app.ws.exceptions.NotFoundException;
-import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
-import com.vipdsilva.app.ws.model.request.UpdatePeopleRequestModel;
-import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
-import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
 
 @RestController
 @RequestMapping("/api/people")
@@ -73,7 +73,7 @@ public class PeopleController {
 		
 		if (pessoas.isEmpty()) {
 			
-			throw new NotFoundException("Nenhuma pessoa cadastrada");
+			throw new NotFoundPeopleException();
 			
 		} else {
 
@@ -99,7 +99,7 @@ public class PeopleController {
 
 		} else {
 			
-			throw new NotFoundException("Pessoa com id " + peopleId + " não localizada");
+			throw new NotFoundPeopleException(peopleId);
 		}
 
 	}
@@ -146,7 +146,7 @@ public class PeopleController {
 
 		} else {
 
-			throw new NotFoundException("peopleID: " + peopleId + " não localizado");
+			throw new NotFoundPeopleException(peopleId);
 
 		}
 

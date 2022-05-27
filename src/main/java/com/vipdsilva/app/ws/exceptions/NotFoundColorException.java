@@ -1,7 +1,7 @@
 package com.vipdsilva.app.ws.exceptions;
 
 
-public class NotFoundColorException extends RuntimeException{
+public class NotFoundColorException extends NotFoundException{
 	
 	private static final long serialVersionUID = 1L;
 
