@@ -17,18 +17,19 @@ import org.springframework.stereotype.Service;
 public class ColorServiceImpl implements ColorService{
 
     @Override
-    public ColorsDtoResponseModel createColor(ColorRequestModel colorInfo, ColorsRepository colorsRepository) {
+    public ColorsDtoResponseModel createColor(ColorRequestModel colorInfo,
+     ColorsRepository colorsRepository) {
 
         String colorName = colorInfo.getName();
 
-            if(!hasColor(colorName, colorsRepository)){
-                Colors color = new Colors(colorName);
-                colorsRepository.save(color);
-                ColorsDtoResponseModel response = color.toResponseDto();
-                return response;
-            };
-        
-            throw new AlreadyExistsColorException("nome");
+        if(!hasColor(colorName, colorsRepository)){
+            Colors color = new Colors(colorName);
+            colorsRepository.save(color);
+            ColorsDtoResponseModel response = color.toResponseDto();
+            return response;
+        };
+    
+        throw new AlreadyExistsColorException("nome");
     }
 
     @Override
