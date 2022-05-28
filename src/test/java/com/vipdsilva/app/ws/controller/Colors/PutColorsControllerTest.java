@@ -38,10 +38,19 @@ public class PutColorsControllerTest {
 	private AuthService authService;
 	private DataService dataService;
 
+    private String URL_COLORS;
+	private String newColorName;
+	private Integer idEColor;
+	private Integer idNEColor;
+	
 	@BeforeEach
-	private void initEach() {
+	private void initEach() throws Exception {
 		this.authService = new AuthService(mockMvc);
 		this.dataService = new DataService();
+		this.URL_COLORS = this.dataService.getDataColor().getString("url");
+		this.idEColor = this.dataService.getDataColor().getInt("idEColor");
+		this.idNEColor = this.dataService.getDataColor().getInt("idNEColor");
+		this.newColorName = this.dataService.getDataColor().getString("newColorNamePUT");
    }
 
 	/**
@@ -50,8 +59,7 @@ public class PutColorsControllerTest {
 
 	@Test
     public void shouldNotPutAColorWithoutAuth() throws Exception {
-        Integer idColor = 1;
-		URI uri = new URI("/api/colors/" + idColor);
+		URI uri = new URI(URL_COLORS + idEColor);
 
 		JSONObject updatedColor = new JSONObject();
 		updatedColor.put("name", "laranja");
@@ -70,13 +78,12 @@ public class PutColorsControllerTest {
     public void shouldPutAColor() throws Exception {
         
 		String tokenMod = "Bearer " + this.authService.authAsModerador().getString("token");
-		Integer idColorBege = 8;
-		URI uri = new URI("/api/colors/" + idColorBege);
+		URI uri = new URI(URL_COLORS + idEColor);
 
 		Integer totalColorsBefore = (int) colorsRepository.count();
 
 		JSONObject updatedColor = new JSONObject();
-		updatedColor.put("name", "bege");
+		updatedColor.put("name", newColorName);
 
         MvcResult result = mockMvc
         .perform(MockMvcRequestBuilders
@@ -95,7 +102,7 @@ public class PutColorsControllerTest {
 		Integer idUpdated = json.getInt("id");
 				
 		assertEquals(totalColorsBefore, totalColorsAfter);
-		assertEquals(idColorBege, idUpdated);
+		assertEquals(idEColor, idUpdated);
 		assertEquals(updatedColor.getString("name"), nameUpdated);
 
     }
@@ -105,8 +112,7 @@ public class PutColorsControllerTest {
 		
         String tokenMod = "Bearer " + this.authService.authAsModerador().getString("token");
 		
-		Integer idInexistingColor = 99;
-		URI uri = new URI("/api/colors/" + idInexistingColor);
+		URI uri = new URI(URL_COLORS + idNEColor);
 
 		JSONObject new_color = new JSONObject();
 		new_color.put("name", "verde lima");
@@ -124,7 +130,7 @@ public class PutColorsControllerTest {
 					.andReturn();
 
 		String jsonMessage =  this.dataService.resultToJson(result).getString("message");
-		String messageError = "Cor com id " + idInexistingColor + " não localizada";
+		String messageError = "Cor com id " + idNEColor + " não localizada";
 
 		assertEquals(messageError, jsonMessage);
     }

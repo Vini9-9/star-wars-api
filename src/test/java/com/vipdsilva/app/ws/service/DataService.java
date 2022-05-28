@@ -37,6 +37,20 @@ public class DataService {
 		return data_film;
 
 	}
+	
+	public JSONObject getDataColor() throws Exception {
+		JSONObject data_color = new JSONObject();
+
+		data_color.put("url", "/api/colors/");
+		data_color.put("idEColor", 1);
+		data_color.put("nameEColor", "branco");
+		data_color.put("idNEColor", 99);
+		data_color.put("newColorNamePOST", "Laranja");
+		data_color.put("newColorNamePUT", "verde limão");
+
+		return data_color;
+
+	}
 
 	public JSONObject resultToJson(MvcResult result) throws Exception {
 		String responseString = result.getResponse().getContentAsString();

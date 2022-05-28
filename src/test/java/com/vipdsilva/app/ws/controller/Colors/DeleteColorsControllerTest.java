@@ -37,10 +37,17 @@ public class DeleteColorsControllerTest {
 	private AuthService authService;
 	private DataService dataService;
 
+	private String URL_COLORS;
+	private Integer idEColor;
+	private Integer idNEColor;
+	
 	@BeforeEach
-	private void initEach() {
+	private void initEach() throws Exception {
 		this.authService = new AuthService(mockMvc);
 		this.dataService = new DataService();
+		this.URL_COLORS = this.dataService.getDataColor().getString("url");
+		this.idEColor = this.dataService.getDataColor().getInt("idEColor");
+		this.idNEColor = this.dataService.getDataColor().getInt("idNEColor");
    }
 
 	/**
@@ -49,9 +56,8 @@ public class DeleteColorsControllerTest {
 
 	@Test
     public void shouldNotDeleteAColorWithoutAuth() throws Exception {
-		Integer idEColor = 1;
 
-        URI uri = new URI("/api/colors/" + idEColor);
+        URI uri = new URI(URL_COLORS + idEColor);
 
        mockMvc
         .perform(MockMvcRequestBuilders
@@ -68,9 +74,7 @@ public class DeleteColorsControllerTest {
         
 		String tokenMod = "Bearer " + this.authService.authAsModerador().getString("token");
 
-		Integer idEColor = 1;
-
-        URI uri = new URI("/api/colors/" + idEColor);
+        URI uri = new URI(URL_COLORS + idEColor);
 
         MvcResult result = mockMvc
         .perform(MockMvcRequestBuilders
@@ -98,8 +102,7 @@ public class DeleteColorsControllerTest {
 		
         String tokenMod = "Bearer " + this.authService.authAsModerador().getString("token");
 		
-		Integer idNEColor = 99;
-		URI uri = new URI("/api/colors/" + idNEColor);
+		URI uri = new URI(URL_COLORS + idNEColor);
 
 		MvcResult result = mockMvc
 		.perform(MockMvcRequestBuilders

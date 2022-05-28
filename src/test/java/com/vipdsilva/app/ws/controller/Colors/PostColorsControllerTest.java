@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 
+import com.vipdsilva.app.ws.repository.ColorsRepository;
 import com.vipdsilva.app.ws.service.AuthService;
 import com.vipdsilva.app.ws.service.DataService;
 
@@ -34,13 +35,23 @@ public class PostColorsControllerTest {
 	@Autowired
     private MockMvc mockMvc;
 
+	@Autowired
+	private ColorsRepository colorsRepository;
+
 	private AuthService authService;
 	private DataService dataService;
 
+	private String URL_COLORS;
+	private String newColorName;
+	private String nameColor;
+	
 	@BeforeEach
-	private void initEach() {
+	private void initEach() throws Exception {
 		this.authService = new AuthService(mockMvc);
 		this.dataService = new DataService();
+		this.URL_COLORS = this.dataService.getDataColor().getString("url");
+		this.newColorName = this.dataService.getDataColor().getString("newColorNamePOST");
+		this.nameColor = this.dataService.getDataColor().getString("nameEColor");
    }
 
 	/**
@@ -49,10 +60,10 @@ public class PostColorsControllerTest {
 
 	@Test
     public void shouldNotPostAColorWithoutAuth() throws Exception {
-        URI uri = new URI("/api/colors/");
+        URI uri = new URI(URL_COLORS);
 
 		JSONObject new_color = new JSONObject();
-		new_color.put("name", "laranja");
+		new_color.put("name", newColorName);
 
        mockMvc
         .perform(MockMvcRequestBuilders
@@ -69,10 +80,12 @@ public class PostColorsControllerTest {
         
 		String tokenMod = "Bearer " + this.authService.authAsModerador().getString("token");
 		
-		URI uri = new URI("/api/colors/");
+		URI uri = new URI(URL_COLORS);
 
 		JSONObject new_color = new JSONObject();
-		new_color.put("name", "laranja");
+		new_color.put("name", newColorName);
+
+		Integer totalColorsBefore = (int) colorsRepository.count();
 
         MvcResult result = mockMvc
         .perform(MockMvcRequestBuilders
@@ -86,11 +99,10 @@ public class PostColorsControllerTest {
 				.andReturn();
 		
 		JSONObject json = this.dataService.resultToJson(result);  
-		Integer totalColors = 12; // valor de acordo com o BD
-		Integer newId = json.getInt("id");
+		Integer totalColorsAfter = (int) colorsRepository.count();
 		String newName = json.getString("name");
 				
-		assertEquals(totalColors, newId);
+		assertEquals(totalColorsBefore+1, totalColorsAfter);
 		assertEquals(new_color.getString("name"), newName);
 
     }
@@ -103,7 +115,7 @@ public class PostColorsControllerTest {
 		URI uri = new URI("/api/colors/");
 
 		JSONObject new_color = new JSONObject();
-		new_color.put("name", "azul");
+		new_color.put("name", nameColor);
 
         
 		Exception exception = assertThrows(NestedServletException.class, 

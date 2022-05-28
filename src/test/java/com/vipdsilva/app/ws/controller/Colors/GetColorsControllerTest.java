@@ -36,16 +36,25 @@ public class GetColorsControllerTest {
 	@Autowired
 	private ColorsRepository colorsRepository;
 
+	private String URL_COLORS;
+	private String nameColor;
+	private Integer idEColor;
+	private Integer idNEColor;
+	
 	@BeforeEach
-	private void initEach() {
+	private void initEach() throws Exception {
 		this.dataService = new DataService();
+		this.URL_COLORS = this.dataService.getDataColor().getString("url");
+		this.idEColor = this.dataService.getDataColor().getInt("idEColor");
+		this.idNEColor = this.dataService.getDataColor().getInt("idNEColor");
+		this.nameColor = this.dataService.getDataColor().getString("nameEColor");
    }
 	/**
 	* Method: GET
 	*/ 
 	@Test
     public void shouldGetAllColors() throws Exception {
-        URI uri = new URI("/api/colors/");
+        URI uri = new URI(URL_COLORS);
 
         MvcResult result = mockMvc
         .perform(MockMvcRequestBuilders
@@ -66,10 +75,8 @@ public class GetColorsControllerTest {
 
 	@Test
     public void shouldGetAColor() throws Exception {
-		Integer idColor = 6;
-		String nameColor = "azul";
 
-        URI uri = new URI("/api/colors/" + idColor);
+        URI uri = new URI(URL_COLORS + idEColor);
 
         MvcResult result = mockMvc
         .perform(MockMvcRequestBuilders
@@ -87,16 +94,15 @@ public class GetColorsControllerTest {
 		Integer jsonId = json.getInt("id");
 		String jsonName = json.getString("name");
 				
-		assertEquals(idColor, jsonId);
+		assertEquals(idEColor, jsonId);
 		assertEquals(nameColor, jsonName);
 
     }
 
 	@Test
     public void shouldNotFindAColor() throws Exception {
-		Integer idNEColor = 99;
 
-        URI uri = new URI("/api/colors/" + idNEColor);
+        URI uri = new URI(URL_COLORS + idNEColor);
 
         MvcResult result = mockMvc
         .perform(MockMvcRequestBuilders
