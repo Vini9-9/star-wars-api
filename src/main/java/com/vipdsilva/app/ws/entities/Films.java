@@ -51,28 +51,8 @@ public class Films {
 	}
 	
 	public Films (FilmDtoRequestModel filmReq, PeopleRepository peopleRepository) {
-		this.id = filmReq.getId();
-		this.episodeId = filmReq.getEpisode_id();
-		this.title = filmReq.getTitle();
-		this.openingCrawl = filmReq.getOpening_crawl();
-		this.director = filmReq.getDirector();
-		this.producer = filmReq.getProducer();
-		this.releaseDate = filmReq.getRelease_date();
-		Set<String> characterReq = filmReq.getCharacters();
-
-		Iterator<String> characterAsIterator = characterReq.iterator();
-
-		while (characterAsIterator.hasNext()) {
-			People character = peopleRepository.findByName(characterAsIterator.next().toString());
-			this.setCharacter(character);
-
-		}
-		
-		if(this.getCreated() == null) {
-			this.created = Instant.now();
-		} else {
-			this.edited = Instant.now();
-		}
+		fillRequestNecessaryData(filmReq);
+		fillRequestOptionalData(filmReq, peopleRepository);
 	}
 
 	public FilmDtoResponseModel toResponseDto() {
@@ -84,7 +64,6 @@ public class Films {
 			this.characters = new HashSet<People>();
 		} 
 		this.characters.add(character);
-	
 	}
 
 	public Integer getId() {
@@ -156,9 +135,7 @@ public class Films {
 		while (peopleAsIterator.hasNext()) {
 			nomes.add(peopleAsIterator.next().getName());
 		}
-
 		return nomes;
-		
 	}
 
 	public void setCharacters(Set<People> characters) {
@@ -168,6 +145,41 @@ public class Films {
     public void clearCharacters() {
 		this.characters = new HashSet<People>();
     }
+
+	public void fillRequestNecessaryData(FilmDtoRequestModel filmReq) {
+
+		this.id = filmReq.getId();
+		if(filmReq.getTitle() != null) this.title = filmReq.getTitle();
+		if(filmReq.getDirector() != null) this.director = filmReq.getDirector();
+		if(filmReq.getProducer() != null) this.producer = filmReq.getProducer();
+		if(filmReq.getRelease_date() != null) this.releaseDate = filmReq.getRelease_date();
+
+		if(this.getCreated() == null) {
+			this.created = Instant.now();
+		} else {
+			this.edited = Instant.now();
+		}
+
+	}
+
+	public void fillRequestOptionalData(FilmDtoRequestModel filmReq,
+	 PeopleRepository peopleRepository) {
+
+		if(filmReq.getEpisode_id() != null) this.episodeId = filmReq.getEpisode_id();
+		if(filmReq.getOpening_crawl() != null) this.openingCrawl = filmReq.getOpening_crawl();
+
+		if(filmReq.getCharacters() != null) {
+			Set<String> characterReq = filmReq.getCharacters();
+			Iterator<String> characterAsIterator = characterReq.iterator();
+
+			while (characterAsIterator.hasNext()) {
+				People character = peopleRepository
+				 .findByName(characterAsIterator.next().toString());
+				this.setCharacter(character);
+			}
+		}
+
+	}
 	
 }
 
