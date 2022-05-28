@@ -2,12 +2,15 @@ package com.vipdsilva.app.ws.service.impl;
 
 import java.time.Instant;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.vipdsilva.app.ws.entities.Films;
 import com.vipdsilva.app.ws.entities.People;
+import com.vipdsilva.app.ws.exceptions.AlreadyExistsFilmException;
+import com.vipdsilva.app.ws.exceptions.NotFoundFilmException;
 import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdateFilmRequestModel;
 import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
@@ -19,74 +22,90 @@ import com.vipdsilva.app.ws.service.FilmService;
 public class FilmServiceImpl implements FilmService {
 
 	@Override
-	public FilmDtoResponseModel createFilm(FilmDtoRequestModel FilmReq, FilmsRepository filmsRepository,
-	 PeopleRepository peopleRepository) {
+	public FilmDtoResponseModel createFilm(FilmDtoRequestModel FilmReq, 
+	 FilmsRepository filmsRepository, PeopleRepository peopleRepository) {
 		
-		Films film = new Films(FilmReq, peopleRepository);
+		String titleName = FilmReq.getTitle();
+
+		if(!hasFilm(titleName, filmsRepository)){
+
+			Films film = new Films(FilmReq, peopleRepository);
+			
+			filmsRepository.save(film);
+			FilmDtoResponseModel response = film.toResponseDto();
+			
+			return response;
+		}
 	
-		filmsRepository.save(film);
-		FilmDtoResponseModel response = film.toResponseDto();
+		throw new AlreadyExistsFilmException("title");
 		
-		return response;
 	}
 
 	@Override
-	public FilmDtoResponseModel updateFilm(Integer FilmId, UpdateFilmRequestModel userReq,
+	public FilmDtoResponseModel updateFilm(Integer filmId, UpdateFilmRequestModel userReq,
 			FilmsRepository filmsRepository, PeopleRepository peopleRepository) {
 
-		Films FilmUpdated = filmsRepository.findById(FilmId).get();
-		
-		FilmUpdated.setEdited(Instant.now());
-		
-		Integer episode_idReq = userReq.getEpisode_id();
-		String titleReq = userReq.getTitle();
-		String opening_crawlReq = userReq.getOpening_crawl();
-		String directorReq = userReq.getDirector();
-		String producerReq = userReq.getProducer();
-		String release_dateReq = userReq.getRelease_date();
-		Set<String> characterReq = userReq.getCharacters();
-		
-		
-		if (episode_idReq != null && !episode_idReq.toString().isBlank()) FilmUpdated.setTitle(titleReq);
-		if (titleReq != null && !titleReq.isBlank()) FilmUpdated.setTitle(titleReq);
-		if (opening_crawlReq != null && !opening_crawlReq.isBlank()) FilmUpdated.setOpening_crawl(opening_crawlReq);
-		if (directorReq != null && !directorReq.isBlank()) FilmUpdated.setDirector(directorReq);
-		if (producerReq != null && !producerReq.isBlank()) FilmUpdated.setProducer(producerReq);
-		if (release_dateReq != null && !release_dateReq.isBlank()) FilmUpdated.setRelease_date(release_dateReq);
+		Optional<Films> optFilm = filmsRepository.findById(filmId);
 
-		if(characterReq != null) {
-				
-			Iterator<String> characterAsIterator = characterReq.iterator();
-					
-			if(characterAsIterator.hasNext()) {			
-				FilmUpdated.clearCharacters();
-				while (characterAsIterator.hasNext()){
-					
-					People person = peopleRepository.findByName(characterAsIterator.next().toString());
-					FilmUpdated.setCharacter(person);
+        if(optFilm.isPresent()){
 
+			Films filmUpdated = optFilm.get();
+			filmUpdated.setEdited(Instant.now());
+			
+			Integer episode_idReq = userReq.getEpisode_id();
+			String titleReq = userReq.getTitle();
+			String opening_crawlReq = userReq.getOpening_crawl();
+			String directorReq = userReq.getDirector();
+			String producerReq = userReq.getProducer();
+			String release_dateReq = userReq.getRelease_date();
+			Set<String> characterReq = userReq.getCharacters();
+			
+			if (episode_idReq != null && !episode_idReq.toString().isBlank()) filmUpdated.setTitle(titleReq);
+			if (titleReq != null && !titleReq.isBlank()) filmUpdated.setTitle(titleReq);
+			if (opening_crawlReq != null && !opening_crawlReq.isBlank()) filmUpdated.setOpening_crawl(opening_crawlReq);
+			if (directorReq != null && !directorReq.isBlank()) filmUpdated.setDirector(directorReq);
+			if (producerReq != null && !producerReq.isBlank()) filmUpdated.setProducer(producerReq);
+			if (release_dateReq != null && !release_dateReq.isBlank()) filmUpdated.setRelease_date(release_dateReq);
+
+			if(characterReq != null) {
+					
+				Iterator<String> characterAsIterator = characterReq.iterator();
+						
+				if(characterAsIterator.hasNext()) {			
+					filmUpdated.clearCharacters();
+					while (characterAsIterator.hasNext()){
+						People person = peopleRepository.findByName(characterAsIterator.next().toString());
+						filmUpdated.setCharacter(person);
+					}
 				}
 			}
-		}
 
-		
-		FilmDtoResponseModel response = FilmUpdated.toResponseDto();
-		
-		return response;
+			FilmDtoResponseModel response = filmUpdated.toResponseDto();
+			return response;
+
+		} else {
+			throw new NotFoundFilmException(filmId);
+		}
 		
 	}
 
 
 	@Override
-	public void deleteFilm(Integer FilmId, FilmsRepository filmsRepository) {
+	public void deleteFilm(Integer filmId, FilmsRepository filmsRepository) {
 		
-		Films filmDeleted = filmsRepository.findById(FilmId).get();
+		Optional<Films> filmDeleted = filmsRepository.findById(filmId);
 
-		filmDeleted.clearCharacters();
-		filmsRepository.deleteById(FilmId);
-		
+		if(filmDeleted.isPresent()){
+            filmDeleted.get().clearCharacters();
+			filmsRepository.deleteById(filmId);
+        } else {
+            throw new NotFoundFilmException(filmId);
+        }
+
 	}
 	
-	
+	public boolean hasFilm (String filmTitle, FilmsRepository filmsRepository) {
+        return filmsRepository.findByTitle(filmTitle) != null;
+    }
 
 }
