@@ -54,7 +54,7 @@ public class PutColorsControllerTest {
    }
 
 	/**
-	* Method: POST
+	* Method: PUT
 	*/
 
 	@Test

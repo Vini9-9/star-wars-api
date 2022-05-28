@@ -52,7 +52,7 @@ public class PutFilmsControllerTest {
    }
 
 	/**
-	* Method: POST
+	* Method: PUT
 	*/
 
 	@Test
