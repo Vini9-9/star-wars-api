@@ -1,7 +1,6 @@
 package com.vipdsilva.app.ws.service;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -22,6 +21,58 @@ public class DataService {
 		 "Kathleen Kennedy, Allison Shearmur, Simon Emanuel");
 		new_film.put("release_date", "2018-05-25");
 		new_film.put("characters", arrCharacters);
+
+		return new_film;
+	}
+
+	public JSONObject getNewPeople() throws Exception{
+
+		String[] listFilms = {
+			"A Ameaça Fantasma",
+			"A Vingança dos Sith",
+			"O império Contra-ataca",
+			"O retorno de Jedi",
+			"Uma Nova Esperança",
+			"Ataque dos Clones"
+		};
+		JSONArray arrFilms = new JSONArray(listFilms);
+
+		JSONObject new_film = new JSONObject();
+		new_film.put("name", "Obi-Wan Kenobi");
+		new_film.put("birth_year", "57BBY");
+		new_film.put("height", 182);
+		new_film.put("mass", 77);
+		new_film.put("hair_color", "preto");
+		new_film.put("skin_color", "branco");
+		new_film.put("eye_color", "azul");
+		new_film.put("gender", "masculino");
+		new_film.put("films", arrFilms);
+
+		return new_film;
+	}
+
+	public JSONObject getNewEPeople() throws Exception{
+
+		String[] listFilms = {
+			"A Ameaça Fantasma",
+			"A Vingança dos Sith",
+			"O império Contra-ataca",
+			"O retorno de Jedi",
+			"Uma Nova Esperança",
+			"Ataque dos Clones"
+		};
+		JSONArray arrFilms = new JSONArray(listFilms);
+
+		JSONObject new_film = new JSONObject();
+		new_film.put("name", "Luke Skywalker");
+		new_film.put("birth_year", "57BBY");
+		new_film.put("height", 182);
+		new_film.put("mass", 77);
+		new_film.put("hair_color", "preto");
+		new_film.put("skin_color", "branco");
+		new_film.put("eye_color", "azul");
+		new_film.put("gender", "masculino");
+		new_film.put("films", arrFilms);
 
 		return new_film;
 	}
@@ -49,6 +100,20 @@ public class DataService {
 		data_color.put("newColorNamePUT", "verde limão");
 
 		return data_color;
+
+	}
+
+	public JSONObject getDataPeople() throws Exception {
+		JSONObject data_people = new JSONObject();
+
+		data_people.put("url", "/api/people/");
+		data_people.put("idEPeople", 1);
+		data_people.put("nameEPeople", "Luke Skywalker");
+		data_people.put("idNEPeople", 99);
+		data_people.put("newPeopleNamePOST", "Neymar");
+		data_people.put("newPeopleNamePUT", "Cristiano");
+
+		return data_people;
 
 	}
 
