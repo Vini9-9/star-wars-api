@@ -1,4 +1,4 @@
-package com.vipdsilva.app.ws.service;
+package com.vipdsilva.app.ws.controller.service;
 
 import java.net.URI;
 

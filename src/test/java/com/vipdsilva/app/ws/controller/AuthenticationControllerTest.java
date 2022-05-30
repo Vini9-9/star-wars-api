@@ -3,7 +3,7 @@ package com.vipdsilva.app.ws.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.vipdsilva.app.ws.service.AuthService;
+import com.vipdsilva.app.ws.controller.service.AuthService;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;

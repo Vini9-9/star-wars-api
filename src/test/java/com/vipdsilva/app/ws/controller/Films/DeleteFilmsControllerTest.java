@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URI;
 
+import com.vipdsilva.app.ws.controller.service.AuthService;
+import com.vipdsilva.app.ws.controller.service.DataService;
 import com.vipdsilva.app.ws.repository.FilmsRepository;
-import com.vipdsilva.app.ws.service.AuthService;
-import com.vipdsilva.app.ws.service.DataService;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +46,7 @@ public class DeleteFilmsControllerTest {
 		this.authService = new AuthService(mockMvc);
 		this.dataService = new DataService();
 		this.URL_FILMS = this.dataService.getDataFilm().getString("url");
-		this.idEFilm = this.dataService.getDataFilm().getInt("idEFilm");
+		this.idEFilm = this.dataService.getDataFilm().getInt("idEFilmDELETE");
 		this.idNEFilm = this.dataService.getDataFilm().getInt("idNEFilm");
    }
 

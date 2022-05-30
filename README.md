@@ -9,6 +9,7 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
 * Banco de dados: Mysql e H2;
 * Autenticação via JWT;
 * Testes com JUnit 5;
+* Mocks com Mockito;
 
 ## Tasks
 
@@ -21,9 +22,9 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
  - [X] Controle de usuários
  - [X] Controle de acesso por perfis
  - [X] Segregação de ambientes
- - [X] Testes repository
- - [X] Testes controller
+ - [X] Testes de integração
  - [X] Validações de atributos obrigatórios
+ - [ ] Testes de unidade
 
 ### MER
 

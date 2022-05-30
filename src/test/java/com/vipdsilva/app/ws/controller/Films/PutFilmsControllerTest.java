@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URI;
 
+import com.vipdsilva.app.ws.controller.service.AuthService;
+import com.vipdsilva.app.ws.controller.service.DataService;
 import com.vipdsilva.app.ws.repository.FilmsRepository;
-import com.vipdsilva.app.ws.service.AuthService;
-import com.vipdsilva.app.ws.service.DataService;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;

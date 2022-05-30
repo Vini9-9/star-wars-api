@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URI;
 
+import com.vipdsilva.app.ws.controller.service.DataService;
 import com.vipdsilva.app.ws.repository.FilmsRepository;
-import com.vipdsilva.app.ws.service.DataService;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,8 +45,8 @@ public class GetFilmsControllerTest {
 	private void initEach() throws Exception {
 		this.dataService = new DataService();
 		this.URL_FILMS = this.dataService.getDataFilm().getString("url");
-		this.idEFilm = this.dataService.getDataFilm().getInt("idEFilm");
-		this.titleFilm = this.dataService.getDataFilm().getString("titleEFilm");
+		this.idEFilm = this.dataService.getDataFilm().getInt("idEFilmGET");
+		this.titleFilm = this.dataService.getDataFilm().getString("titleEFilmGET");
 		this.idNEFilm = this.dataService.getDataFilm().getInt("idNEFilm");
    }
 

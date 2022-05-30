@@ -1,4 +1,4 @@
-package com.vipdsilva.app.ws.service;
+package com.vipdsilva.app.ws.controller.service;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -81,8 +81,11 @@ public class DataService {
 		JSONObject data_film = new JSONObject();
 
 		data_film.put("url", "/api/films/");
+		data_film.put("idEFilmGET", 3);
+		data_film.put("idEFilmDELETE", 2);
 		data_film.put("idEFilm", 1);
 		data_film.put("titleEFilm", "Uma Nova Esperança");
+		data_film.put("titleEFilmGET", "O retorno de Jedi");
 		data_film.put("idNEFilm", 99);
 
 		return data_film;
@@ -108,6 +111,7 @@ public class DataService {
 
 		data_people.put("url", "/api/people/");
 		data_people.put("idEPeople", 1);
+		data_people.put("idEPeopleDELETE", 2);
 		data_people.put("nameEPeople", "Luke Skywalker");
 		data_people.put("idNEPeople", 99);
 		data_people.put("newPeopleNamePOST", "Neymar");

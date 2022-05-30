@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 
+import com.vipdsilva.app.ws.controller.service.AuthService;
+import com.vipdsilva.app.ws.controller.service.DataService;
 import com.vipdsilva.app.ws.repository.FilmsRepository;
-import com.vipdsilva.app.ws.service.AuthService;
-import com.vipdsilva.app.ws.service.DataService;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +49,7 @@ public class PostFilmsControllerTest {
 		this.authService = new AuthService(mockMvc);
 		this.dataService = new DataService();
 		this.URL_FILMS = this.dataService.getDataFilm().getString("url");
-		this.titleFilm = this.dataService.getDataFilm().getString("titleEFilm");
+		this.titleFilm = this.dataService.getDataFilm().getString("titleEFilmGET");
    }
 
 	/**
@@ -128,7 +128,7 @@ public class PostFilmsControllerTest {
 		);
 		
 		String messageError = "Já possui um filme com esse title";
-
+		
 		assertTrue(exception.getMessage().contains(messageError));
 
     }
