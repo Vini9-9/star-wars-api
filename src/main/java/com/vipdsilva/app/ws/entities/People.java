@@ -73,7 +73,11 @@ public class People {
 	}
 
 	public People(PeopleDtoRequestModel peopleReq, GenderRepository genderRepository,
-			ColorsRepository colorsRepository, FilmsRepository filmsRepository) {
+	 ColorsRepository colorsRepository, FilmsRepository filmsRepository) {
+
+		String reqEyeColor = peopleReq.getEye_color();
+		String reqSkinColor = peopleReq.getSkin_color();
+		String reqHairColor = peopleReq.getHair_color();
 
 		this.id = peopleReq.getId();
 		this.name = peopleReq.getName();
@@ -88,12 +92,37 @@ public class People {
 			this.edited = Instant.now();
 		}
 
-		String[] arrEye_colorReq = peopleReq.getEye_color().split(",");
-		String[] arrSkin_colorReq = peopleReq.getSkin_color().split(",");
-		String[] arrHair_colorReq = peopleReq.getHair_color().split(",");
+		String[] arrEye_colorReq = generateColors(reqEyeColor);
+		String[] arrSkin_colorReq = generateColors(reqSkinColor);
+		String[] arrHair_colorReq = generateColors(reqHairColor);
 
 		Set<String> filmsReq = peopleReq.getFilms();
 		Iterator<String> filmsAsIterator = filmsReq.iterator();
+
+		while (filmsAsIterator.hasNext()) {
+			Films film = filmsRepository.findByTitle(filmsAsIterator.next().toString().trim());
+			this.setFilm(film);
+		}
+
+		setAllColors(colorsRepository, arrEye_colorReq, arrSkin_colorReq, arrHair_colorReq);
+
+	}
+
+	public String[] generateColors(String reqColor) {
+
+		if(reqColor == null) reqColor = "n/a";
+
+		if(reqColor.contains(",")) {
+			return reqColor.split(",");
+		}
+		
+		String[] output = {reqColor};
+		return output;
+		
+	}
+
+	public void setAllColors(ColorsRepository colorsRepository,
+	 String[] arrEye_colorReq, String[] arrSkin_colorReq, String[] arrHair_colorReq) {
 
 		for (String eyeColor : arrEye_colorReq) {
 
@@ -121,12 +150,6 @@ public class People {
 
 			this.setHairColor(corCabelo);
 		}
-		
-		while (filmsAsIterator.hasNext()) {
-			Films film = filmsRepository.findByTitle(filmsAsIterator.next().toString().trim());
-			this.setFilm(film);
-		}
-
 	}
 
 	public PeopleDtoResponseModel toResponseDto() {

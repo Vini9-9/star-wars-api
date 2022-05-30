@@ -151,10 +151,7 @@ public class Films {
 	public void fillRequestNecessaryData(FilmDtoRequestModel filmReq) {
 
 		this.id = filmReq.getId();
-		if(filmReq.getTitle() != null) this.title = filmReq.getTitle();
-		if(filmReq.getDirector() != null) this.director = filmReq.getDirector();
-		if(filmReq.getProducer() != null) this.producer = filmReq.getProducer();
-		if(filmReq.getRelease_date() != null) this.releaseDate = filmReq.getRelease_date();
+		this.title = filmReq.getTitle();
 
 		if(this.getCreated() == null) {
 			this.created = Instant.now();
@@ -167,6 +164,9 @@ public class Films {
 	public void fillRequestOptionalData(FilmDtoRequestModel filmReq,
 	 PeopleRepository peopleRepository) {
 
+		this.director = filmReq.getDirector();
+		this.producer = filmReq.getProducer();
+		this.releaseDate = filmReq.getRelease_date();
 		this.episodeId = filmReq.getEpisode_id();
 		this.openingCrawl = filmReq.getOpening_crawl();
 
