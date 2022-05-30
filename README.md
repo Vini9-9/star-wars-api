@@ -23,6 +23,7 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
  - [X] Segregação de ambientes
  - [X] Testes repository
  - [X] Testes controller
+ - [X] Validações de atributos obrigatórios
 
 ### MER
 

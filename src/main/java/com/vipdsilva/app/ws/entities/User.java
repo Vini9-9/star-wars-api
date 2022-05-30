@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import com.vipdsilva.app.ws.model.request.UserRequestModel;
 import com.vipdsilva.app.ws.model.response.UserDtoResponseModel;
@@ -22,8 +24,11 @@ public class User implements UserDetails{
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+    @NotBlank(message = "Name não pode estar em branco")
 	private String name;
+    @Email(message = "Email deve ser válido")
 	private String email;
+    @NotBlank(message = "Password não pode estar em branco")
 	private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

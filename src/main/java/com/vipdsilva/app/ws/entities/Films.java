@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 
 import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
 import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
@@ -28,6 +29,7 @@ public class Films {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer episodeId;
+	@NotBlank(message = "title não pode estar em branco")
 	private String title;
 	private String openingCrawl;
 	private String director;
@@ -165,8 +167,8 @@ public class Films {
 	public void fillRequestOptionalData(FilmDtoRequestModel filmReq,
 	 PeopleRepository peopleRepository) {
 
-		if(filmReq.getEpisode_id() != null) this.episodeId = filmReq.getEpisode_id();
-		if(filmReq.getOpening_crawl() != null) this.openingCrawl = filmReq.getOpening_crawl();
+		this.episodeId = filmReq.getEpisode_id();
+		this.openingCrawl = filmReq.getOpening_crawl();
 
 		if(filmReq.getCharacters() != null) {
 			Set<String> characterReq = filmReq.getCharacters();

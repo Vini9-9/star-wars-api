@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.vipdsilva.app.ws.model.response.ColorsDtoResponseModel;
 
@@ -19,6 +20,7 @@ public class Colors {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@NotBlank(message = "Name não pode estar em branco")
 	private String name;
 	
 	@OneToMany

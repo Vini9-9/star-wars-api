@@ -1,7 +1,9 @@
 package com.vipdsilva.app.ws.entities;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 import com.vipdsilva.app.ws.model.request.PeopleDtoRequestModel;
 import com.vipdsilva.app.ws.model.response.PeopleDtoResponseModel;
@@ -29,8 +33,11 @@ public class People {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@NotBlank(message = "Name não pode estar em branco")
 	private String name;
+	@Positive(message = "height tem que ser positivo")
 	private Integer height;
+	@Positive(message = "mass tem que ser positivo")
 	private Integer mass;
 	private String birthYear;
 	private Instant created;

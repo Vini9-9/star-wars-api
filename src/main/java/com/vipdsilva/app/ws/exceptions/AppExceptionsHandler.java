@@ -15,22 +15,7 @@ import com.vipdsilva.app.ws.model.response.ErrorMessage;
 
 
 @ControllerAdvice
-public class AppExceptionsHandler {
-
-//		@ExceptionHandler(value = { Exception.class })
-//	    public ResponseEntity<Object> handleAnyExceptions(Exception ex, WebRequest request) {
-//	        
-//	    	String errorMessageDescription = ex.getLocalizedMessage();
-//	    	
-//	    	if(errorMessageDescription == null) errorMessageDescription = ex.toString();
-//	    	
-//	    	ErrorMessage errorMessage = new ErrorMessage(new Date(), errorMessageDescription);
-//	    	
-//	    	return new ResponseEntity<>(
-//	    			errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-//	    	
-//	    }
-		
+public class AppExceptionsHandler {		
 		//EntityNotFoundException
 		
 		@ExceptionHandler(value = { NotFoundException.class })

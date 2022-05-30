@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "gender")
@@ -13,6 +14,7 @@ public class Gender {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_gender;
+	@NotBlank(message = "name não pode estar em branco")
 	private String name;
 	
 	public Integer getId_gender() {
