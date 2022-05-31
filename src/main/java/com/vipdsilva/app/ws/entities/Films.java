@@ -132,6 +132,8 @@ public class Films {
 	public Set<String> getCharactersName() {
 
 		Set<String> nomes = new HashSet<String>();
+
+		if(this.getCharacters() == null) return nomes;
 		
 		Iterator<People> peopleAsIterator = this.getCharacters().iterator();
 		while (peopleAsIterator.hasNext()) {
@@ -171,6 +173,7 @@ public class Films {
 		this.openingCrawl = filmReq.getOpening_crawl();
 
 		if(filmReq.getCharacters() != null) {
+			System.out.println("ENTREI");
 			Set<String> characterReq = filmReq.getCharacters();
 			Iterator<String> characterAsIterator = characterReq.iterator();
 

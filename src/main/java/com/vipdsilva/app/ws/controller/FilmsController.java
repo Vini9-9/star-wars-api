@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import com.vipdsilva.app.ws.entities.Films;
 import com.vipdsilva.app.ws.exceptions.NotFoundFilmException;
 import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
-import com.vipdsilva.app.ws.model.request.UpdateFilmRequestModel;
 import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
 import com.vipdsilva.app.ws.model.response.WarningDtoResponseModel;
 import com.vipdsilva.app.ws.repository.FilmsRepository;
@@ -94,7 +93,7 @@ public class FilmsController {
 	@PutMapping(path = "/{filmsId}")
 	@Transactional
 	public ResponseEntity<FilmDtoResponseModel> atualiza(@PathVariable Integer filmsId,
-			@RequestBody UpdateFilmRequestModel body) {
+			@RequestBody FilmDtoRequestModel body) {
 
 		FilmDtoResponseModel returnValue = filmService.updateFilm(filmsId, body, 
 		filmsRepository, peopleRepository);

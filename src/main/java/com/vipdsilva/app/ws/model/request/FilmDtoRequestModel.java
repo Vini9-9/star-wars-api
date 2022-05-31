@@ -14,17 +14,19 @@ public class FilmDtoRequestModel {
 	private Set<String> characters;
 	
 	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
+	
 	public Set<String> getCharacters() {
 		return characters;
 	}
 	public void setCharacters(Set<String> characters) {
 		this.characters = characters;
-	}
-	public void setId(Integer id) {
-		this.id = id;
 	}
 	public String getTitle() {
 		return title;
@@ -62,6 +64,5 @@ public class FilmDtoRequestModel {
 	public void setEpisode_id(Integer episode_id) {
 		this.episode_id = episode_id;
 	}
-	
 	
 }

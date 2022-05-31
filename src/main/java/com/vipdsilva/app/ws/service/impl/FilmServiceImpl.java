@@ -12,7 +12,6 @@ import com.vipdsilva.app.ws.entities.People;
 import com.vipdsilva.app.ws.exceptions.AlreadyExistsFilmException;
 import com.vipdsilva.app.ws.exceptions.NotFoundFilmException;
 import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
-import com.vipdsilva.app.ws.model.request.UpdateFilmRequestModel;
 import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
 import com.vipdsilva.app.ws.repository.FilmsRepository;
 import com.vipdsilva.app.ws.repository.PeopleRepository;
@@ -42,7 +41,7 @@ public class FilmServiceImpl implements FilmService {
 	}
 
 	@Override
-	public FilmDtoResponseModel updateFilm(Integer filmId, UpdateFilmRequestModel userReq,
+	public FilmDtoResponseModel updateFilm(Integer filmId, FilmDtoRequestModel userReq,
 			FilmsRepository filmsRepository, PeopleRepository peopleRepository) {
 
 		Optional<Films> optFilm = filmsRepository.findById(filmId);
