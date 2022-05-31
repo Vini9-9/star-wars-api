@@ -37,7 +37,6 @@ public class ColorServiceImpl implements ColorService{
             ColorsRepository colorsRepository) {
         
         Optional<Colors> colorToUpdate = colorsRepository.findById(colorId);
-        System.out.println("CTU: " + colorToUpdate);
 
         if(colorToUpdate.isPresent()){
 

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URI;
 
+import com.vipdsilva.app.ws.ApplicationConfigTest;
 import com.vipdsilva.app.ws.controller.service.AuthService;
 import com.vipdsilva.app.ws.controller.service.DataService;
 import com.vipdsilva.app.ws.repository.FilmsRepository;
@@ -11,22 +12,13 @@ import com.vipdsilva.app.ws.repository.FilmsRepository;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-public class DeleteFilmsControllerTest {
+public class DeleteFilmsControllerTest extends ApplicationConfigTest {
 
 	@Autowired
     private MockMvc mockMvc;

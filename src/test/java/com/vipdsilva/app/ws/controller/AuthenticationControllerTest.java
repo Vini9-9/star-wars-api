@@ -3,25 +3,17 @@ package com.vipdsilva.app.ws.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.vipdsilva.app.ws.ApplicationConfigTest;
 import com.vipdsilva.app.ws.controller.service.AuthService;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest()
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-public class AuthenticationControllerTest {
+public class AuthenticationControllerTest extends ApplicationConfigTest {
 
     @Autowired
     private MockMvc mockMvc;

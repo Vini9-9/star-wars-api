@@ -4,6 +4,10 @@ public class ColorRequestModel {
     
     private String name;
 
+    public ColorRequestModel() {
+        
+    }
+    
     public ColorRequestModel(String name) {
         this.name = name;
     }

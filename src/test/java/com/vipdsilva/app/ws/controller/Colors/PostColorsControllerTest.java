@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 
+import com.vipdsilva.app.ws.ApplicationConfigTest;
 import com.vipdsilva.app.ws.controller.service.AuthService;
 import com.vipdsilva.app.ws.controller.service.DataService;
 import com.vipdsilva.app.ws.repository.ColorsRepository;
@@ -13,24 +14,15 @@ import com.vipdsilva.app.ws.repository.ColorsRepository;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.util.NestedServletException;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-public class PostColorsControllerTest {
+public class PostColorsControllerTest extends ApplicationConfigTest {
 
 	@Autowired
     private MockMvc mockMvc;
@@ -51,7 +43,7 @@ public class PostColorsControllerTest {
 		this.dataService = new DataService();
 		this.URL_COLORS = this.dataService.getDataColor().getString("url");
 		this.newColorName = this.dataService.getDataColor().getString("newColorNamePOST");
-		this.nameColor = this.dataService.getDataColor().getString("nameEColor");
+		this.nameColor = this.dataService.getDataColor().getString("nameEColorPOST");
    }
 
 	/**

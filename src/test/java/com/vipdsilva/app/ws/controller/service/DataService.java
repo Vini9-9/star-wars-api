@@ -99,6 +99,7 @@ public class DataService {
 		data_color.put("idEColor", 1);
 		data_color.put("nameEColor", "branco");
 		data_color.put("idNEColor", 99);
+		data_color.put("nameEColorPOST", "azul");
 		data_color.put("newColorNamePOST", "Laranja");
 		data_color.put("newColorNamePUT", "verde limão");
 
