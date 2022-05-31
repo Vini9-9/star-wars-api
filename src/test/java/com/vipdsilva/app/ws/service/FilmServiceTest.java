@@ -115,38 +115,6 @@ public class FilmServiceTest extends ApplicationConfigTest {
 		assertEquals(titleFilmToUpdate, response.getTitle());
 		
 	}
-/*
-	@Test
-	void ShouldNotUpdateAColorWithAnExistingName() {
-        Integer colorId = 1;
-		String nameColorToUpdate = "azul";
-		UpdateColorRequestModel userDetails = new UpdateColorRequestModel();
-		userDetails.setName(nameColorToUpdate);
-
-		Colors existColor = new Colors(nameColorToUpdate);
-        
-		Optional<Colors> optColor = Optional.of(new Colors("branco"));
-
-		Mockito
-		.when(filmsRepository.findById(ArgumentMatchers.eq(colorId)))
-        .thenReturn(optColor);
-
-		Mockito
-		.when(filmsRepository.findByName(ArgumentMatchers.eq(nameColorToUpdate)))
-        .thenReturn(existColor);
-
-
-		 try {
-			colorService.updateColor(colorId, userDetails, filmsRepository);
-			Mockito.verifyNoInteractions(optColor);
-			Mockito.verifyNoInteractions(filmsRepository);
-		} catch (Exception e) {
-			assertEquals("Já possui uma cor com esse nome", e.getMessage());
-		}
-		
-	}
-
-	*/
 
 	@Test
 	void ShouldNotFindAFilmByInexistingId() {
