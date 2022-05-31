@@ -7,8 +7,11 @@ import com.vipdsilva.app.ws.repository.ColorsRepository;
 
 public interface ColorService {
 
-	ColorsDtoResponseModel createColor(ColorRequestModel colorInfo,  ColorsRepository colorsRepository);
+	ColorsDtoResponseModel createColor(ColorRequestModel colorInfo,
+	 ColorsRepository colorsRepository);
+
 	ColorsDtoResponseModel updateColor(Integer colorId, UpdateColorRequestModel userDetails,
 	ColorsRepository colorsRepository);
+	
 	void deleteColor(Integer colorId, ColorsRepository colorsRepository);
 }

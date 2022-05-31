@@ -37,6 +37,7 @@ public class ColorServiceImpl implements ColorService{
             ColorsRepository colorsRepository) {
         
         Optional<Colors> colorToUpdate = colorsRepository.findById(colorId);
+        System.out.println("CTU: " + colorToUpdate);
 
         if(colorToUpdate.isPresent()){
 
@@ -55,14 +56,11 @@ public class ColorServiceImpl implements ColorService{
 
     @Override
     public void deleteColor(Integer colorId, ColorsRepository colorsRepository) {
-        Optional<Colors> existColor = colorsRepository.findById(colorId);
-
-        if(existColor.isPresent()){
+        try {
             colorsRepository.deleteById(colorId);
-        } else {
+        } catch (Exception e) {
             throw new NotFoundColorException(colorId);
         }
-        
     }
 
     public boolean hasColor (String colorName, ColorsRepository colorsRepository) {

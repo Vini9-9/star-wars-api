@@ -24,7 +24,9 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
  - [X] Segregação de ambientes
  - [X] Testes de integração
  - [X] Validações de atributos obrigatórios
- - [ ] Testes de unidade
+ - [X] Testes de unidade - Colors
+ - [ ] Testes de unidade - Films
+ - [ ] Testes de unidade - People
 
 ### MER
 
