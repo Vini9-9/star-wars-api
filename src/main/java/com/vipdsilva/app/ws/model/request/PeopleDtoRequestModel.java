@@ -1,5 +1,6 @@
 package com.vipdsilva.app.ws.model.request;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class PeopleDtoRequestModel {
@@ -34,6 +35,7 @@ public class PeopleDtoRequestModel {
 		this.eye_color = eye_color;
 	}
 	public Set<String> getFilms() {
+		if(films == null) films = new HashSet<>();
 		return films;
 	}
 	public void setFilms(Set<String> films) {
