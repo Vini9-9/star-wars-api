@@ -45,15 +45,15 @@ public class People {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "people_id")
-	private Set<HairColor> hairColor;
+	private Set<HairColor> hairColor = new HashSet<HairColor>();
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "people_id")
-	private Set<SkinColor> skinColor;
+	private Set<SkinColor> skinColor = new HashSet<SkinColor>();
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "people_id")
-	private Set<EyeColor> eyeColor;
+	private Set<EyeColor> eyeColor = new HashSet<EyeColor>();
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "gender_ID")
@@ -66,7 +66,7 @@ public class People {
 			joinColumns = @JoinColumn(name = "people_ID"),
 			inverseJoinColumns = @JoinColumn(name = "films_ID")
 			)
-	private Set<Films> films;
+	private Set<Films> films = new HashSet<Films>();
 
 	public People() {
 
@@ -78,13 +78,14 @@ public class People {
 		String reqEyeColor = peopleReq.getEye_color();
 		String reqSkinColor = peopleReq.getSkin_color();
 		String reqHairColor = peopleReq.getHair_color();
+		String nameGender = peopleReq.getGender();
 
 		this.id = peopleReq.getId();
 		this.name = peopleReq.getName();
 		this.height = peopleReq.getHeight();
 		this.mass = peopleReq.getMass();
 		this.birthYear = peopleReq.getBirth_year();
-		this.gender = genderRepository.findByName(peopleReq.getGender());
+		this.gender = genderRepository.findByName(nameGender);
 
 		if (this.getCreated() == null) {
 			this.created = Instant.now();
@@ -105,7 +106,7 @@ public class People {
 		}
 
 		setAllColors(colorsRepository, arrEye_colorReq, arrSkin_colorReq, arrHair_colorReq);
-
+		
 	}
 
 	public String[] generateColors(String reqColor) {
@@ -221,12 +222,7 @@ public class People {
 	}
 	
 	public void setHairColor(HairColor hairColor) {
-		if (this.hairColor == null) {
-			this.hairColor = new HashSet<HairColor>();
-		}
-		
 		this.hairColor.add(hairColor);
-		
 	}
 
 	
@@ -238,10 +234,7 @@ public class People {
 		this.films = films;
 	}
 	
-	public void setFilm(Films film) {
-		if (this.films == null) {
-			this.films = new HashSet<Films>();
-		} 
+	public void setFilm(Films film) { 
 		this.films.add(film);
 	}
 
@@ -271,10 +264,6 @@ public class People {
 	
 	
 	public void setSkinColor(SkinColor skinColor) {
-		if (this.skinColor == null) {
-			this.skinColor = new HashSet<SkinColor>();
-		}
-		
 		this.skinColor.add(skinColor);
 	}
 
@@ -289,12 +278,7 @@ public class People {
 	}
 
 	public void setEyeColor(EyeColor eyeColor) {
-		if (this.eyeColor == null) {
-			this.eyeColor = new HashSet<EyeColor>();
-		}
-		
 		this.eyeColor.add(eyeColor);
-		
 	}
 
 
