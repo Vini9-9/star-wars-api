@@ -1,41 +1,41 @@
 # Star wars api
-Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Personagens e Filmes) 
-- Inspiração: https://swapi.dev/
+It is a microservice to expose an API about the Star Wars world (Characters and Films) 
+- Inspired by: https://swapi.dev/
 
 
-### Tecnologias utilizadas:
+### Technologies used:
 * Spring boot;
 * Spring data JPA;
-* Banco de dados: Mysql e H2;
-* Autenticação via JWT;
-* Testes com JUnit 5;
-* Mocks com Mockito;
+* Database: Mysql e H2;
+* Authentication via JWT;
+* Tests using JUnit 5;
+* Mocks using Mockito;
 
 ## Tasks
 
  - [X] CRUD Films
  - [X] CRUD People
- - [X] Relacionamento People e Films 
- - [X] Autenticação via JWT
- - [X] Documentação com Swagger 
+ - [X] Relationship People and Films 
+ - [X] Authentication via JWT
+ - [X] Documentation with Swagger 
  - [X] CRUD Colors
- - [X] Controle de usuários
- - [X] Controle de acesso por perfis
- - [X] Segregação de ambientes
- - [X] Testes de integração
- - [X] Validações de atributos obrigatórios
- - [X] Testes de unidade - Colors
- - [X] Testes de unidade - Films
- - [ ] Testes de unidade - People
+ - [X] Users control
+ - [X] Access control by profile
+ - [X] Environmental segregation
+ - [X] Integration tests
+ - [X] Validation of required attributes
+ - [X] Unit tests - Colors
+ - [X] Unit tests - Films
+ - [ ] Unit tests - People
 
-### MER
+### ERM - Entity-relationship model
 
  - [Films_People](https://raw.githubusercontent.com/Vini9-9/star-wars-api/master/MER/Films_People.png)
 
-### Documentação
+### Documentation
 
 * http://localhost:8080/swagger-ui.html (profile = dev)
 
-Funcionalidades sem autenticação:
+features without authentication:
 
-* Get People, Films, Colors;
+* Get: People, Films, Colors;
