@@ -34,7 +34,7 @@ Trata-se de um microsserviço para expor uma API sobre o mundo Star Wars (Person
 
 ### Documentação
 
-* http://localhost:8080/swagger-ui.html
+* http://localhost:8080/swagger-ui.html (profile = dev)
 
 Funcionalidades sem autenticação:
 
