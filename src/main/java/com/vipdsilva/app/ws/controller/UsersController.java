@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import com.vipdsilva.app.ws.config.security.TokenService;
+import com.vipdsilva.app.ws.entities.User;
 import com.vipdsilva.app.ws.model.request.UpdateUserRequestModel;
 import com.vipdsilva.app.ws.model.request.UserRequestModel;
 import com.vipdsilva.app.ws.model.response.UserDtoResponseModel;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,6 +51,15 @@ public class UsersController {
 		.createUser(userInfo, userRepository, profileRepository);
 
 		return new ResponseEntity<UserDtoResponseModel>(returnValue, HttpStatus.CREATED);
+	}
+
+	@GetMapping
+	public ResponseEntity<List<User>> getAllUsers() {
+
+		List<User> returnValue = userService
+		.getAll(userRepository);
+
+		return new ResponseEntity<List<User>>(returnValue, HttpStatus.OK);
 	}
 
 	@PutMapping(path = "/{userId}")

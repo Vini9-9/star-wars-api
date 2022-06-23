@@ -87,5 +87,10 @@ public class UserServiceImpl implements UserService {
         throw new NotFoundException("Usuário com id " + userId + " não localizado");
         
     }
+
+    @Override
+    public List<User> getAll(UserRepository userRepository) {
+        return userRepository.findAll();
+    }
     
 }
