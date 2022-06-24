@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import com.vipdsilva.app.ws.config.security.TokenService;
 import com.vipdsilva.app.ws.entities.User;
+import com.vipdsilva.app.ws.model.request.DeleteUserRequestModel;
 import com.vipdsilva.app.ws.model.request.UpdateUserRequestModel;
 import com.vipdsilva.app.ws.model.request.UserRequestModel;
 import com.vipdsilva.app.ws.model.response.UserDtoResponseModel;
@@ -16,11 +17,12 @@ import com.vipdsilva.app.ws.repository.UserRepository;
 import com.vipdsilva.app.ws.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,6 +46,7 @@ public class UsersController {
 	@Autowired
 	TokenService tokenService;
 
+	// @CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping
 	public ResponseEntity<UserDtoResponseModel> addUser(@RequestBody UserRequestModel userInfo) {
 
@@ -53,6 +56,7 @@ public class UsersController {
 		return new ResponseEntity<UserDtoResponseModel>(returnValue, HttpStatus.CREATED);
 	}
 
+	// @CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers() {
 
@@ -62,15 +66,14 @@ public class UsersController {
 		return new ResponseEntity<List<User>>(returnValue, HttpStatus.OK);
 	}
 
-	@PutMapping(path = "/{userId}")
+	// @CrossOrigin(origins = "http://localhost:4200")
+	@PutMapping()
 	@Transactional
-	public ResponseEntity<UserDtoResponseModel> updateByAdmin(@PathVariable Long userId,
+	public ResponseEntity<UserDtoResponseModel> updateByAdmin(
 	HttpServletRequest request, @RequestBody UpdateUserRequestModel body) {
 
-		List<String> profiles = body.getProfiles();
-
 		UserDtoResponseModel returnValue = userService
-		.updateProfile(userId, profiles, userRepository, profileRepository);
+		.updateUser(body, userRepository, profileRepository);
 
 		
 
@@ -78,12 +81,32 @@ public class UsersController {
 
 	}
 
+	
+	// @CrossOrigin(origins = "http://localhost:4200")
 	@DeleteMapping
 	@Transactional
 	public ResponseEntity<WarningDtoResponseModel> delete(HttpServletRequest request) {
 
 		String token = tokenService.getToken(request); 
 		Long userId = tokenService.getUserId(token);
+
+		userService.deleteUser(userId, userRepository);
+
+		WarningDtoResponseModel responseMsg = 
+		new WarningDtoResponseModel("Usuário", userId.intValue());
+
+		return new ResponseEntity<WarningDtoResponseModel>(responseMsg, HttpStatus.OK);
+
+	}
+	
+	@Profile(value = {"dev"})
+	// @CrossOrigin(origins = "http://localhost:4200")
+	@DeleteMapping("/admin")
+	@Transactional
+	public ResponseEntity<WarningDtoResponseModel> deleteDev(HttpServletRequest request, 
+	@RequestBody DeleteUserRequestModel body) {
+
+		Long userId = body.getId();
 
 		userService.deleteUser(userId, userRepository);
 
