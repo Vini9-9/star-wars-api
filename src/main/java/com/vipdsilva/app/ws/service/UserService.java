@@ -3,6 +3,7 @@ package com.vipdsilva.app.ws.service;
 import java.util.List;
 
 import com.vipdsilva.app.ws.entities.User;
+import com.vipdsilva.app.ws.model.request.UpdateUserRequestModel;
 import com.vipdsilva.app.ws.model.request.UserRequestModel;
 import com.vipdsilva.app.ws.model.response.UserDtoResponseModel;
 import com.vipdsilva.app.ws.repository.ProfileRepository;
@@ -15,7 +16,7 @@ public interface UserService {
 
 	void deleteUser(Long userId, UserRepository userRepository);
 	
-    UserDtoResponseModel updateProfile(Long userId, List<String> profiles,
+    UserDtoResponseModel updateUser(UpdateUserRequestModel body,
 	 UserRepository userRepository, ProfileRepository profileRepository);
 
     List<User> getAll(UserRepository userRepository);
