@@ -4,11 +4,18 @@ import java.util.List;
 
 public class UpdateUserRequestModel {
     
-	private String name;
+    private Long id;
+    private String name;
 	private String email;
 	private String password;
 	private List<String> profiles;
 
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getEmail() {
         return email;
     }
