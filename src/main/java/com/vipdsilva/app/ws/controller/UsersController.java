@@ -46,7 +46,7 @@ public class UsersController {
 	@Autowired
 	TokenService tokenService;
 
-	// @CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping
 	public ResponseEntity<UserDtoResponseModel> addUser(@RequestBody UserRequestModel userInfo) {
 
@@ -56,7 +56,7 @@ public class UsersController {
 		return new ResponseEntity<UserDtoResponseModel>(returnValue, HttpStatus.CREATED);
 	}
 
-	// @CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers() {
 
@@ -66,7 +66,7 @@ public class UsersController {
 		return new ResponseEntity<List<User>>(returnValue, HttpStatus.OK);
 	}
 
-	// @CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
 	@PutMapping()
 	@Transactional
 	public ResponseEntity<UserDtoResponseModel> updateByAdmin(
@@ -82,7 +82,7 @@ public class UsersController {
 	}
 
 	
-	// @CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
 	@DeleteMapping
 	@Transactional
 	public ResponseEntity<WarningDtoResponseModel> delete(HttpServletRequest request) {
@@ -100,7 +100,7 @@ public class UsersController {
 	}
 	
 	@Profile(value = {"dev"})
-	// @CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
 	@DeleteMapping("/admin")
 	@Transactional
 	public ResponseEntity<WarningDtoResponseModel> deleteDev(HttpServletRequest request, 
