@@ -8,6 +8,7 @@ import com.vipdsilva.app.ws.entities.Profile;
 import com.vipdsilva.app.ws.entities.User;
 import com.vipdsilva.app.ws.exceptions.AlreadyExistsException;
 import com.vipdsilva.app.ws.exceptions.NotFoundException;
+import com.vipdsilva.app.ws.model.request.UpdateUserRequestModel;
 import com.vipdsilva.app.ws.model.request.UserRequestModel;
 import com.vipdsilva.app.ws.model.response.UserDtoResponseModel;
 import com.vipdsilva.app.ws.repository.ProfileRepository;
@@ -55,42 +56,52 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDtoResponseModel updateProfile(Long userId, List<String> profilesName,
-     UserRepository userRepository, ProfileRepository profileRepository) {
-        
-        Optional<User> userUpdated = userRepository.findById(userId);
-
-        if(userUpdated.isPresent() && profilesName != null){
-        
-            List<Profile> validProfiles = new ArrayList<>(); 
-
-            for (String profileName : profilesName) {
-
-                Optional<Profile> profile = profileRepository
-                .findByName("ROLE_" + profileName.toUpperCase().trim());
-
-                if(profile.isPresent()){
-                    validProfiles.add(profile.get());
-                } else {
-                    throw new NotFoundException("Perfil com nome " + profileName + " não localizado");
-                }
-            }
-
-            if(!validProfiles.isEmpty()){
-                userUpdated.get().clearProfiles();
-                userUpdated.get().setProfiles(validProfiles);
-            }
-            
-            return userUpdated.get().toResponseDto();
-        }
-    
-        throw new NotFoundException("Usuário com id " + userId + " não localizado");
-        
+    public List<User> getAll(UserRepository userRepository) {
+        return userRepository.findAll();
     }
 
     @Override
-    public List<User> getAll(UserRepository userRepository) {
-        return userRepository.findAll();
+    public UserDtoResponseModel updateUser(UpdateUserRequestModel body, 
+    UserRepository userRepository, ProfileRepository profileRepository) {
+                Optional<User> optUserUpdated = userRepository.findById(body.getId());
+
+                if(optUserUpdated.isPresent()){
+                    User userUpdated = optUserUpdated.get();
+                    String nameReq = body.getName();
+                    String emailReq = body.getEmail();
+                    List<String> profilesName = body.getProfiles();
+        
+                    if(profilesName != null){
+                        
+                        List<Profile> validProfiles = new ArrayList<>(); 
+        
+                        for (String profileName : profilesName) {
+        
+                            Optional<Profile> profile = profileRepository
+                            .findByName("ROLE_" + profileName.toUpperCase().trim());
+        
+                            if(profile.isPresent()){
+                                validProfiles.add(profile.get());
+                            } else {
+                                throw new NotFoundException("Perfil com nome " + profileName + " não localizado");
+                            }
+                        }
+        
+                        if(!validProfiles.isEmpty()){
+                            userUpdated.clearProfiles();
+                            userUpdated.setProfiles(validProfiles);
+                        }
+                    }
+                    
+                    if (nameReq != null && !nameReq.isBlank())
+                    userUpdated.setName(nameReq);
+                    if (emailReq != null && !emailReq.isBlank())
+                    userUpdated.setEmail(emailReq);
+                    
+                    return userUpdated.toResponseDto();
+                }
+            
+                throw new NotFoundException("Usuário com id " + body.getId() + " não localizado");
     }
     
 }
