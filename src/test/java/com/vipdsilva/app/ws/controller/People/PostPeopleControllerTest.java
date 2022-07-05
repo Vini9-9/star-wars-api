@@ -16,6 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -62,6 +64,7 @@ public class PostPeopleControllerTest extends ApplicationConfigTest {
 				.is(403));
     }
 
+	// @Sql(value = "/insertFilms.sql")
 	@Test
     public void shouldPostAPerson() throws Exception {
         
@@ -94,8 +97,13 @@ public class PostPeopleControllerTest extends ApplicationConfigTest {
 
     }
 
+	// @Sql(value = "/clearPerson.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	@Test
+	@Sql("/insertEPerson.sql")
+	@Sql(value = "/clearEPerson.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     public void shouldNotPostAnExistingPerson() throws Exception {
+		
+		System.out.println("****** shouldNotPostAnExistingPerson()");
 		
         String tokenMod = "Bearer " + 
 		this.authService.authAsModerador().getString("token");
@@ -104,7 +112,7 @@ public class PostPeopleControllerTest extends ApplicationConfigTest {
 
 		JSONObject new_person = this.dataService.getNewEPeople();
         
-		Exception exception = assertThrows(NestedServletException.class, 
+		Exception exception = assertThrows(Exception.class, 
 		() -> { 
 			mockMvc
 			.perform(MockMvcRequestBuilders
@@ -116,8 +124,9 @@ public class PostPeopleControllerTest extends ApplicationConfigTest {
 			}
 		);
 		
+
 		String messageError = "Já possui uma pessoa com esse nome";
-		
+		System.out.println("****** " + exception.getMessage());
 		assertTrue(exception.getMessage().contains(messageError));
 
     }

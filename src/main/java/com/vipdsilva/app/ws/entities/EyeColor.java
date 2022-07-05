@@ -1,5 +1,6 @@
 package com.vipdsilva.app.ws.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,7 @@ public class EyeColor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_eye;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "people_id")
     private People people;
 	

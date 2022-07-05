@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -66,9 +68,11 @@ public class GetColorsControllerTest extends ApplicationConfigTest {
 
 
 	@Test
+	@Sql("/insertColor.sql")
+	@Sql(value = "/clearColor.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     public void shouldGetAColor() throws Exception {
 
-        URI uri = new URI(URL_COLORS + idEColor);
+        URI uri = new URI(URL_COLORS + 100);
 
         MvcResult result = mockMvc
         .perform(MockMvcRequestBuilders
@@ -86,8 +90,8 @@ public class GetColorsControllerTest extends ApplicationConfigTest {
 		Integer jsonId = json.getInt("id");
 		String jsonName = json.getString("name");
 				
-		assertEquals(idEColor, jsonId);
-		assertEquals(nameColor, jsonName);
+		assertEquals(100, jsonId);
+		assertEquals("vinho", jsonName);
 
     }
 

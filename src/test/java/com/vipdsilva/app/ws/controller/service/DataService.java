@@ -28,27 +28,27 @@ public class DataService {
 	public JSONObject getNewPeople() throws Exception{
 
 		String[] listFilms = {
-			"A Ameaça Fantasma",
-			"A Vingança dos Sith",
-			"O império Contra-ataca",
-			"O retorno de Jedi",
-			"Uma Nova Esperança",
+			// "A Ameaça Fantasma",
+			// "A Vingança dos Sith",
+			// "O império Contra-ataca",
+			// "O retorno de Jedi",
+			// "Uma Nova Esperança",
 			"Ataque dos Clones"
 		};
 		JSONArray arrFilms = new JSONArray(listFilms);
 
-		JSONObject new_film = new JSONObject();
-		new_film.put("name", "Obi-Wan Kenobi");
-		new_film.put("birth_year", "57BBY");
-		new_film.put("height", 182);
-		new_film.put("mass", 77);
-		new_film.put("hair_color", "preto");
-		new_film.put("skin_color", "branco");
-		new_film.put("eye_color", "azul");
-		new_film.put("gender", "masculino");
-		new_film.put("films", arrFilms);
+		JSONObject new_people = new JSONObject();
+		new_people.put("name", "Obi-Wan Kenobi");
+		new_people.put("birth_year", "57BBY");
+		new_people.put("height", 182);
+		new_people.put("mass", 77);
+		new_people.put("hair_color", "preto");
+		new_people.put("skin_color", "branco");
+		new_people.put("eye_color", "azul");
+		new_people.put("gender", "masculino");
+		new_people.put("films", arrFilms);
 
-		return new_film;
+		return new_people;
 	}
 
 	public JSONObject getNewEPeople() throws Exception{
@@ -63,18 +63,18 @@ public class DataService {
 		};
 		JSONArray arrFilms = new JSONArray(listFilms);
 
-		JSONObject new_film = new JSONObject();
-		new_film.put("name", "Luke Skywalker");
-		new_film.put("birth_year", "57BBY");
-		new_film.put("height", 182);
-		new_film.put("mass", 77);
-		new_film.put("hair_color", "preto");
-		new_film.put("skin_color", "branco");
-		new_film.put("eye_color", "azul");
-		new_film.put("gender", "masculino");
-		new_film.put("films", arrFilms);
+		JSONObject new_person = new JSONObject();
+		new_person.put("name", "Luke Skywalker");
+		new_person.put("birth_year", "57BBY");
+		new_person.put("height", 182);
+		new_person.put("mass", 77);
+		new_person.put("hair_color", "preto");
+		new_person.put("skin_color", "branco");
+		new_person.put("eye_color", "azul");
+		new_person.put("gender", "masculino");
+		new_person.put("films", arrFilms);
 
-		return new_film;
+		return new_person;
 	}
 
 	public JSONObject getDataFilm() throws Exception {

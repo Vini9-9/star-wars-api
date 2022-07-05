@@ -14,6 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -67,8 +69,10 @@ public class PutPeopleControllerTest extends ApplicationConfigTest {
     }
 
 	@Test
+	@Sql("/insertPerson.sql")
+	@Sql(value = "/clearPerson.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     public void shouldPutAPerson() throws Exception {
-        
+        idEPeople = 77;
 		String tokenMod = "Bearer " + authService.authAsModerador().getString("token");
 
 		URI uri = new URI(URL_PEOPLE + idEPeople);

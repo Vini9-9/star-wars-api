@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -67,9 +69,12 @@ public class GetPeopleControllerTest extends ApplicationConfigTest {
 
 
 	@Test
+	@Sql(value = "/clearPerson.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql("/insertPerson.sql")
+	@Sql(value = "/clearPerson.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     public void shouldGetAPerson() throws Exception {
-
-        URI uri = new URI(URL_PEOPLE + idEPeople);
+		Integer idObi = 77;
+        URI uri = new URI(URL_PEOPLE + idObi);
 
         MvcResult result = mockMvc
         .perform(MockMvcRequestBuilders
@@ -86,8 +91,8 @@ public class GetPeopleControllerTest extends ApplicationConfigTest {
 		Integer jsonId = json.getInt("id");
 		String jsonName = json.getString("name");
 				
-		assertEquals(idEPeople, jsonId);
-		assertEquals(nameEPeople, jsonName);
+		assertEquals(idObi, jsonId);
+		assertEquals("Obi-Wan Kenobi", jsonName);
 
     }
 

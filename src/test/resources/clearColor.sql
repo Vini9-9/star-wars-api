@@ -1,0 +1,1 @@
+DELETE FROM colors WHERE id = 100;
