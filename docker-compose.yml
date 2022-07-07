@@ -1,0 +1,24 @@
+version: "3"
+services:
+  sw-app:
+    container_name: sw-container
+    depends_on:
+      - mysqldb
+    image: sw-app
+    build: .
+    ports:
+      - 9090:8080
+    env_file:
+      - app.env
+
+  mysqldb:
+    container_name: mysqldb
+    image: mysql
+    volumes:
+      -  C:\Users\008764631\Desktop\db:/var/lib/mysql
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: api
+      MYSQL_ROOT_PASSWORD: toor
+
