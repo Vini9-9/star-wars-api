@@ -1,4 +1,6 @@
 version: "3"
+volumes:
+  myvolume:
 services:
   sw-app:
     container_name: sw-container
@@ -17,8 +19,10 @@ services:
   mysqldb:
     container_name: mysqldb
     image: mysql
+    cap_add:
+      - SYS_NICE
     volumes:
-      -  C:\Users\008764631\Desktop\db:/var/lib/mysql
+      -  myvolume:/var/lib/mysql
     ports:
       - 3307:3306
     environment:
