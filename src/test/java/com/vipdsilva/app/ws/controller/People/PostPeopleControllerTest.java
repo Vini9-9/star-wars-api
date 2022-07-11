@@ -6,11 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 
-import com.vipdsilva.app.ws.ApplicationConfigTest;
-import com.vipdsilva.app.ws.controller.service.AuthService;
-import com.vipdsilva.app.ws.controller.service.DataService;
-import com.vipdsilva.app.ws.repository.PeopleRepository;
-
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.util.NestedServletException;
+
+import com.vipdsilva.app.ws.ApplicationConfigTest;
+import com.vipdsilva.app.ws.controller.service.AuthService;
+import com.vipdsilva.app.ws.controller.service.DataService;
+import com.vipdsilva.app.ws.repository.PeopleRepository;
 
 public class PostPeopleControllerTest extends ApplicationConfigTest {
 

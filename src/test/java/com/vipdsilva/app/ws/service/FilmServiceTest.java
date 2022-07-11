@@ -4,21 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 
-import com.vipdsilva.app.ws.ApplicationConfigTest;
-import com.vipdsilva.app.ws.entities.Colors;
-import com.vipdsilva.app.ws.entities.Films;
-import com.vipdsilva.app.ws.exceptions.NotFoundColorException;
-import com.vipdsilva.app.ws.exceptions.NotFoundFilmException;
-import com.vipdsilva.app.ws.model.request.ColorRequestModel;
-import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
-import com.vipdsilva.app.ws.model.request.UpdateColorRequestModel;
-import com.vipdsilva.app.ws.model.response.ColorsDtoResponseModel;
-import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
-import com.vipdsilva.app.ws.repository.FilmsRepository;
-import com.vipdsilva.app.ws.repository.PeopleRepository;
-import com.vipdsilva.app.ws.service.impl.ColorServiceImpl;
-import com.vipdsilva.app.ws.service.impl.FilmServiceImpl;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -28,6 +13,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.vipdsilva.app.ws.ApplicationConfigTest;
+import com.vipdsilva.app.ws.entities.Films;
+import com.vipdsilva.app.ws.exceptions.NotFoundFilmException;
+import com.vipdsilva.app.ws.model.request.FilmDtoRequestModel;
+import com.vipdsilva.app.ws.model.response.FilmDtoResponseModel;
+import com.vipdsilva.app.ws.repository.FilmsRepository;
+import com.vipdsilva.app.ws.repository.PeopleRepository;
+import com.vipdsilva.app.ws.service.impl.FilmServiceImpl;
 
 public class FilmServiceTest extends ApplicationConfigTest {
 	
