@@ -3,7 +3,8 @@ It is a microservice to expose an API about the Star Wars world (Characters and 
 - Inspired by: https://swapi.dev/
 
 ## Requirements:
-* just [Docker](https://docs.docker.com/get-docker/) ;)
+* [Docker](https://docs.docker.com/get-docker/)
+* [Docker compose](https://docs.docker.com/compose/install/)
 
 ### How to run:
 
