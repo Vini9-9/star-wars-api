@@ -2,40 +2,21 @@
 It is a microservice to expose an API about the Star Wars world (Characters and Films) 
 - Inspired by: https://swapi.dev/
 
+## Requirements:
+* just [Docker](https://docs.docker.com/get-docker/) ;)
 
-### Technologies used:
-* Spring boot;
-* Spring data JPA;
-* Database: Mysql e H2;
-* Authentication via JWT;
-* Tests using JUnit 5;
-* Mocks using Mockito;
+### How to run:
 
-## Tasks
-
- - [X] CRUD Films
- - [X] CRUD People
- - [X] Relationship People and Films 
- - [X] Authentication via JWT
- - [X] Documentation with Swagger 
- - [X] CRUD Colors
- - [X] Users control
- - [X] Access control by profile
- - [X] Environmental segregation
- - [X] Integration tests
- - [X] Validation of required attributes
- - [X] Unit tests - Colors
- - [X] Unit tests - Films
- - [ ] Unit tests - People
-
-### ERM - Entity-relationship model
-
- - [Films_People](https://raw.githubusercontent.com/Vini9-9/star-wars-api/master/MER/Films_People.png)
+* Clone this repository;
+* Run `clean package` on maven project;
+* Wait for the end of the build process;
+* Run `docker-compose up --build` on terminal;
+* See the documentation to do the requests that you want;  
 
 ### Documentation
 
-* http://localhost:8080/swagger-ui.html (profile = dev)
+* http://localhost:9090/swagger-ui.html (profile = dev)
 
-features without authentication:
+Features without authentication:
 
 * Get: People, Films, Colors;
