@@ -7,7 +7,8 @@ services:
     depends_on:
       - mysqldb
     image: sw-app
-    build: .
+    build:
+      context: .
     ports:
       - 9090:8080
     environment:
