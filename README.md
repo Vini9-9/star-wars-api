@@ -1,7 +1,7 @@
 # Star wars api
 It is a microservice to expose an API about the Star Wars world (Characters and Films) 
 - Inspired by: https://swapi.dev/
-
+- To run via docker access the branch [docker](https://github.com/Vini9-9/star-wars-api/tree/docker) 
 
 ### Technologies used:
 * Spring boot;
